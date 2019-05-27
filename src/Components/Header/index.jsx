@@ -9,6 +9,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import Logout from './Logout';
 import NavToggle from './NavToggle';
 import Search from './Search';
+import Cast from './Cast';
 
 import { HeaderWrap, BackButton, BackIcon } from './Styles';
 
@@ -22,22 +23,6 @@ class Header extends Component {
       value,
     });
   };
-
-  startCast = () => {
-    const sessionRequest = new chrome.cast.SessionRequest('EA238E27');
-    const onSuccess = () => console.log('success');
-    const onFailure = () => console.log('failure');
-    const message = { jwt: 'token' };
-    const namespace = 'urn:x-cast:com.jtw';
-
-    chrome.cast.requestSession(function onRequestSessionSuccess(session) {
-      console.log('Session success', session)
-      cast.session = session
-      cast.session.sendMessage(namespace, message, onSuccess, onFailure);
-    }, function onLaunchError(er) {
-      console.log('onLaunchError', er)
-    }, sessionRequest);
-  }
 
   render() {
     const { value } = this.state;
@@ -58,7 +43,7 @@ class Header extends Component {
           )
         }
 
-        <span onClick={() => this.startCast()}>Cast</span>
+        <Cast />
         <Search value={value} updateSearch={this.updateSearch} />
         <Logout />
       </HeaderWrap>
