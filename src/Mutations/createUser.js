@@ -2,9 +2,9 @@ import axios from 'axios';
 import { getBaseUrl } from 'Helpers';
 
 const CREATE_USER = (data) => {
-  const url = `${getBaseUrl()}/olaris/m/v1/user`;
+    const url = `${getBaseUrl()}/olaris/m/v1/user`;
 
-  return axios.post(url, data);
+    return axios.post(url, data);
 };
 
 export default CREATE_USER;

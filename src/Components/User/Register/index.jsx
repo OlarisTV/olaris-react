@@ -10,60 +10,78 @@ import Button from '../Components/Button';
 import FormLink from '../Components/FormLink';
 
 const RegisterForm = ({
-  error,
-  handleChange,
-  handleRegister,
-  initialSetup,
-  inviteCode,
+    error,
+    handleChange,
+    handleRegister,
+    initialSetup,
+    inviteCode,
 }) => {
-  const heading = (initialSetup ? 'Welcome To Olaris' : 'Olaris');
-  const title = (initialSetup ? 'Setup your admin account' : 'Register Account');
-  const warning = 'You are currently creating your admin account ensure you remember your details';
+    const heading = initialSetup ? 'Welcome To Olaris' : 'Olaris';
+    const title = initialSetup
+        ? 'Setup your admin account'
+        : 'Register Account';
+    const warning =
+        'You are currently creating your admin account ensure you remember your details';
 
-  return (
-    <Fragment>
-      {initialSetup
-        && (
-          <Help>{warning}</Help>
-        )
-      }
-      <FormWrap error={error}>
-        <LogoIcon alt="Olaris" height="30" />
-        <Title heading={heading} sub={title} />
+    return (
+        <Fragment>
+            {initialSetup && <Help>{warning}</Help>}
+            <FormWrap error={error}>
+                <LogoIcon alt="Olaris" height="30" />
+                <Title heading={heading} sub={title} />
 
-        {!initialSetup
-          && (
-            <Input
-              type="text"
-              value={inviteCode}
-              name="inviteCode"
-              autocomplete="inviteCode"
-              placeholder="Enter Invite Code"
-              handleChange={handleChange}
-              uniqueCode
-            />
-          )
-        }
-        <Input type="text" name="username" autocomplete="new-username" placeholder="Username" required handleChange={handleChange} />
-        <Input type="password" name="password" autocomplete="new-password" placeholder="Password" required handleChange={handleChange} />
-        <Button handleSubmit={handleRegister} value="Create Account" />
+                {!initialSetup && (
+                    <Input
+                        type="text"
+                        value={inviteCode}
+                        name="inviteCode"
+                        autocomplete="inviteCode"
+                        placeholder="Enter Invite Code"
+                        handleChange={handleChange}
+                        uniqueCode
+                    />
+                )}
+                <Input
+                    type="text"
+                    name="username"
+                    autocomplete="new-username"
+                    placeholder="Username"
+                    required
+                    handleChange={handleChange}
+                />
+                <Input
+                    type="password"
+                    name="password"
+                    autocomplete="new-password"
+                    placeholder="Password"
+                    required
+                    handleChange={handleChange}
+                />
+                <Button handleSubmit={handleRegister} value="Create Account" />
 
-        {!initialSetup && <FormLink to="/login" strapline="Have An Account?" value="Log In" setup={false} />}
-      </FormWrap>
-    </Fragment>
-  );
+                {!initialSetup && (
+                    <FormLink
+                        to="/login"
+                        strapline="Have An Account?"
+                        value="Log In"
+                        setup={false}
+                    />
+                )}
+            </FormWrap>
+        </Fragment>
+    );
 };
 
 RegisterForm.propTypes = {
-  error: PropTypes.bool.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  handleRegister: PropTypes.func.isRequired,
-  initialSetup: PropTypes.bool.isRequired,
-  inviteCode: PropTypes.string,
+    error: PropTypes.bool.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    handleRegister: PropTypes.func.isRequired,
+    initialSetup: PropTypes.bool.isRequired,
+    inviteCode: PropTypes.string,
 };
 
 RegisterForm.defaultProps = {
-  inviteCode: '',
+    inviteCode: '',
 };
 
 export default RegisterForm;

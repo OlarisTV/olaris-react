@@ -5,21 +5,21 @@
  */
 
 const generateFileList = (files) => {
-  const arr = [];
+    const arr = [];
 
-  files.forEach((f, i) => {
-    const file = {
-      value: i,
-      label: f.fileName,
-      filePath: f.filePath,
-      totalDuration: f.totalDuration,
-      streams: f.streams,
-    };
+    files.forEach((f, i) => {
+        const file = {
+            value: i,
+            label: f.fileName,
+            filePath: f.filePath,
+            totalDuration: f.totalDuration,
+            streams: f.streams,
+        };
 
-    arr.push(file);
-  });
+        arr.push(file);
+    });
 
-  return arr;
+    return arr;
 };
 
 export default generateFileList;

@@ -11,31 +11,29 @@ import MediaCard from 'Components/Media/Card';
 import { LibraryListItemWide } from '../Styles';
 
 const RenderSeason = ({ uuid }) => (
-  <Query
-    query={FETCH_SEASON}
-    variables={{ uuid }}
-    pollInterval={500}
-  >
+    <Query query={FETCH_SEASON} variables={{ uuid }} pollInterval={500}>
+        {({ loading, error, data }) => {
+            if (loading) return <Loading />;
+            if (error) return `Error! ${error.message}`;
 
-    {({ loading, error, data }) => {
-      if (loading) return <Loading />;
-      if (error) return `Error! ${error.message}`;
+            const episodeList = orderBy(
+                data.season.episodes,
+                ['episodeNumber'],
+                ['asc'],
+            ).map((s) => (
+                <LibraryListItemWide key={s.uuid}>
+                    <MediaCard {...s} wide showText />
+                </LibraryListItemWide>
+            ));
 
-      const episodeList = orderBy(data.season.episodes, ['episodeNumber'], ['asc']).map(s => (
-        <LibraryListItemWide key={s.uuid}>
-          <MediaCard {...s} wide showText />
-        </LibraryListItemWide>
-      ));
-
-      return (
-        <Season {...data.season}>
-          { episodeList }
-          <Empty wide />
-        </Season>
-      );
-    }}
-
-  </Query>
+            return (
+                <Season {...data.season}>
+                    {episodeList}
+                    <Empty wide />
+                </Season>
+            );
+        }}
+    </Query>
 );
 
 export default RenderSeason;

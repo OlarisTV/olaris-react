@@ -6,7 +6,7 @@ import RenderEpisode from './RenderEpisode';
 const Episode = ({ match }) => <RenderEpisode uuid={match.params.uuid} />;
 
 Episode.propTypes = {
-  match: ReactRouterPropTypes.match.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
 };
 
 export default Episode;

@@ -9,31 +9,34 @@ import Navigation from './Navigation';
 import { SidebarWrap, DashboardLink } from './Styles';
 
 const Sidebar = (props) => {
-  const { navHidden, videoOpen } = props;
+    const { navHidden, videoOpen } = props;
 
-  return (
-    <SidebarWrap navHidden={navHidden} videoOpen={videoOpen}>
-      <Scroll>
-        <Fragment>
-          <DashboardLink to="/">
-            <LogoIcon height="30" />
-          </DashboardLink>
+    return (
+        <SidebarWrap navHidden={navHidden} videoOpen={videoOpen}>
+            <Scroll>
+                <Fragment>
+                    <DashboardLink to="/">
+                        <LogoIcon height="30" />
+                    </DashboardLink>
 
-          <Navigation />
-        </Fragment>
-      </Scroll>
-    </SidebarWrap>
-  );
+                    <Navigation />
+                </Fragment>
+            </Scroll>
+        </SidebarWrap>
+    );
 };
 
-const mapStateToProps = state => ({
-  navHidden: state.navigation.hidden,
-  videoOpen: state.video.playing,
+const mapStateToProps = (state) => ({
+    navHidden: state.navigation.hidden,
+    videoOpen: state.video.playing,
 });
 
 Sidebar.propTypes = {
-  navHidden: PropTypes.bool.isRequired,
-  videoOpen: PropTypes.bool.isRequired,
+    navHidden: PropTypes.bool.isRequired,
+    videoOpen: PropTypes.bool.isRequired,
 };
 
-export default connect(mapStateToProps, null)(Sidebar);
+export default connect(
+    mapStateToProps,
+    null,
+)(Sidebar);

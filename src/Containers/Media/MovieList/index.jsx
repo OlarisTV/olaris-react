@@ -6,10 +6,10 @@ import RenderMoviesList from './RenderMovieList';
 import { LibraryListWrap } from '../Styles';
 
 const MovieList = () => (
-  <LibraryListWrap>
-    <RenderMoviesList />
-    <Empty />
-  </LibraryListWrap>
+    <LibraryListWrap>
+        <RenderMoviesList />
+        <Empty />
+    </LibraryListWrap>
 );
 
 export default MovieList;

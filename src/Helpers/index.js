@@ -11,16 +11,16 @@ import copyToClipboard from './copyToClipboard';
 import compileEpisodes from './compileEpisodes';
 
 export {
-  getUrlParameter,
-  getBaseUrl,
-  canPlayCodec,
-  generateMediaUrl,
-  updateSuggestions,
-  isInitialSetup,
-  generateFileList,
-  convertToMinutes,
-  convertToMinutesSeconds,
-  streamFilter,
-  copyToClipboard,
-  compileEpisodes,
+    getUrlParameter,
+    getBaseUrl,
+    canPlayCodec,
+    generateMediaUrl,
+    updateSuggestions,
+    isInitialSetup,
+    generateFileList,
+    convertToMinutes,
+    convertToMinutesSeconds,
+    streamFilter,
+    copyToClipboard,
+    compileEpisodes,
 };

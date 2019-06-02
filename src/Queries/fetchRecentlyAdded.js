@@ -1,49 +1,49 @@
 import gql from 'graphql-tag';
 
 const RECENTLY_ADDED = gql`
-  {
-    recentlyAdded {
-      ...on Movie {
-        type: __typename
-        uuid
-        name
-        year
-        posterPath
+    {
+        recentlyAdded {
+            ... on Movie {
+                type: __typename
+                uuid
+                name
+                year
+                posterPath
 
-        playState {
-          finished
-          playtime
-        }
+                playState {
+                    finished
+                    playtime
+                }
 
-        files {
-          totalDuration
-        }
-      }
-      ...on Episode {
-        type: __typename
-        uuid
-        name
-        episodeNumber
+                files {
+                    totalDuration
+                }
+            }
+            ... on Episode {
+                type: __typename
+                uuid
+                name
+                episodeNumber
 
-        season {
-          seasonNumber
-          series {
-            name
-            posterPath
-          }
-        }
+                season {
+                    seasonNumber
+                    series {
+                        name
+                        posterPath
+                    }
+                }
 
-        playState {
-          finished
-          playtime
-        }
+                playState {
+                    finished
+                    playtime
+                }
 
-        files {
-          totalDuration
+                files {
+                    totalDuration
+                }
+            }
         }
-      }
     }
-  }
 `;
 
 export default RECENTLY_ADDED;

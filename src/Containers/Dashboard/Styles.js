@@ -2,51 +2,51 @@ import styled from 'styled-components';
 import { media } from 'Styles/Utils';
 
 export const DashboardWrap = styled.section`
-  width:100%;
-  float:left;
-  padding:3rem .5rem;
+    width: 100%;
+    float: left;
+    padding: 3rem 0.5rem;
 
-  section:last-child {
-    margin:0;
-  }
+    section:last-child {
+        margin: 0;
+    }
 
-  ${media.tablet`
+    ${media.tablet`
     padding:4rem 1rem;
   `}
 
-  ${media.desktop`
+    ${media.desktop`
     padding:5rem 3.5rem;
   `}
 `;
 
 export const MediaCardWrap = styled.div`
-  padding:0 1.5rem;
+    padding: 0 1.5rem;
 
-  &:focus {
-    outline:none;
-    border:none;
-  }
+    &:focus {
+        outline: none;
+        border: none;
+    }
 `;
 
 export const CarouselWrap = styled.section`
-  float:left;
-  width:100%;
-  margin:0 0 5rem;
-  min-height: 12.5rem;
-  position:relative;
+    float: left;
+    width: 100%;
+    margin: 0 0 5rem;
+    min-height: 12.5rem;
+    position: relative;
 
-  h4 {  
-    font-size:1.8rem;
-    color:#FFF;
-    margin:0 0 2rem 1.5rem;
-  }
+    h4 {
+        font-size: 1.8rem;
+        color: #fff;
+        margin: 0 0 2rem 1.5rem;
+    }
 
-  .slick-slide {
-    opacity:.5;
-    transition:.2s all;
-  }
+    .slick-slide {
+        opacity: 0.5;
+        transition: 0.2s all;
+    }
 
-  .slick-active {
-    opacity:1;
-  }
+    .slick-active {
+        opacity: 1;
+    }
 `;

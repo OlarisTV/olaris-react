@@ -5,16 +5,16 @@
  */
 
 const streamFilter = (arr, key, value) => {
-  const filterS = arr.streams.filter(f => f.streamType.includes(key));
-  if (filterS.length === 0) return [];
+    const filterS = arr.streams.filter((f) => f.streamType.includes(key));
+    if (filterS.length === 0) return [];
 
-  if (value in filterS[0]) {
-    const mapS = filterS.map(s => s[value]);
+    if (value in filterS[0]) {
+        const mapS = filterS.map((s) => s[value]);
 
-    return [...new Set([...mapS])];
-  }
+        return [...new Set([...mapS])];
+    }
 
-  return [];
+    return [];
 };
 
 export default streamFilter;

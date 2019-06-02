@@ -1,22 +1,22 @@
 import { SHOW_NAV, HIDE_NAV } from '../Actions/navigationActions';
 
 const initialState = {
-  hidden: false,
+    hidden: false,
 };
 
 const navigation = (state = initialState, action) => {
-  switch (action.type) {
-    case SHOW_NAV:
-      return {
-        hidden: false,
-      };
-    case HIDE_NAV:
-      return {
-        hidden: true,
-      };
-    default:
-      return state;
-  }
+    switch (action.type) {
+        case SHOW_NAV:
+            return {
+                hidden: false,
+            };
+        case HIDE_NAV:
+            return {
+                hidden: true,
+            };
+        default:
+            return state;
+    }
 };
 
 export default navigation;

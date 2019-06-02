@@ -10,26 +10,26 @@ import ModalContainer from 'Containers/ModalContainer';
 import { AppWrap } from './Styles';
 
 const App = () => {
-  checkAuth();
+    checkAuth();
 
-  const LoggedIn = () => (
-    <Fragment>
-      <Sidebar />
-      <ContentWrap>
+    const LoggedIn = () => (
         <Fragment>
-          <Header />
-          <Routes />
+            <Sidebar />
+            <ContentWrap>
+                <Fragment>
+                    <Header />
+                    <Routes />
+                </Fragment>
+            </ContentWrap>
+            <ModalContainer />
         </Fragment>
-      </ContentWrap>
-      <ModalContainer />
-    </Fragment>
-  );
+    );
 
-  return (
-    <AppWrap authed={Auth.isAuthenticated}>
-      {(Auth.isAuthenticated ? <LoggedIn /> : <Routes />)}
-    </AppWrap>
-  );
+    return (
+        <AppWrap authed={Auth.isAuthenticated}>
+            {Auth.isAuthenticated ? <LoggedIn /> : <Routes />}
+        </AppWrap>
+    );
 };
 
 export default App;

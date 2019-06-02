@@ -13,35 +13,36 @@ import RenderInvites from './RenderInvites';
 import { List, ListHeading } from './Styles';
 
 class Users extends Component {
-  generateUserInvite = () => {
-    const { mutate } = this.props;
+    generateUserInvite = () => {
+        const { mutate } = this.props;
 
-    mutate({
-      refetchQueries: [{ query: FETCH_INVITES }],
-    })
-      .catch(err => err);
-  }
+        mutate({
+            refetchQueries: [{ query: FETCH_INVITES }],
+        }).catch((err) => err);
+    };
 
-  render() {
-    return (
-      <InnerContent>
-        <PageHeading>User Management</PageHeading>
-        <List>
-          <ListHeading>Userlist</ListHeading>
-          <RenderUsers />
-        </List>
-        <List>
-          <ListHeading>Invites</ListHeading>
-          <RenderInvites />
-          <CreateInvite generateInvite={() => this.generateUserInvite()} />
-        </List>
-      </InnerContent>
-    );
-  }
+    render() {
+        return (
+            <InnerContent>
+                <PageHeading>User Management</PageHeading>
+                <List>
+                    <ListHeading>Userlist</ListHeading>
+                    <RenderUsers />
+                </List>
+                <List>
+                    <ListHeading>Invites</ListHeading>
+                    <RenderInvites />
+                    <CreateInvite
+                        generateInvite={() => this.generateUserInvite()}
+                    />
+                </List>
+            </InnerContent>
+        );
+    }
 }
 
 Users.propTypes = {
-  mutate: PropTypes.func.isRequired,
+    mutate: PropTypes.func.isRequired,
 };
 
-export default Users = graphql(CREATE_USER_INVITE)(Users);
+export default (Users = graphql(CREATE_USER_INVITE)(Users));

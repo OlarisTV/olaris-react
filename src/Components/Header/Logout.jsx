@@ -5,9 +5,9 @@ import { Auth } from 'Client/Auth';
 import { NavButton, NavIcon } from './Styles';
 
 const Logout = () => (
-  <NavButton onClick={() => Auth.logout()}>
-    <NavIcon icon={faSignOutAlt} />
-  </NavButton>
+    <NavButton onClick={() => Auth.logout()}>
+        <NavIcon icon={faSignOutAlt} />
+    </NavButton>
 );
 
 export default Logout;

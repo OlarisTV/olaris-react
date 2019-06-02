@@ -17,17 +17,17 @@ import App from 'Containers/App';
 import { AlertTemplate, AlertOptions } from 'Components/Alerts';
 
 const Olaris = () => (
-  <ReduxProvider store={store}>
-    <ConnectedRouter history={history}>
-      <ApolloProvider client={Client}>
-        <ThemeProvider theme={Theme}>
-          <AlertProvider template={AlertTemplate} {...AlertOptions}>
-            <App />
-          </AlertProvider>
-        </ThemeProvider>
-      </ApolloProvider>
-    </ConnectedRouter>
-  </ReduxProvider>
+    <ReduxProvider store={store}>
+        <ConnectedRouter history={history}>
+            <ApolloProvider client={Client}>
+                <ThemeProvider theme={Theme}>
+                    <AlertProvider template={AlertTemplate} {...AlertOptions}>
+                        <App />
+                    </AlertProvider>
+                </ThemeProvider>
+            </ApolloProvider>
+        </ConnectedRouter>
+    </ReduxProvider>
 );
 
 render(<Olaris />, document.getElementById('olaris'));

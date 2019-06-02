@@ -6,7 +6,7 @@ import RenderMovie from './RenderMovie';
 const Movie = ({ match }) => <RenderMovie uuid={match.params.uuid} />;
 
 Movie.propTypes = {
-  match: ReactRouterPropTypes.match.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
 };
 
 export default Movie;

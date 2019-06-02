@@ -1,191 +1,144 @@
+/* eslint-disable */
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { throttle } from 'lodash';
-import { graphql } from 'react-apollo';
-import videojs from 'video.js';
-import '@videojs/http-streaming';
-import chromecast from '@silvermine/videojs-chromecast';
-import './DebugOverlay';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-// NOTE(Leon Handreke): Ideally this should be imported from videojs-http-source-selector because
-// the fact that it relies on this plugin is an implementation detail. However, the compilation
-// setup for that plugin is a bit wonky, so it's easier to just do the plugin registration here.
-import 'videojs-contrib-quality-levels';
-import 'videojs-http-source-selector';
+import { setSourceData } from 'Redux/Actions/castActions';
+import { canPlayCodec } from 'Helpers';
 
-import UPDATE_PLAYSTATE from 'Mutations/updatePlaystate';
-import { updatePlayStateEpisode, updatePlayStateMovie } from 'Components/Media/Actions/updatePlayState';
+import Player from './Player';
 
-chromecast(videojs);
+import { VideoWrap, CloseVideo } from '../Styles';
 
-class Video extends Component {
-  t = throttle(() => this.playStateMutation(Math.floor(this.player.currentTime())), 2000);
+class VideoController extends Component {
+    componentDidMount() {
+        const { isCasting } = this.props;
 
-  componentDidMount() {
-    const {
-      resume,
-      playState,
-      source,
-      transmuxed,
-    } = this.props;
+        if (!isCasting)
+            document.addEventListener('keydown', this.escapeClose, false);
+    }
 
-    // Put videojs in scope for debugging
-    this.videojs = videojs;
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.escapeClose, false);
+    }
 
-    videojs.log.level('debug');
-    // NOTE(Leon Handreke): This is an ugly hack because otherwise our SourceBuffer becomes full
-    // with very large videos and starts throwing errors. Ideally, video.js would properly
-    // handle this case and reduce its buffer by itself. See
-    // https://github.com/videojs/http-streaming/issues/192
-    videojs.Hls.GOAL_BUFFER_LENGTH = 30;
-    videojs.Hls.MAX_GOAL_BUFFER_LENGTH = 30;
+    checkCastState = () => {
+        if (typeof cast !== 'undefined') {
+            const context = cast.framework.CastContext.getInstance();
+            if (context.getCastState() === 'CONNECTED') return true;
+        }
 
-    const videoJsOptions = {
-      sources: [source],
-      autoplay: true,
-      techOrder: ['chromecast', 'html5'],
-      plugins: {
-        chromecast: {
-          receiverAppID: '3CCE45F7',
-        },
-        httpSourceSelector: {
-          showAutoItem: true,
-        },
-      },
-
-      controls: true,
-      html5: {
-        hls: {
-          enableLowInitialPlaylist: true,
-          smoothQualityChange: true,
-        },
-        nativeAudioTracks: false,
-      },
+        return;
     };
-    if (transmuxed) {
-      // If transmuxed, all non-transmuxed representations are manually disabled in the
-      // loadedmetadata handler to disable adaptive bitrate switching.
-      videoJsOptions.plugins.httpSourceSelector.showAutoItem = false;
-      videoJsOptions.html5.hls.enableLowInitialPlaylist = false;
-      // Choose the transmuxed (= highest-bandwidth) version initially.
-      videoJsOptions.html5.hls.bandwidth = 1e12;
+
+    escapeClose = (e) => e.key === 'Escape' && this.props.closePlayer();
+
+    render() {
+        const {
+            source,
+            mimeType,
+            files,
+            name,
+            selectedFile,
+            resume,
+            playState,
+            uuid,
+            type,
+            closePlayer,
+            isCasting,
+            dispatch,
+            auth,
+        } = this.props;
+
+        const videoCodec = files[selectedFile.value].streams
+            .filter((s) => s.streamType === 'video')
+            .map((s) => s.codecMime)[0];
+
+        const videoSource = {
+            src: source,
+            type: mimeType,
+        };
+        const transmuxed = canPlayCodec(videoCodec);
+
+        if (this.checkCastState() && source.length !== 0) {
+            const sourceData = {
+                source,
+                name,
+                playState,
+            };
+
+            dispatch(setSourceData(sourceData));
+
+            const onSuccess = () => console.log('success');
+            const onFailure = () => console.log('failure');
+            const namespace = 'urn:x-cast:com.auth';
+            const message = { ...auth, uuid };
+            const mediaInfo = new chrome.cast.media.MediaInfo(
+                videoSource.src,
+                videoSource.type,
+            );
+            const request = new chrome.cast.media.LoadRequest(mediaInfo);
+            request.currentTime = playState.playtime;
+
+            function onMediaDiscovered(mediaSession) {
+                console.log(
+                    'new media session ID:' + mediaSession.mediaSessionId,
+                );
+            }
+
+            function onMediaError(e) {
+                console.log('media error');
+            }
+
+            const castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+
+            // Send Media Data & Auth
+            castSession.sendMessage(namespace, message, onSuccess, onFailure);
+            castSession.loadMedia(
+                request,
+                onMediaDiscovered.bind(this, 'loadMedia'),
+                onMediaError,
+            );
+
+            return null;
+        }
+
+        if (source.length !== 0) {
+            return (
+                <Fragment>
+                    <VideoWrap>
+                        <CloseVideo icon={faTimes} onClick={closePlayer} />
+                        <Player
+                            source={videoSource}
+                            transmuxed={transmuxed}
+                            resume={resume}
+                            playState={playState}
+                            uuid={uuid}
+                            length={selectedFile.totalDuration}
+                            type={type}
+                            dispatch={dispatch}
+                        />
+                    </VideoWrap>
+                </Fragment>
+            );
+        } else {
+            return null;
+        }
     }
-    this.player = videojs(this.videoNode,
-      videoJsOptions,
-      function onPlayerReady() {
-        this.debugOverlay();
-        this.chromecast();
-        this.qualityLevels();
-        this.httpSourceSelector();
-      });
-
-    this.player.on('timeupdate', () => {
-      this.t();
-    });
-
-    this.player.on('loadedmetadata', this.enableQualityLevels);
-
-    if (resume) {
-      this.player.currentTime(playState.playtime);
-    } else {
-      this.player.currentTime(0);
-    }
-
-    window.player = this.player;
-  }
-
-  componentWillUnmount() {
-    this.t.cancel();
-
-    if (this.player) {
-      this.player.dispose();
-    }
-  }
-
-  playStateMutation = (playtime) => {
-    const {
-      uuid,
-      length,
-      mutate,
-      type,
-    } = this.props;
-    const finished = playtime * (100 / length) > 98;
-
-    if (type === 'Episode') {
-      updatePlayStateEpisode(mutate, uuid, playtime, finished);
-    } else {
-      updatePlayStateMovie(mutate, uuid, playtime, finished);
-    }
-  };
-
-  enableQualityLevels= () => {
-    const { transmuxed } = this.props;
-    if (transmuxed) {
-      for (let i = 1; i < this.player.qualityLevels().length; i += 1) {
-        this.player.qualityLevels()[i].enabled = false;
-      }
-      // On iOS, qualityLevels is empty.
-      if (this.player.qualityLevels().length > 0) {
-        // TODO(Leon Handreke): This relies on transmuxed always being first in the playlist. See
-        // comment below for more background on this hack.
-        this.player.qualityLevels()[0].enabled = true;
-      }
-    }
-  };
-
-  render() {
-    // const { source, playState } = this.props;
-    // const mediaInfo = new chrome.cast.media.MediaInfo(source.src, source.type);
-    // const request = new chrome.cast.media.LoadRequest(mediaInfo);
-    // request.currentTime = playState.playtime;
-    // let currentMediaSession;
-
-    // function onMediaDiscovered(how, mediaSession) {
-    //   console.log("new media session ID:" + mediaSession.mediaSessionId);
-    //   currentMediaSession = mediaSession;
-    // }
-
-    // function onMediaError(e) {
-    //   console.log("media error");
-    // }
-
-    // cast.session.loadMedia(request, onMediaDiscovered.bind(this, 'loadMedia'), onMediaError);
-
-    return (
-      <Fragment>
-        <div data-vjs-player>
-          <video ref={(node) => { this.videoNode = node; }} className="video-js" />
-        </div>
-      </Fragment>
-    );
-  }
 }
 
-Video.propTypes = {
-  // Video source, opaque as it gets passed directly to video.js
-  // TODO(Leon Handreke): It should not be opaque to us, our caller should
-  // not need to know about video.js
-  // eslint-disable-next-line
-  source: PropTypes.object.isRequired,
-  uuid: PropTypes.string.isRequired,
-  length: PropTypes.number.isRequired,
-  mutate: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired,
-  playState: PropTypes.shape({
-    finished: PropTypes.bool,
-    playtime: PropTypes.number,
-  }).isRequired,
-  resume: PropTypes.bool,
-  // TODO(Leon Handreke): This is an ugly hack. We'd like to change our
-  // quality switching behavior based on whether the stream is transmuxed or not.
-  // However, we don't have a way to detect this from this.player.representations()
-  // because videojs/http-streaming doesn't pass through any metadata.
-  // To avoid forking for now, do this.
-  transmuxed: PropTypes.bool.isRequired,
+VideoController.propTypes = {
+    dispatch: PropTypes.func.isRequired,
 };
 
-Video.defaultProps = {
-  resume: false,
+const mapStateToProps = (state) => {
+    const { cast } = state;
+
+    return {
+        isCasting: cast.isCasting,
+        auth: cast.auth,
+    };
 };
 
-export default Video = graphql(UPDATE_PLAYSTATE)(Video);
+export default connect(mapStateToProps)(VideoController);

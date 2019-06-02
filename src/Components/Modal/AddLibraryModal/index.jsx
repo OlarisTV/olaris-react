@@ -8,189 +8,205 @@ import PropTypes from 'prop-types';
 import { ADD_LIBRARY } from 'Mutations/manageLibraries';
 import { FetchLibraryList, FETCH_LIBRARIES } from 'Queries/fetchLibraries';
 import {
-  addLibrary, addLibrarySuccess, addLibraryFailure, clearLibraryError, setLibraryStatus,
+    addLibrary,
+    addLibrarySuccess,
+    addLibraryFailure,
+    clearLibraryError,
+    setLibraryStatus,
 } from 'Redux/Actions/libraryActions';
 import { hideModal } from 'Redux/Actions/modalActions';
 
 import { AlertInline } from 'Components/Alerts';
 import {
-  Modal, ModalWrap, ModalHeader, ModalHeading, ModalBody,
+    Modal,
+    ModalWrap,
+    ModalHeader,
+    ModalHeading,
+    ModalBody,
 } from 'Components/Modal/Styles';
 import ModalClose from '../ModalClose';
 import AddLibraryAction from './AddLibraryAction';
 
 class AddLibraryModal extends Component {
-  constructor(props) {
-    super(props);
-    this.timeout = null;
+    constructor(props) {
+        super(props);
+        this.timeout = null;
 
-    this.state = {
-      error: props.error,
-      errorMessage: props.errorMessage,
-      loading: props.loading,
-      kind: 0,
-      isMounted: true,
-      filePath: '',
-    };
-  }
+        this.state = {
+            error: props.error,
+            errorMessage: props.errorMessage,
+            loading: props.loading,
+            kind: 0,
+            isMounted: true,
+            filePath: '',
+        };
+    }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    return {
-      error: (nextProps.error !== prevState.error && nextProps.error),
-      errorMessage: (nextProps.errorMessage !== prevState.errorMessage && nextProps.errorMessage),
-      loading: (nextProps.loading !== prevState.loading && nextProps.loading),
-    };
-  }
+    static getDerivedStateFromProps(nextProps, prevState) {
+        return {
+            error: nextProps.error !== prevState.error && nextProps.error,
+            errorMessage:
+                nextProps.errorMessage !== prevState.errorMessage &&
+                nextProps.errorMessage,
+            loading:
+                nextProps.loading !== prevState.loading && nextProps.loading,
+        };
+    }
 
-  componentDidMount() {
-    const { type } = this.props;
+    componentDidMount() {
+        const { type } = this.props;
 
-    this.setState({
-      kind: (type === 'movies' ? 0 : 1),
-    });
-  }
+        this.setState({
+            kind: type === 'movies' ? 0 : 1,
+        });
+    }
 
-  componentWillUnmount() {
-    this.setState({ isMounted: false });
-    clearTimeout(this.timeout);
-  }
+    componentWillUnmount() {
+        this.setState({ isMounted: false });
+        clearTimeout(this.timeout);
+    }
 
-  closeModal = () => {
-    const { hideModal } = this.props;
+    closeModal = () => {
+        const { hideModal } = this.props;
 
-    hideModal();
-  };
-
-  modalClick = (e) => {
-    if (e.target.id === 'modal-container') this.closeModal();
-  }
-
-  clearError = () => {
-    const { isMounted } = this.state;
-    const { clearLibraryError } = this.props;
-
-    this.timeout = setTimeout(() => {
-      if (isMounted) clearLibraryError();
-      this.timeout = null;
-    }, 2000);
-  }
-
-  updateFilePath = (filePath) => {
-    this.setState({ filePath });
-  }
-
-  createLibrary = async (kind, filePath) => {
-    const {
-      type,
-      alert,
-      mutate,
-      importing,
-      addLibrary,
-      addLibrarySuccess,
-      addLibraryFailure,
-      setLibraryStatus,
-    } = this.props;
-
-    const variables = {
-      name: type,
-      kind,
-      filePath,
+        hideModal();
     };
 
-    addLibrary();
+    modalClick = (e) => {
+        if (e.target.id === 'modal-container') this.closeModal();
+    };
 
-    mutate({
-      variables,
-      refetchQueries: [{ query: FETCH_LIBRARIES }],
-    })
-      .then((res) => {
-        const { error } = res.data.createLibrary;
+    clearError = () => {
+        const { isMounted } = this.state;
+        const { clearLibraryError } = this.props;
 
-        if (error) {
-          addLibraryFailure(error.message);
-          this.clearError();
-        } else {
-          addLibrarySuccess();
-          setLibraryStatus([...importing, type]);
-          this.setState({ filePath: '' });
-          alert.success('Library Added');
-        }
-      })
-      .catch((error) => {
-        addLibraryFailure(error.message);
-        this.clearError();
-      });
-  }
+        this.timeout = setTimeout(() => {
+            if (isMounted) clearLibraryError();
+            this.timeout = null;
+        }, 2000);
+    };
 
-  render() {
-    const { title } = this.props;
-    const {
-      error, errorMessage, kind, filePath,
-    } = this.state;
+    updateFilePath = (filePath) => {
+        this.setState({ filePath });
+    };
 
-    return (
-      <Modal id="modal-container" onClick={e => this.modalClick(e)}>
-        <ModalWrap>
-          <ModalHeader>
-            <ModalHeading>
-              {title}
-              <ModalClose onClick={() => this.closeModal()} />
-            </ModalHeading>
-          </ModalHeader>
-          <ModalBody>
-            {error && <AlertInline type="error">{errorMessage}</AlertInline>}
-            <FetchLibraryList kind={kind} />
-            <AddLibraryAction
-              createLibrary={() => this.createLibrary(kind, filePath)}
-              updateFilePath={this.updateFilePath}
-              filePath={filePath}
-            />
-          </ModalBody>
-        </ModalWrap>
-      </Modal>
-    );
-  }
+    createLibrary = async (kind, filePath) => {
+        const {
+            type,
+            alert,
+            mutate,
+            importing,
+            addLibrary,
+            addLibrarySuccess,
+            addLibraryFailure,
+            setLibraryStatus,
+        } = this.props;
+
+        const variables = {
+            name: type,
+            kind,
+            filePath,
+        };
+
+        addLibrary();
+
+        mutate({
+            variables,
+            refetchQueries: [{ query: FETCH_LIBRARIES }],
+        })
+            .then((res) => {
+                const { error } = res.data.createLibrary;
+
+                if (error) {
+                    addLibraryFailure(error.message);
+                    this.clearError();
+                } else {
+                    addLibrarySuccess();
+                    setLibraryStatus([...importing, type]);
+                    this.setState({ filePath: '' });
+                    alert.success('Library Added');
+                }
+            })
+            .catch((error) => {
+                addLibraryFailure(error.message);
+                this.clearError();
+            });
+    };
+
+    render() {
+        const { title } = this.props;
+        const { error, errorMessage, kind, filePath } = this.state;
+
+        return (
+            <Modal id="modal-container" onClick={(e) => this.modalClick(e)}>
+                <ModalWrap>
+                    <ModalHeader>
+                        <ModalHeading>
+                            {title}
+                            <ModalClose onClick={() => this.closeModal()} />
+                        </ModalHeading>
+                    </ModalHeader>
+                    <ModalBody>
+                        {error && (
+                            <AlertInline type="error">
+                                {errorMessage}
+                            </AlertInline>
+                        )}
+                        <FetchLibraryList kind={kind} />
+                        <AddLibraryAction
+                            createLibrary={() =>
+                                this.createLibrary(kind, filePath)
+                            }
+                            updateFilePath={this.updateFilePath}
+                            filePath={filePath}
+                        />
+                    </ModalBody>
+                </ModalWrap>
+            </Modal>
+        );
+    }
 }
 
 AddLibraryModal.propTypes = {
-  type: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  hideModal: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  errorMessage: PropTypes.string,
-  error: PropTypes.bool.isRequired,
-  clearLibraryError: PropTypes.func.isRequired,
-  importing: PropTypes.arrayOf(
-    PropTypes.shape({}),
-  ).isRequired,
+    type: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    hideModal: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    errorMessage: PropTypes.string,
+    error: PropTypes.bool.isRequired,
+    clearLibraryError: PropTypes.func.isRequired,
+    importing: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 AddLibraryModal.defaultProps = {
-  errorMessage: '',
+    errorMessage: '',
 };
 
 const mapStateToProps = (state) => {
-  const { library } = state;
+    const { library } = state;
 
-  return {
-    loading: library.loading,
-    error: library.error,
-    errorMessage: library.errorMessage,
-    importing: library.importing,
-  };
+    return {
+        loading: library.loading,
+        error: library.error,
+        errorMessage: library.errorMessage,
+        importing: library.importing,
+    };
 };
 
-const mapDispatchToProps = dispatch => ({
-  hideModal: () => dispatch(hideModal()),
-  addLibrary: () => dispatch(addLibrary()),
-  addLibrarySuccess: () => dispatch(addLibrarySuccess()),
-  addLibraryFailure: props => dispatch(addLibraryFailure(props)),
-  clearLibraryError: () => dispatch(clearLibraryError()),
-  setLibraryStatus: importing => dispatch(setLibraryStatus(importing)),
+const mapDispatchToProps = (dispatch) => ({
+    hideModal: () => dispatch(hideModal()),
+    addLibrary: () => dispatch(addLibrary()),
+    addLibrarySuccess: () => dispatch(addLibrarySuccess()),
+    addLibraryFailure: (props) => dispatch(addLibraryFailure(props)),
+    clearLibraryError: () => dispatch(clearLibraryError()),
+    setLibraryStatus: (importing) => dispatch(setLibraryStatus(importing)),
 });
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  graphql(ADD_LIBRARY),
-  withAlert,
+    connect(
+        mapStateToProps,
+        mapDispatchToProps,
+    ),
+    graphql(ADD_LIBRARY),
+    withAlert,
 )(AddLibraryModal);

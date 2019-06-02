@@ -10,19 +10,20 @@ import library from './libraryReducer';
 import cast from './castReducer';
 
 const responsiveBreakpoints = {
-  extraSmall: 500,
-  small: 768,
-  medium: 1023,
-  large: 1280,
+    extraSmall: 500,
+    small: 768,
+    medium: 1023,
+    large: 1280,
 };
 
-export default history => combineReducers({
-  router: connectRouter(history),
-  browser: createResponsiveStateReducer(responsiveBreakpoints),
-  modal,
-  navigation,
-  historyLocation,
-  video,
-  library,
-  cast,
-});
+export default (history) =>
+    combineReducers({
+        router: connectRouter(history),
+        browser: createResponsiveStateReducer(responsiveBreakpoints),
+        modal,
+        navigation,
+        historyLocation,
+        video,
+        library,
+        cast,
+    });

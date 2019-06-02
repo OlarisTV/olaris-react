@@ -1,32 +1,32 @@
 import gql from 'graphql-tag';
 
 const FETCH_SEARCH_RESULTS = gql`
-  query search($value: String!) {
-    search(name: $value) {
-      type: __typename
-      ... on Movie {
-        name
-        posterPath
-        year
-        uuid
+    query search($value: String!) {
+        search(name: $value) {
+            type: __typename
+            ... on Movie {
+                name
+                posterPath
+                year
+                uuid
 
-        playState {
-          finished
-          playtime
-        }
+                playState {
+                    finished
+                    playtime
+                }
 
-        files {
-          totalDuration
+                files {
+                    totalDuration
+                }
+            }
+            ... on Series {
+                name
+                posterPath
+                firstAirDate
+                uuid
+            }
         }
-      }
-      ... on Series {
-        name
-        posterPath
-        firstAirDate
-        uuid
-      }
     }
-  }
 `;
 
 export default FETCH_SEARCH_RESULTS;

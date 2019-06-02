@@ -7,15 +7,14 @@ import RenderSearchResults from './RenderSearchResults';
 import { LibraryListWrap } from '../Styles';
 
 const Search = ({ match }) => (
-  <LibraryListWrap>
-    <RenderSearchResults value={match.params.value} />
-    <Empty />
-  </LibraryListWrap>
+    <LibraryListWrap>
+        <RenderSearchResults value={match.params.value} />
+        <Empty />
+    </LibraryListWrap>
 );
 
 Search.propTypes = {
-  match: ReactRouterPropTypes.match.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
 };
-
 
 export default Search;

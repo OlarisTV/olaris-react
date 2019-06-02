@@ -3,13 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { media } from 'Styles/Utils';
 
 const fadeInLeft = keyframes`
-  from { 
+  from {
     opacity:0;
     left:0;
   }
-  to { 
+  to {
     opacity:1;
-    left: ${props => props.theme.layout.sidebar};
+    left: ${(props) => props.theme.layout.sidebar};
     ${media.desktop`
       left:0;
     `}
@@ -18,14 +18,14 @@ const fadeInLeft = keyframes`
 
 export const HeaderWrap = styled.header`
     height: auto;
-    float:left;
+    float: left;
     width: 100%;
-    z-index:5;
-    padding:3rem .5rem 0;
-    display:flex;
+    z-index: 5;
+    padding: 3rem 0.5rem 0;
+    display: flex;
 
     button:last-child {
-      margin-left: auto;
+        margin-left: auto;
     }
 
     ${media.desktop`
@@ -38,69 +38,70 @@ export const HeaderWrap = styled.header`
 `;
 
 export const NavIcon = styled(FontAwesomeIcon)`
-    color: rgba(255,255,255, .5);
-    font-size:2rem;
-    transition:.2s all;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 2rem;
+    transition: 0.2s all;
 `;
 
 export const BackIcon = styled(FontAwesomeIcon)`
-    color: rgba(255,255,255, .5);
-    font-size:2rem;
-    transition:.2s all;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 2rem;
+    transition: 0.2s all;
 `;
 
 export const HideNavIcon = styled(FontAwesomeIcon)`
-    color: #FFF;
-    font-size:1.6rem;
-    transition:.2s all;
+    color: #fff;
+    font-size: 1.6rem;
+    transition: 0.2s all;
     width: 5rem !Important;
     height: 5rem;
-    margin:3rem .5rem;
-    padding:1.75rem;
-    cursor:pointer;
+    margin: 3rem 0.5rem;
+    padding: 1.75rem;
+    cursor: pointer;
 `;
 
 export const BackButton = styled.button`
-    float:${props => (props.alignLeft ? 'left' : 'right')};
-    background:none;
-    border:none;
-    transition:.2s background;
-    width:${props => props.theme.layout.header};
-    height:${props => props.theme.layout.header};
-    margin-right:.5rem;
-    
+    float: ${(props) => (props.alignLeft ? 'left' : 'right')};
+    background: none;
+    border: none;
+    transition: 0.2s background;
+    width: ${(props) => props.theme.layout.header};
+    height: ${(props) => props.theme.layout.header};
+    margin-right: 0.5rem;
+
     &:hover {
-      ${BackIcon}{
-        color:#FFF;
-      }
+        ${BackIcon} {
+            color: #fff;
+        }
     }
 `;
 
 export const NavButton = styled.button`
-    float:${props => (props.alignLeft ? 'left' : 'right')};
-    background:none;
-    border:none;
-    transition:.2s background;
-    width:${props => props.theme.layout.header};
-    height:${props => props.theme.layout.header};
-    
+    float: ${(props) => (props.alignLeft ? 'left' : 'right')};
+    background: none;
+    border: none;
+    transition: 0.2s background;
+    width: ${(props) => props.theme.layout.header};
+    height: ${(props) => props.theme.layout.header};
+    padding: 0 1.25rem;
+
     &:hover {
-      ${NavIcon}{
-        color: #FFF;
-      }
+        ${NavIcon} {
+            color: #fff;
+        }
     }
 `;
 
 export const ContentOverlay = styled.div`
-    position:fixed;
-    top:0;
-    left: ${props => props.theme.layout.sidebar};
-    width:100%;
-    height:100%;
-    background:rgba(13, 14, 26, 0.8);
-    z-index:6;
+    position: fixed;
+    top: 0;
+    left: ${(props) => props.theme.layout.sidebar};
+    width: 100%;
+    height: 100%;
+    background: rgba(13, 14, 26, 0.8);
+    z-index: 6;
     animation: ${`.2s ${fadeInLeft} alternate`};
-    transition:.2s all;
+    transition: 0.2s all;
 
     ${media.desktop`
       left: 0;

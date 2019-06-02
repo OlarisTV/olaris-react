@@ -10,12 +10,11 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const history = createHashHistory();
 
 export const store = createStore(
-  rootReducer(history), composeEnhancers(
-    compose(
-      responsiveStoreEnhancer,
-      applyMiddleware(
-        routerMiddleware(history),
-      ),
+    rootReducer(history),
+    composeEnhancers(
+        compose(
+            responsiveStoreEnhancer,
+            applyMiddleware(routerMiddleware(history)),
+        ),
     ),
-  ),
 );

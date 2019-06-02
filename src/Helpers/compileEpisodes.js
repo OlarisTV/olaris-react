@@ -5,15 +5,15 @@
  */
 
 const compileEpisodes = (series) => {
-  const arr = [];
+    const arr = [];
 
-  series.forEach((season, i) => {
-    season.episodes.forEach((episode, i) => {
-      arr.push(episode);
+    series.forEach((season) => {
+        season.episodes.forEach((episode) => {
+            arr.push(episode);
+        });
     });
-  });
 
-  return arr;
+    return arr;
 };
 
 export default compileEpisodes;

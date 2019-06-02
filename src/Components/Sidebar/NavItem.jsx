@@ -7,72 +7,79 @@ import { showModal, LIBRARY_MODAL } from 'Redux/Actions/modalActions';
 
 import Importing from './Importing';
 
-import {
-  NavItemWrap,
-  NavItemHeading,
-  NavItemLink,
-  AddFolder,
-} from './Styles';
+import { NavItemWrap, NavItemHeading, NavItemLink, AddFolder } from './Styles';
 
 class NavItem extends Component {
-  handleClick = (e, type) => {
-    const { showModal } = this.props;
-    const linkDisabled = (e.target.nodeName === 'svg' || e.target.nodeName === 'path');
+    handleClick = (e, type) => {
+        const { showModal } = this.props;
+        const linkDisabled =
+            e.target.nodeName === 'svg' || e.target.nodeName === 'path';
 
-    if (linkDisabled) {
-      e.preventDefault();
+        if (linkDisabled) {
+            e.preventDefault();
 
-      showModal(LIBRARY_MODAL, {
-        title: `Add ${type} folder`,
-        type,
-      });
-    }
-  }
+            showModal(LIBRARY_MODAL, {
+                title: `Add ${type} folder`,
+                type,
+            });
+        }
+    };
 
-  render() {
-    const { name, links } = this.props;
+    render() {
+        const { name, links } = this.props;
 
-    const LinkList = links.map((link) => {
-      const types = ['movies', 'series'];
+        const LinkList = links.map((link) => {
+            const types = ['movies', 'series'];
 
-      if (types.indexOf(link.id) > -1) {
+            if (types.indexOf(link.id) > -1) {
+                return (
+                    <NavItemLink
+                        onClick={(e) => this.handleClick(e, link.id)}
+                        to={link.to}
+                        key={link.id}
+                    >
+                        <Importing name={link.id} />
+                        {link.name}
+                        <AddFolder id={`add-${link.id}`} icon={faPlus}>
+                            +
+                        </AddFolder>
+                    </NavItemLink>
+                );
+            }
+
+            return (
+                <NavItemLink to={link.to} key={link.id}>
+                    {link.name}
+                </NavItemLink>
+            );
+        });
+
         return (
-          <NavItemLink onClick={e => this.handleClick(e, link.id)} to={link.to} key={link.id}>
-            <Importing name={link.id} />
-            {link.name}
-            <AddFolder id={`add-${link.id}`} icon={faPlus}>+</AddFolder>
-          </NavItemLink>
+            <NavItemWrap>
+                <NavItemHeading>{name}</NavItemHeading>
+                {LinkList}
+            </NavItemWrap>
         );
-      }
-
-      return (
-        <NavItemLink to={link.to} key={link.id}>
-          {link.name}
-        </NavItemLink>
-      );
-    });
-
-    return (
-      <NavItemWrap>
-        <NavItemHeading>{name}</NavItemHeading>
-        {LinkList}
-      </NavItemWrap>
-    );
-  }
+    }
 }
 
 NavItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  showModal: PropTypes.func.isRequired,
-  links: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
-  })).isRequired,
+    showModal: PropTypes.func.isRequired,
+    links: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            id: PropTypes.string.isRequired,
+            to: PropTypes.string.isRequired,
+        }),
+    ).isRequired,
 };
 
-const mapDispatchToProps = dispatch => ({
-  showModal: (type, props) => dispatch(showModal(type, props)),
+const mapDispatchToProps = (dispatch) => ({
+    showModal: (type, props) => dispatch(showModal(type, props)),
 });
 
-export default connect(null, mapDispatchToProps)(NavItem);
+export default connect(
+    null,
+    mapDispatchToProps,
+)(NavItem);

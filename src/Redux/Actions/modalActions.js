@@ -6,13 +6,13 @@ export const RESUME_MODAL = 'RESUME_MODAL';
 export const WARNING_MODAL = 'WARNING_MODAL';
 
 export const showModal = (type, props) => ({
-  type: SHOW_MODAL,
-  payload: {
-    type,
-    props,
-  },
+    type: SHOW_MODAL,
+    payload: {
+        type,
+        props,
+    },
 });
 
 export const hideModal = () => ({
-  type: HIDE_MODAL,
+    type: HIDE_MODAL,
 });

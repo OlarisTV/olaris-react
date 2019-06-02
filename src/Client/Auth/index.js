@@ -12,63 +12,62 @@ import history from '../getHistory';
 const cookies = new Cookies();
 
 const propTypes = {
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
 };
 
 export const Auth = {
-  isAuthenticated: false,
-  isAdmin: false,
+    isAuthenticated: false,
+    isAdmin: false,
 
-  authenticate() {
-    const jwtDecoded = jwtDecode(cookies.get('jwt').jwt);
-    const authData = {
-      data: jwtDecoded,
-      token: cookies.get('jwt'),
-      baseUrl: getBaseUrl(),
-    };
+    authenticate() {
+        const jwtDecoded = jwtDecode(cookies.get('jwt').jwt);
+        const authData = {
+            data: jwtDecoded,
+            token: cookies.get('jwt'),
+            baseUrl: getBaseUrl(),
+        };
 
-    this.isAdmin = jwtDecode.admin;
-    this.isAuthenticated = true;
+        this.isAdmin = jwtDecode.admin;
+        this.isAuthenticated = true;
 
-    store.dispatch(setAuthData(authData));
-  },
-  logout() {
-    history.push('/login');
-    this.isAuthenticated = false;
-    this.isAdmin = false;
+        store.dispatch(setAuthData(authData));
+    },
+    logout() {
+        history.push('/login');
+        this.isAuthenticated = false;
+        this.isAdmin = false;
 
-    cookies.remove('jwt', { path: '/' });
-    client.resetStore();
-  },
+        cookies.remove('jwt', { path: '/' });
+        client.resetStore();
+    },
 };
 
-
 export const checkAuth = () => {
-  if (cookies.get('jwt') == null) return false;
-  const jwt = jwtDecode(cookies.get('jwt').jwt);
+    if (cookies.get('jwt') == null) return false;
+    const jwt = jwtDecode(cookies.get('jwt').jwt);
 
-  const currentTime = Date.now() / 1000;
+    const currentTime = Date.now() / 1000;
 
-  if (jwt.exp < currentTime) {
-    return false;
-  }
+    if (jwt.exp < currentTime) {
+        return false;
+    }
 
-  return Auth.authenticate();
+    return Auth.authenticate();
 };
 
 export const AUTH_REQUEST = (username, password) => {
-  const url = `${getBaseUrl()}/olaris/m/v1/auth`;
+    const url = `${getBaseUrl()}/olaris/m/v1/auth`;
 
-  const data = {
-    username,
-    password,
-  };
+    const data = {
+        username,
+        password,
+    };
 
-  return axios.post(url, data).then((response) => {
-    cookies.set('jwt', response.data, { path: '/' });
-    Auth.authenticate();
-  });
+    return axios.post(url, data).then((response) => {
+        cookies.set('jwt', response.data, { path: '/' });
+        Auth.authenticate();
+    });
 };
 
 AUTH_REQUEST.propTypes = propTypes;

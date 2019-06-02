@@ -14,57 +14,58 @@ import { NoResults } from 'Containers/Styles';
 import { MediaCardWrap } from './Styles';
 
 class RenderRecentMovies extends Component {
-  toggleModal = () => {
-    const { showModal } = this.props;
+    toggleModal = () => {
+        const { showModal } = this.props;
 
-    showModal(LIBRARY_MODAL, {
-      title: 'Add Movies folder',
-      type: 'movies',
-    });
-  };
+        showModal(LIBRARY_MODAL, {
+            title: 'Add Movies folder',
+            type: 'movies',
+        });
+    };
 
-  render() {
-    return (
-      <Query
-        query={RECENTLY_ADDED}
-        fetchPolicy="network-only"
-      >
+    render() {
+        return (
+            <Query query={RECENTLY_ADDED} fetchPolicy="network-only">
+                {({ loading, error, data }) => {
+                    if (loading) return <Loading />;
+                    if (error) return `Error! ${error.message}`;
 
-        {({ loading, error, data }) => {
-          if (loading) return <Loading />;
-          if (error) return `Error! ${error.message}`;
+                    const movies = data.recentlyAdded.filter(
+                        (m) => m.type === 'Movie',
+                    );
 
-          const movies = data.recentlyAdded.filter(m => m.type === 'Movie');
+                    if (movies.length === 0) {
+                        return (
+                            <NoResults alignLeft>
+                                {'You currently have no Movies.'}
+                                <button
+                                    type="button"
+                                    onClick={() => this.toggleModal()}
+                                >
+                                    Add a Movies folder
+                                </button>
+                            </NoResults>
+                        );
+                    }
 
-          if (movies.length === 0) {
-            return (
-              <NoResults alignLeft>
-                {'You currently have no Movies.'}
-                <button type="button" onClick={() => this.toggleModal()}>Add a Movies folder</button>
-              </NoResults>
-            );
-          }
+                    const RecentlyAddedMovies = movies.map((ra) => (
+                        <MediaCardWrap key={ra.uuid}>
+                            <MediaCard showText {...ra} />
+                        </MediaCardWrap>
+                    ));
 
-          const RecentlyAddedMovies = movies.map(ra => (
-            <MediaCardWrap key={ra.uuid}>
-              <MediaCard showText {...ra} />
-            </MediaCardWrap>
-          ));
-
-          return (
-            <Carousel>
-              {RecentlyAddedMovies}
-            </Carousel>
-          );
-        }}
-
-      </Query>
-    );
-  }
+                    return <Carousel>{RecentlyAddedMovies}</Carousel>;
+                }}
+            </Query>
+        );
+    }
 }
 
-const mapDispatchToProps = dispatch => ({
-  showModal: (type, props) => dispatch(showModal(type, props)),
+const mapDispatchToProps = (dispatch) => ({
+    showModal: (type, props) => dispatch(showModal(type, props)),
 });
 
-export default connect(null, mapDispatchToProps)(RenderRecentMovies);
+export default connect(
+    null,
+    mapDispatchToProps,
+)(RenderRecentMovies);

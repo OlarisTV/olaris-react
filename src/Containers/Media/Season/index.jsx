@@ -6,7 +6,7 @@ import RenderSeason from './RenderSeason';
 const Season = ({ match }) => <RenderSeason uuid={match.params.uuid} />;
 
 Season.propTypes = {
-  match: ReactRouterPropTypes.match.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
 };
 
 export default Season;

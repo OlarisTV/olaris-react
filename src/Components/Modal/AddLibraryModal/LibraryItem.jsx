@@ -7,61 +7,70 @@ import { AlertInline } from 'Components/Alerts';
 import { FETCH_LIBRARIES } from 'Queries/fetchLibraries';
 import { DELETE_LIBRARY } from 'Mutations/manageLibraries';
 
-import { LibraryItemWrap, LibraryItemFilePath, LibraryItemDelete } from './Styles';
+import {
+    LibraryItemWrap,
+    LibraryItemFilePath,
+    LibraryItemDelete,
+} from './Styles';
 
 class LibraryItem extends Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      error: false,
-      errorMessage: '',
+        this.state = {
+            error: false,
+            errorMessage: '',
+        };
+    }
+
+    deleteLibrary = (id) => {
+        const { mutate } = this.props;
+
+        mutate({
+            variables: { id },
+            refetchQueries: [{ query: FETCH_LIBRARIES }],
+        })
+            .then((res) => {
+                const { error } = res.data.deleteLibrary;
+
+                if (error) {
+                    this.setState({
+                        error: true,
+                        errorMessage: error.message,
+                    });
+                }
+            })
+            .catch((error) => {
+                this.setState({
+                    error: true,
+                    errorMessage: error.message,
+                });
+            });
     };
-  }
 
-  deleteLibrary = (id) => {
-    const { mutate } = this.props;
+    render() {
+        const { filePath, id } = this.props;
+        const { error, errorMessage } = this.state;
 
-    mutate({
-      variables: { id },
-      refetchQueries: [{ query: FETCH_LIBRARIES }],
-    })
-      .then((res) => {
-        const { error } = res.data.deleteLibrary;
-
-        if (error) {
-          this.setState({
-            error: true,
-            errorMessage: error.message,
-          });
-        }
-      })
-      .catch((error) => {
-        this.setState({
-          error: true,
-          errorMessage: error.message,
-        });
-      });
-  }
-
-  render() {
-    const { filePath, id } = this.props;
-    const { error, errorMessage } = this.state;
-
-    return (
-      <LibraryItemWrap>
-        { error && <AlertInline type="error">{errorMessage}</AlertInline> }
-        <LibraryItemFilePath>{filePath}</LibraryItemFilePath>
-        <LibraryItemDelete icon={faTrashAlt} onClick={() => this.deleteLibrary(id)} />
-      </LibraryItemWrap>
-    );
-  }
+        return (
+            <LibraryItemWrap>
+                {error && (
+                    <AlertInline type="error">{errorMessage}</AlertInline>
+                )}
+                <LibraryItemFilePath>{filePath}</LibraryItemFilePath>
+                <LibraryItemDelete
+                    icon={faTrashAlt}
+                    onClick={() => this.deleteLibrary(id)}
+                />
+            </LibraryItemWrap>
+        );
+    }
 }
 
 LibraryItem.propTypes = {
-  filePath: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  mutate: PropTypes.func.isRequired,
+    filePath: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    mutate: PropTypes.func.isRequired,
 };
 
-export default LibraryItem = graphql(DELETE_LIBRARY)(LibraryItem);
+export default (LibraryItem = graphql(DELETE_LIBRARY)(LibraryItem));

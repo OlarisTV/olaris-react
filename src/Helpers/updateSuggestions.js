@@ -5,32 +5,35 @@
  */
 
 const updateSuggestions = (arr) => {
-  if (arr === undefined || arr.length === 0) return [];
+    if (arr === undefined || arr.length === 0) return [];
 
-  const updatedSuggestions = [
-    {
-      title: 'Movies',
-      suggestions: [],
-    },
-    {
-      title: 'Series',
-      suggestions: [],
-    },
-  ];
+    const updatedSuggestions = [
+        {
+            title: 'Movies',
+            suggestions: [],
+        },
+        {
+            title: 'Series',
+            suggestions: [],
+        },
+    ];
 
-  arr.forEach((sug) => {
-    if (sug.type === 'Movie' && updatedSuggestions[0].suggestions.length <= 2) {
-      updatedSuggestions[0].suggestions.push(sug);
-    } else if (updatedSuggestions[1].suggestions.length <= 2) {
-      updatedSuggestions[1].suggestions.push(sug);
-    }
-  });
+    arr.forEach((sug) => {
+        if (
+            sug.type === 'Movie' &&
+            updatedSuggestions[0].suggestions.length <= 2
+        ) {
+            updatedSuggestions[0].suggestions.push(sug);
+        } else if (updatedSuggestions[1].suggestions.length <= 2) {
+            updatedSuggestions[1].suggestions.push(sug);
+        }
+    });
 
-  updatedSuggestions.forEach((type, i) => {
-    if (type.suggestions.length === 0) updatedSuggestions.splice(i, 1);
-  });
+    updatedSuggestions.forEach((type, i) => {
+        if (type.suggestions.length === 0) updatedSuggestions.splice(i, 1);
+    });
 
-  return updatedSuggestions;
+    return updatedSuggestions;
 };
 
 export default updateSuggestions;

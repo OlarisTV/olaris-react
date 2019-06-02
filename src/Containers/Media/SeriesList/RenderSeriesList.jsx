@@ -13,48 +13,54 @@ import { NoResults } from 'Containers/Styles';
 import { LibraryListItem } from '../Styles';
 
 class RenderSeriesList extends Component {
-  toggleModal = () => {
-    const { showModal } = this.props;
+    toggleModal = () => {
+        const { showModal } = this.props;
 
-    showModal(LIBRARY_MODAL, {
-      title: 'Add Series Library',
-      type: 'series',
-    });
-  };
+        showModal(LIBRARY_MODAL, {
+            title: 'Add Series Library',
+            type: 'series',
+        });
+    };
 
-  render() {
-    return (
-      <Query
-        query={FETCH_SERIES_LIST}
-        pollInterval={500}
-      >
+    render() {
+        return (
+            <Query query={FETCH_SERIES_LIST} pollInterval={500}>
+                {({ loading, error, data }) => {
+                    if (loading) return <Loading />;
+                    if (error) return `Error! ${error.message}`;
 
-        {({ loading, error, data }) => {
-          if (loading) return <Loading />;
-          if (error) return `Error! ${error.message}`;
+                    if (data.series.length > 0) {
+                        return orderBy(data.series, ['name'], ['asc']).map(
+                            (s) => (
+                                <LibraryListItem key={s.uuid}>
+                                    <MediaCard {...s} />
+                                </LibraryListItem>
+                            ),
+                        );
+                    }
 
-          if (data.series.length > 0) {
-            return orderBy(data.series, ['name'], ['asc']).map(s => (
-              <LibraryListItem key={s.uuid}>
-                <MediaCard {...s} />
-              </LibraryListItem>
-            ));
-          }
-
-          return (
-            <NoResults>
-              You currently have no Series.
-              <button type="button" onClick={() => this.toggleModal()}>Add a Series folder</button>
-            </NoResults>
-          );
-        }}
-      </Query>
-    );
-  }
+                    return (
+                        <NoResults>
+                            You currently have no Series.
+                            <button
+                                type="button"
+                                onClick={() => this.toggleModal()}
+                            >
+                                Add a Series folder
+                            </button>
+                        </NoResults>
+                    );
+                }}
+            </Query>
+        );
+    }
 }
 
-const mapDispatchToProps = dispatch => ({
-  showModal: (type, props) => dispatch(showModal(type, props)),
+const mapDispatchToProps = (dispatch) => ({
+    showModal: (type, props) => dispatch(showModal(type, props)),
 });
 
-export default connect(null, mapDispatchToProps)(RenderSeriesList);
+export default connect(
+    null,
+    mapDispatchToProps,
+)(RenderSeriesList);

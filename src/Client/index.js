@@ -13,46 +13,42 @@ import fragmentMatcher from './fragmentMatcher';
 const cookies = new Cookies();
 
 const httpLink = new HttpLink({
-  uri: `${getBaseUrl()}/olaris/m/query`,
+    uri: `${getBaseUrl()}/olaris/m/query`,
 });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
-  if (document.cookie.indexOf('jwt') >= 0) {
-    const token = cookies.get('jwt');
+    if (document.cookie.indexOf('jwt') >= 0) {
+        const token = cookies.get('jwt');
 
-    operation.setContext(({ headers = {} }) => ({
-      headers: {
-        ...headers,
-        authorization: token.jwt ? `Bearer ${token.jwt}` : '',
-      },
-    }));
-  }
+        operation.setContext(({ headers = {} }) => ({
+            headers: {
+                ...headers,
+                authorization: token.jwt ? `Bearer ${token.jwt}` : '',
+            },
+        }));
+    }
 
-  return forward(operation);
+    return forward(operation);
 });
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (networkError && networkError.statusCode === 401) {
-    Auth.logout();
-  }
+const errorLink = onError(({ networkError }) => {
+    if (networkError && networkError.statusCode === 401) {
+        Auth.logout();
+    }
 
-  if (networkError && networkError.statusCode === 403) {
-    Auth.logout();
-  }
+    if (networkError && networkError.statusCode === 403) {
+        Auth.logout();
+    }
 });
 
 const cache = new InMemoryCache({
-  fragmentMatcher,
-  dataIdFromObject: object => object.uuid || null,
+    fragmentMatcher,
+    dataIdFromObject: (object) => object.uuid || null,
 });
 
 const client = new ApolloClient({
-  cache,
-  link: from([
-    errorLink,
-    authMiddleware,
-    httpLink,
-  ]),
+    cache,
+    link: from([errorLink, authMiddleware, httpLink]),
 });
 
 export default client;
