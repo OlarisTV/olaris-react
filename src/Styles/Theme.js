@@ -23,6 +23,11 @@ const Theme = {
         success: '#81A35A',
         error: '#E83C50',
         info: '#FFF',
+
+        darken: {
+            success: darken(0.1, '#81A35A'),
+            error: darken(0.1, '#E83C50'),
+        },
     },
     layout: {
         header: '5rem',

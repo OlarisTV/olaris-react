@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-import { AddLibraryWrap, AddLibraryInput, SubmitLibrary } from './Styles';
+import {
+    AddLibraryWrap,
+    AddLibraryInput,
+    SubmitLibrary,
+    RcloneInput,
+} from './Styles';
 
 export default class AddLibraryAction extends Component {
     constructor(props) {
@@ -10,6 +15,7 @@ export default class AddLibraryAction extends Component {
 
         this.state = {
             disabled: true,
+            checked: false,
         };
     }
 
@@ -24,6 +30,13 @@ export default class AddLibraryAction extends Component {
         });
     };
 
+    checkboxChange = ({ target }) => {
+        console.log(target.name, target.checked);
+        this.setState({
+            [target.name]: target.checked,
+        });
+    };
+
     handleSubmit = () => {
         const { createLibrary } = this.props;
 
@@ -31,7 +44,7 @@ export default class AddLibraryAction extends Component {
     };
 
     render() {
-        const { disabled } = this.state;
+        const { disabled, isrclone } = this.state;
         const { filePath } = this.props;
 
         return (
@@ -41,13 +54,27 @@ export default class AddLibraryAction extends Component {
                     value={filePath}
                     placeholder="Enter Filepath"
                     type="text"
+                    name="filepath"
                     onChange={(e) => this.handleChange(e.target.value)}
                 />
+                <RcloneInput rclone={isrclone}>
+                    <label htmlFor="isrclone">
+                        Rclone Folder?
+                        <input
+                            type="checkbox"
+                            id="isrclone"
+                            name="isrclone"
+                            onChange={(e) => this.checkboxChange(e)}
+                        />
+                    </label>
+                </RcloneInput>
                 <SubmitLibrary
                     disabled={disabled}
                     icon={faPlus}
                     onClick={() => this.handleSubmit()}
-                />
+                >
+                    Add Folder
+                </SubmitLibrary>
             </AddLibraryWrap>
         );
     }

@@ -90,6 +90,10 @@ class AddLibraryModal extends Component {
         this.setState({ filePath });
     };
 
+    isRclone = (rclone) => {
+        this.setState({ rclone });
+    };
+
     createLibrary = async (kind, filePath) => {
         const {
             type,
@@ -102,10 +106,13 @@ class AddLibraryModal extends Component {
             setLibraryStatus,
         } = this.props;
 
+        const { rclone } = this.state;
+
         const variables = {
             name: type,
             kind,
             filePath,
+            backend: rclone ? 1 : 0,
         };
 
         addLibrary();
@@ -158,6 +165,7 @@ class AddLibraryModal extends Component {
                                 this.createLibrary(kind, filePath)
                             }
                             updateFilePath={this.updateFilePath}
+                            isRclone={this.isRclone}
                             filePath={filePath}
                         />
                     </ModalBody>
