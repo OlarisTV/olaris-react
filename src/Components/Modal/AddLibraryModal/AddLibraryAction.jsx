@@ -15,7 +15,6 @@ export default class AddLibraryAction extends Component {
 
         this.state = {
             disabled: true,
-            checked: false,
         };
     }
 
