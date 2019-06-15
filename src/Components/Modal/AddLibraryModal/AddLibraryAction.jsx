@@ -1,73 +1,119 @@
 import React, { Component } from 'react';
+import { withApollo } from 'react-apollo';
 import PropTypes from 'prop-types';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-import {
-    AddLibraryWrap,
-    AddLibraryInput,
-    SubmitLibrary,
-    RcloneInput,
-} from './Styles';
+import FETCH_REMOTES from 'Queries/fetchRemotes';
 
-export default class AddLibraryAction extends Component {
+import { SingleSelect, TextInput } from 'Components/Form';
+import { AddLibraryWrap, SubmitLibrary } from './Styles';
+
+class AddLibraryAction extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             disabled: true,
-            checked: false,
+            type: null,
+            filepath: '',
+            remotes: [],
+            remote: null,
         };
     }
 
-    handleChange = (val) => {
-        const { updateFilePath } = this.props;
-        const valid = val.length > 0;
-
-        updateFilePath(val);
+    handleChange = (e) => {
+        if (e.name === 'filepath') {
+            this.setState({
+                disabled: !e.value.length > 0,
+            });
+        }
 
         this.setState({
-            disabled: !valid,
+            [e.name]: e.value,
         });
     };
 
-    checkboxChange = ({ target }) => {
-        console.log(target.name, target.checked);
+    selectChange = (val, name) => {
+        const { client } = this.props;
+
+        if (name === 'type' && val.value === '1') {
+            client
+                .query({
+                    query: FETCH_REMOTES,
+                })
+                .then((res) => {
+                    const remotes = [];
+                    res.data.remotes.forEach((remote) => {
+                        remotes.push({
+                            value: remote.filePath,
+                            label: remote.filePath,
+                        });
+                    });
+
+                    return remotes;
+                })
+                .then((remotes) => {
+                    this.setState({ remotes });
+                });
+        }
+
         this.setState({
-            [target.name]: target.checked,
+            [name]: val,
         });
     };
 
     handleSubmit = () => {
+        const { type, filepath, remote } = this.state;
         const { createLibrary } = this.props;
 
-        createLibrary();
+        const data = {
+            backend: parseInt(type.value, 10),
+            filePath: filepath.length > 0 ? filepath : remote.value,
+        };
+
+        createLibrary(data);
     };
 
     render() {
-        const { disabled, isrclone } = this.state;
-        const { filePath } = this.props;
+        const { disabled, type, filepath, remotes, remote } = this.state;
+        let remotesPlaceholder = 'Select Remote Path';
+        const libraryTypes = [
+            { value: '0', label: 'Local' },
+            { value: '1', label: 'Rclone' },
+        ];
+
+        if (remotes) remotesPlaceholder = 'No Rclone Paths Found...';
 
         return (
             <AddLibraryWrap>
-                <AddLibraryInput
-                    autoFocus
-                    value={filePath}
-                    placeholder="Enter Filepath"
-                    type="text"
-                    name="filepath"
-                    onChange={(e) => this.handleChange(e.target.value)}
+                <SingleSelect
+                    placeholder="Select Library Type"
+                    options={libraryTypes}
+                    onChange={(val) => this.selectChange(val, 'type')}
+                    value={type}
+                    name="type"
                 />
-                <RcloneInput rclone={isrclone}>
-                    <label htmlFor="isrclone">
-                        Rclone Folder?
-                        <input
-                            type="checkbox"
-                            id="isrclone"
-                            name="isrclone"
-                            onChange={(e) => this.checkboxChange(e)}
-                        />
-                    </label>
-                </RcloneInput>
+
+                {type && type.value === '0' && (
+                    <TextInput
+                        value={filepath}
+                        placeholder="Enter Filepath"
+                        type="text"
+                        name="filepath"
+                        onChange={(e) => this.handleChange(e.target)}
+                    />
+                )}
+
+                {type && type.value === '1' && (
+                    <SingleSelect
+                        placeholder={remotesPlaceholder}
+                        options={remotes}
+                        onChange={(val) => this.selectChange(val, 'remote')}
+                        value={remote}
+                        name="remote"
+                    />
+                )}
+
                 <SubmitLibrary
                     disabled={disabled}
                     icon={faPlus}
@@ -82,10 +128,9 @@ export default class AddLibraryAction extends Component {
 
 AddLibraryAction.propTypes = {
     createLibrary: PropTypes.func.isRequired,
-    updateFilePath: PropTypes.func.isRequired,
-    filePath: PropTypes.string,
+    client: PropTypes.shape({
+        query: PropTypes.func.isRequired,
+    }).isRequired,
 };
 
-AddLibraryAction.defaultProps = {
-    filePath: '',
-};
+export default withApollo(AddLibraryAction);

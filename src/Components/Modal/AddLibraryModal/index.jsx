@@ -38,7 +38,6 @@ class AddLibraryModal extends Component {
             loading: props.loading,
             kind: 0,
             isMounted: true,
-            filePath: '',
         };
     }
 
@@ -83,18 +82,11 @@ class AddLibraryModal extends Component {
         this.timeout = setTimeout(() => {
             if (isMounted) clearLibraryError();
             this.timeout = null;
-        }, 2000);
+        }, 5000);
     };
 
-    updateFilePath = (filePath) => {
-        this.setState({ filePath });
-    };
-
-    isRclone = (rclone) => {
-        this.setState({ rclone });
-    };
-
-    createLibrary = async (kind, filePath) => {
+    createLibrary = async ({ backend, filePath }) => {
+        const { kind } = this.state;
         const {
             type,
             alert,
@@ -106,13 +98,11 @@ class AddLibraryModal extends Component {
             setLibraryStatus,
         } = this.props;
 
-        const { rclone } = this.state;
-
         const variables = {
             name: type,
             kind,
             filePath,
-            backend: rclone ? 1 : 0,
+            backend,
         };
 
         addLibrary();
@@ -128,9 +118,9 @@ class AddLibraryModal extends Component {
                     addLibraryFailure(error.message);
                     this.clearError();
                 } else {
+                    this.closeModal();
                     addLibrarySuccess();
                     setLibraryStatus([...importing, type]);
-                    this.setState({ filePath: '' });
                     alert.success('Library Added');
                 }
             })
@@ -142,7 +132,7 @@ class AddLibraryModal extends Component {
 
     render() {
         const { title } = this.props;
-        const { error, errorMessage, kind, filePath } = this.state;
+        const { error, errorMessage, kind } = this.state;
 
         return (
             <Modal id="modal-container" onClick={(e) => this.modalClick(e)}>
@@ -161,12 +151,7 @@ class AddLibraryModal extends Component {
                         )}
                         <FetchLibraryList kind={kind} />
                         <AddLibraryAction
-                            createLibrary={() =>
-                                this.createLibrary(kind, filePath)
-                            }
-                            updateFilePath={this.updateFilePath}
-                            isRclone={this.isRclone}
-                            filePath={filePath}
+                            createLibrary={(props) => this.createLibrary(props)}
                         />
                     </ModalBody>
                 </ModalWrap>

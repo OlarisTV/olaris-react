@@ -11,7 +11,6 @@ import {
     MediaInfoSubhead,
 } from '../Styles';
 
-// eslint-disable-next-line
 const DropdownIndicator = (props) => {
     return (
         components.DropdownIndicator && (
