@@ -7,3 +7,11 @@
     opacity: 1 !important;
     padding: 1.5rem;
 }
+
+.__react_component_tooltip.type-dark.place-bottom:after {
+    border-bottom-color: #1f202f;
+}
+
+.__react_component_tooltip.type-dark.place-top:after {
+    border-top-color: #1f202f;
+}

@@ -12,7 +12,9 @@ const FETCH_LIBRARIES = gql`
         libraries {
             id
             kind
+            backend
             filePath
+            healthy
         }
     }
 `;
@@ -34,7 +36,7 @@ const FetchLibraryList = ({ kind }) => (
             }
 
             return filteredLibrary.map((li) => (
-                <LibraryItem key={li.id} filePath={li.filePath} id={li.id} />
+                <LibraryItem key={li.id} {...li} />
             ));
         }}
     </Query>

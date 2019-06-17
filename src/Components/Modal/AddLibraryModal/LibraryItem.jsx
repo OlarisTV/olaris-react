@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
+import ReactToolTip from 'react-tooltip';
 
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { faExclamation } from '@fortawesome/free-solid-svg-icons';
 import { AlertInline } from 'Components/Alerts';
 import { FETCH_LIBRARIES } from 'Queries/fetchLibraries';
 import { DELETE_LIBRARY } from 'Mutations/manageLibraries';
@@ -11,6 +13,7 @@ import {
     LibraryItemWrap,
     LibraryItemFilePath,
     LibraryItemDelete,
+    LibraryUnhealthy,
 } from './Styles';
 
 class LibraryItem extends Component {
@@ -49,15 +52,48 @@ class LibraryItem extends Component {
     };
 
     render() {
-        const { filePath, id } = this.props;
+        const { filePath, id, backend, healthy } = this.props;
         const { error, errorMessage } = this.state;
+
+        const libraryType = backend === 0 ? 'Local' : 'Rclone';
+
+        const isHealthy = () => {
+            if (healthy) return false;
+
+            return (
+                <LibraryUnhealthy
+                    icon={faExclamation}
+                    data-tip="This is an unhealthy rclone remote, playback may be broken"
+                />
+            );
+        };
 
         return (
             <LibraryItemWrap>
+                <ReactToolTip
+                    effect="solid"
+                    place="bottom"
+                    className="tooltip"
+                />
+
                 {error && (
                     <AlertInline type="error">{errorMessage}</AlertInline>
                 )}
-                <LibraryItemFilePath>{filePath}</LibraryItemFilePath>
+                <LibraryItemFilePath>
+                    <span>
+                        {isHealthy()}
+                        {libraryType}
+                    </span>
+
+                    {filePath.length > 50 ? (
+                        <p data-tip={filePath}>
+                            /home/hd32/benj3/media/Movies/longest/char/counterss
+                        </p>
+                    ) : (
+                        filePath
+                    )}
+                </LibraryItemFilePath>
+
                 <LibraryItemDelete
                     icon={faTrashAlt}
                     onClick={() => this.deleteLibrary(id)}
@@ -71,6 +107,12 @@ LibraryItem.propTypes = {
     filePath: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
     mutate: PropTypes.func.isRequired,
+    backend: PropTypes.number.isRequired,
+    healthy: PropTypes.bool,
+};
+
+LibraryItem.defaultProps = {
+    healthy: true,
 };
 
 export default (LibraryItem = graphql(DELETE_LIBRARY)(LibraryItem));
