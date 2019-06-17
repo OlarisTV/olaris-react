@@ -55,12 +55,14 @@ class AddLibraryModal extends Component {
     componentDidMount() {
         const { type } = this.props;
 
+        document.addEventListener('keydown', this.escapeClose, false);
         this.setState({
             kind: type === 'movies' ? 0 : 1,
         });
     }
 
     componentWillUnmount() {
+        document.removeEventListener('keydown', this.escapeClose, false);
         this.setState({ isMounted: false });
         clearTimeout(this.timeout);
     }
@@ -71,9 +73,7 @@ class AddLibraryModal extends Component {
         hideModal();
     };
 
-    modalClick = (e) => {
-        if (e.target.id === 'modal-container') this.closeModal();
-    };
+    escapeClose = (e) => e.key === 'Escape' && this.closeModal();
 
     clearError = () => {
         const { isMounted } = this.state;
@@ -141,7 +141,7 @@ class AddLibraryModal extends Component {
         const { error, errorMessage, kind } = this.state;
 
         return (
-            <Modal id="modal-container" onClick={(e) => this.modalClick(e)}>
+            <Modal>
                 <ModalWrap>
                     <ModalHeader>
                         <ModalHeading>
