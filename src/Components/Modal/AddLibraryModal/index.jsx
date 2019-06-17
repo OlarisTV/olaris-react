@@ -85,7 +85,7 @@ class AddLibraryModal extends Component {
         }, 5000);
     };
 
-    createLibrary = async ({ backend, filePath }) => {
+    createLibrary = async ({ backend, filePath, rcloneName }) => {
         const { kind } = this.state;
         const {
             type,
@@ -98,12 +98,18 @@ class AddLibraryModal extends Component {
             setLibraryStatus,
         } = this.props;
 
-        const variables = {
+        let variables = {
             name: type,
             kind,
             filePath,
             backend,
         };
+
+        if (rcloneName)
+            variables = {
+                ...variables,
+                rcloneName,
+            };
 
         addLibrary();
 

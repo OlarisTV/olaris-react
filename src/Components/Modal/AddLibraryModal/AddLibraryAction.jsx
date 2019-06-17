@@ -23,19 +23,22 @@ class AddLibraryAction extends Component {
     }
 
     handleChange = (e) => {
-        if (e.name === 'filepath') {
-            this.setState({
-                disabled: !e.value.length > 0,
-            });
-        }
+        const { remote, type } = this.state;
+        const valLength = e.value.length > 0;
 
         this.setState({
+            disabled: type.value === '0' ? !valLength : !valLength || !remote,
             [e.name]: e.value,
         });
     };
 
     selectChange = (val, name) => {
+        const { filepath } = this.state;
         const { client } = this.props;
+
+        this.setState({
+            disabled: !filepath.length > 0 || !val,
+        });
 
         if (name === 'type' && val.value === '1') {
             client
@@ -46,8 +49,8 @@ class AddLibraryAction extends Component {
                     const remotes = [];
                     res.data.remotes.forEach((remote) => {
                         remotes.push({
-                            value: remote.filePath,
-                            label: remote.filePath,
+                            value: remote,
+                            label: remote,
                         });
                     });
 
@@ -69,7 +72,8 @@ class AddLibraryAction extends Component {
 
         const data = {
             backend: parseInt(type.value, 10),
-            filePath: filepath.length > 0 ? filepath : remote.value,
+            filePath: filepath,
+            rcloneName: remote.value,
         };
 
         createLibrary(data);
@@ -83,7 +87,8 @@ class AddLibraryAction extends Component {
             { value: '1', label: 'Rclone' },
         ];
 
-        if (remotes) remotesPlaceholder = 'No Rclone Paths Found...';
+        if (remotes.length === 0)
+            remotesPlaceholder = 'No Rclone Remotes Found...';
 
         return (
             <AddLibraryWrap>
@@ -95,16 +100,6 @@ class AddLibraryAction extends Component {
                     name="type"
                 />
 
-                {type && type.value === '0' && (
-                    <TextInput
-                        value={filepath}
-                        placeholder="Enter Filepath"
-                        type="text"
-                        name="filepath"
-                        onChange={(e) => this.handleChange(e.target)}
-                    />
-                )}
-
                 {type && type.value === '1' && (
                     <SingleSelect
                         placeholder={remotesPlaceholder}
@@ -112,6 +107,16 @@ class AddLibraryAction extends Component {
                         onChange={(val) => this.selectChange(val, 'remote')}
                         value={remote}
                         name="remote"
+                    />
+                )}
+
+                {type && (
+                    <TextInput
+                        value={filepath}
+                        placeholder="Enter Filepath"
+                        type="text"
+                        name="filepath"
+                        onChange={(e) => this.handleChange(e.target)}
                     />
                 )}
 
