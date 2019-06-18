@@ -7,7 +7,7 @@ import Content from './Styles';
 
 const ContentWrap = ({ children, navHidden }) => (
     <Content navHidden={navHidden}>
-        <Scroll navHidden={navHidden}>{children}</Scroll>
+        <Scroll navHidden={navHidden} id="content">{children}</Scroll>
     </Content>
 );
 

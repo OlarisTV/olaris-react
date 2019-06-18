@@ -13,7 +13,7 @@ const Sidebar = (props) => {
 
     return (
         <SidebarWrap navHidden={navHidden} videoOpen={videoOpen}>
-            <Scroll>
+            <Scroll id="sidebar">
                 <Fragment>
                     <DashboardLink to="/">
                         <LogoIcon height="30" />

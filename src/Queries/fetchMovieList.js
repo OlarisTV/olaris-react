@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const FETCH_MOVIES = gql`
-    {
-        movies {
+    query Movies($offset: Int, $limit: Int) {
+        movies(offset: $offset, limit: $limit) {
             type: __typename
             name
             posterPath

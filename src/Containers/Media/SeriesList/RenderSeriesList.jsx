@@ -6,6 +6,7 @@ import FETCH_SERIES_LIST from 'Queries/fetchSeriesList';
 
 import { showModal, LIBRARY_MODAL } from 'Redux/Actions/modalActions';
 
+import InfiniteScroll from 'Components/InfiniteScroll';
 import Loading from 'Components/Loading';
 import MediaCard from 'Components/Media/Card';
 
@@ -24,19 +25,50 @@ class RenderSeriesList extends Component {
 
     render() {
         return (
-            <Query query={FETCH_SERIES_LIST} pollInterval={500}>
-                {({ loading, error, data }) => {
+            <Query
+                query={FETCH_SERIES_LIST}
+                variables={{
+                    limit: 200,
+                    offset: 0,
+                }}
+            >
+                {({ loading, error, data, fetchMore }) => {
                     if (loading) return <Loading />;
                     if (error) return `Error! ${error.message}`;
 
                     if (data.series.length > 0) {
-                        return orderBy(data.series, ['name'], ['asc']).map(
-                            (s) => (
-                                <LibraryListItem key={s.uuid}>
-                                    <MediaCard {...s} />
-                                </LibraryListItem>
-                            ),
-                        );
+                        return (
+                            <InfiniteScroll
+                                id="content"
+                                threshold={500}
+                                onLoadMore={() => fetchMore({
+                                    variables: {
+                                        offset: data.series.length
+                                    },
+                                    updateQuery: (prev, { fetchMoreResult }) => {
+                                        if (!fetchMoreResult) return prev;
+
+                                        return {
+                                            ...prev,
+                                            series: [
+                                                ...prev.series,
+                                                ...fetchMoreResult.series.filter(item => (
+                                                    !prev.series.some(prevItem => prevItem.uuid === item.uuid)
+                                                ))
+                                            ]
+                                        };
+                                    }
+                                })}
+                            >
+                                {() => {
+                                    return orderBy(data.series, ['name'], ['asc']).map((s) => (
+                                        <LibraryListItem key={s.uuid}>
+                                            <MediaCard {...s} />
+                                        </LibraryListItem>
+                                    ))
+                                }}
+                            </InfiniteScroll>
+                        )
                     }
 
                     return (

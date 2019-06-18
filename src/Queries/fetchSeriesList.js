@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const FETCH_SERIES_LIST = gql`
-    {
-        series {
+    query Series($offset: Int, $limit: Int) {
+        series(offset: $offset, limit: $limit) {
             type: __typename
             name
             posterPath
