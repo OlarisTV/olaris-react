@@ -70,11 +70,17 @@ class AddLibraryAction extends Component {
         const { type, filepath, remote } = this.state;
         const { createLibrary } = this.props;
 
-        const data = {
+        let data = {
             backend: parseInt(type.value, 10),
             filePath: filepath,
-            rcloneName: remote.value,
         };
+
+        if (remote) {
+            data = {
+                ...data,
+                rcloneName: remote.value,
+            };
+        }
 
         createLibrary(data);
     };
