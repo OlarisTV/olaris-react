@@ -6,7 +6,7 @@ export const ADD_LIBRARY = gql`
         $kind: Int!
         $filePath: String!
         $backend: Int!
-        $rcloneName: String!
+        $rcloneName: String
     ) {
         createLibrary(
             name: $name
