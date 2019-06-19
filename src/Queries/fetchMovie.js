@@ -22,6 +22,9 @@ const FETCH_MOVIE = gql`
                 filePath
                 uuid
                 totalDuration
+                library {
+                    healthy
+                }
                 streams {
                     codecMime
                     streamType

@@ -30,6 +30,9 @@ const FETCH_EPISODE = gql`
                 filePath
                 uuid
                 totalDuration
+                library {
+                    healthy
+                }
                 streams {
                     codecMime
                     streamType

@@ -154,17 +154,6 @@ class MediaCard extends Component {
     }
 }
 
-const requiredPropsCheck = (props, componentName) => {
-    const { posterPath, stillPath } = props;
-    if (!posterPath && !stillPath) {
-        return new Error(
-            `One of 'posterPath' or 'stillPath' is required by '${componentName}' component.`,
-        );
-    }
-
-    return null;
-};
-
 const mapDispatchToProps = (dispatch) => ({
     showModal: (type, props) => dispatch(showModal(type, props)),
 });
@@ -172,8 +161,8 @@ const mapDispatchToProps = (dispatch) => ({
 MediaCard.propTypes = {
     name: PropTypes.string.isRequired,
     airDate: PropTypes.string,
-    posterPath: requiredPropsCheck,
-    stillPath: requiredPropsCheck,
+    posterPath: PropTypes.string,
+    stillPath: PropTypes.string,
     type: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
     files: PropTypes.arrayOf(

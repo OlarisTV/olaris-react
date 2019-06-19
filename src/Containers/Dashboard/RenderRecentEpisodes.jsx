@@ -24,7 +24,7 @@ class RenderRecentEpisodes extends Component {
 
     render() {
         return (
-            <Query query={RECENTLY_ADDED} fetchPolicy="network-only">
+            <Query query={RECENTLY_ADDED} fetchPolicy="cache-and-network">
                 {({ loading, error, data }) => {
                     if (loading) return <Loading />;
                     if (error) return `Error! ${error.message}`;
@@ -48,7 +48,7 @@ class RenderRecentEpisodes extends Component {
                     }
 
                     const RecentlyAddedEpisodes = episodes.map((ra) => {
-                        const { posterPath } = ra.season.series;
+                        const { posterPath } = ra.season;
 
                         return (
                             <MediaCardWrap key={ra.uuid}>

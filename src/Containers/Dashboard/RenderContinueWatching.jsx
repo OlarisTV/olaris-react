@@ -11,7 +11,7 @@ import { NoResults } from 'Containers/Styles';
 import { MediaCardWrap } from './Styles';
 
 const RenderContinueWatching = () => (
-    <Query query={CONTINUE_WATCHING} fetchPolicy="network-only">
+    <Query query={CONTINUE_WATCHING} fetchPolicy="cache-and-network">
         {({ loading, error, data }) => {
             if (error) return `Error! ${error.message}`;
             if (loading) return <Loading />;

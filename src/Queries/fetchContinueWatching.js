@@ -27,7 +27,10 @@ const CONTINUE_WATCHING = gql`
 
                 season {
                     seasonNumber
+                    uuid
+
                     series {
+                        uuid
                         name
                         posterPath
                     }

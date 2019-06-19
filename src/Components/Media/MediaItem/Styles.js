@@ -221,6 +221,12 @@ export const MediaDetails = styled.ul`
             color: ${(props) =>
                 props.watched ? props.theme.secondary : props.theme.primary};
         }
+
+        &.warning {
+            color: ${(props) => props.theme.alerts.error};
+            cursor: pointer;
+            font-weight: 700;
+        }
     }
 `;
 
@@ -259,4 +265,11 @@ export const MediaActionsWrap = styled.div`
       margin:0 1rem 0 0;
     `}
     }
+`;
+
+export const LibraryUnhealthy = styled(FontAwesomeIcon)`
+    color: ${(props) => props.theme.alerts.error};
+    font-size: 1.1rem;
+    height: 1em;
+    margin-right: 0.7rem;
 `;

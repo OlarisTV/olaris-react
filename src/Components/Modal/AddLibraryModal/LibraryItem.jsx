@@ -86,9 +86,7 @@ class LibraryItem extends Component {
                     </span>
 
                     {filePath.length > 50 ? (
-                        <p data-tip={filePath}>
-                            /home/hd32/benj3/media/Movies/longest/char/counterss
-                        </p>
+                        <p data-tip={filePath}>{filePath}</p>
                     ) : (
                         filePath
                     )}

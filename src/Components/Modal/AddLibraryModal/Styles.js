@@ -51,7 +51,6 @@ export const LibraryUnhealthy = styled(FontAwesomeIcon)`
     cursor: pointer;
     padding: 1.6rem 0;
     margin: 0 0 0 -1rem;
-}
 `;
 
 export const LibraryItemFilePath = styled.span`

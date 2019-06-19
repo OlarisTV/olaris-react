@@ -13,7 +13,7 @@ const MediaName = ({ episodes, type, year, name, episodeNumber, season }) => {
                 break;
             case 'Episode':
                 infoValue = `${
-                    season === null
+                    season && season.seasonNumber
                         ? `S${season.seasonNumber}  E${episodeNumber}`
                         : `Episode ${episodeNumber}`
                 }`;

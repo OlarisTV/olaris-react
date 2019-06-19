@@ -1,13 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactToolTip from 'react-tooltip';
+
 import { convertToMinutes } from 'Helpers';
 
+import { faExclamation } from '@fortawesome/free-solid-svg-icons';
+
 import MediaDescription from './MediaDescription';
-import { MediaInfoWrap, MediaDetails } from '../Styles';
+import { MediaInfoWrap, MediaDetails, LibraryUnhealthy } from '../Styles';
 import { MediaName, MediaRelease } from '../../Styles';
 
 const MediaInfo = (props) => {
-    const { name, year, airDate, playState, selectedFile, overview } = props;
+    const {
+        name,
+        year,
+        airDate,
+        playState,
+        selectedFile,
+        overview,
+        healthy,
+    } = props;
 
     const renderPlayState = () => {
         let renderedState;
@@ -40,16 +52,34 @@ const MediaInfo = (props) => {
         return convertToMinutes(selectedFile.totalDuration);
     };
 
+    const renderHealth = () => {
+        if (!healthy)
+            return (
+                <li
+                    className="warning"
+                    data-tip="This is an unhealthy rclone remote, playback may be broken"
+                >
+                    <LibraryUnhealthy icon={faExclamation} />
+                    Warning
+                </li>
+            );
+
+        return false;
+    };
+
     const releaseDate = `(${year || airDate})`;
 
     return (
         <MediaInfoWrap>
+            <ReactToolTip effect="solid" place="bottom" className="tooltip" />
+
             <MediaName>
                 {name}
                 <MediaRelease>{releaseDate}</MediaRelease>
             </MediaName>
 
             <MediaDetails unwatched={playState.finished}>
+                {renderHealth()}
                 <li>{renderTotalD()}</li>
                 <li>{renderPlayState()}</li>
                 <li>{renderResolution()}</li>
@@ -73,6 +103,7 @@ const requiredPropsCheck = (props, propName, componentName) => {
 MediaInfo.propTypes = {
     name: PropTypes.string.isRequired,
     overview: PropTypes.string.isRequired,
+    healthy: PropTypes.bool,
     playState: PropTypes.shape({
         finished: PropTypes.bool,
         playtime: PropTypes.number,
@@ -87,6 +118,7 @@ MediaInfo.propTypes = {
 MediaInfo.defaultProps = {
     year: null,
     airDate: null,
+    healthy: true,
 };
 
 export default MediaInfo;

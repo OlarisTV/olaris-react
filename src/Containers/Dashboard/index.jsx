@@ -17,7 +17,7 @@ const Dashboard = () => (
             <RenderRecentMovies />
         </CarouselWrap>
         <CarouselWrap>
-            <h4>Recently Added TV Series</h4>
+            <h4>Recently Added Episodes</h4>
             <RenderRecentEpisodes />
         </CarouselWrap>
     </DashboardWrap>

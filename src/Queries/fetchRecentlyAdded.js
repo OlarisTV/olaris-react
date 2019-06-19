@@ -27,9 +27,12 @@ const RECENTLY_ADDED = gql`
 
                 season {
                     seasonNumber
+                    posterPath
+                    uuid
+
                     series {
                         name
-                        posterPath
+                        uuid
                     }
                 }
 

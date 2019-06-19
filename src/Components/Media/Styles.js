@@ -124,7 +124,7 @@ export const SeasonNumber = styled.h3`
     span {
         float: none !important;
         width: auto !important;
-        margin-left: 0 !important;
+        margin-left: 1rem !important;
     }
 
     ${media.tablet`
