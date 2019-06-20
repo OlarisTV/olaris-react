@@ -11,15 +11,7 @@ import { MediaInfoWrap, MediaDetails, LibraryUnhealthy } from '../Styles';
 import { MediaName, MediaRelease } from '../../Styles';
 
 const MediaInfo = (props) => {
-    const {
-        name,
-        year,
-        airDate,
-        playState,
-        selectedFile,
-        overview,
-        healthy,
-    } = props;
+    const { name, year, airDate, playState, selectedFile, overview } = props;
 
     const renderPlayState = () => {
         let renderedState;
@@ -53,7 +45,7 @@ const MediaInfo = (props) => {
     };
 
     const renderHealth = () => {
-        if (!healthy)
+        if (!selectedFile.healthy) {
             return (
                 <li
                     className="warning"
@@ -63,6 +55,7 @@ const MediaInfo = (props) => {
                     Warning
                 </li>
             );
+        }
 
         return false;
     };
@@ -103,7 +96,6 @@ const requiredPropsCheck = (props, propName, componentName) => {
 MediaInfo.propTypes = {
     name: PropTypes.string.isRequired,
     overview: PropTypes.string.isRequired,
-    healthy: PropTypes.bool,
     playState: PropTypes.shape({
         finished: PropTypes.bool,
         playtime: PropTypes.number,
@@ -118,7 +110,6 @@ MediaInfo.propTypes = {
 MediaInfo.defaultProps = {
     year: null,
     airDate: null,
-    healthy: true,
 };
 
 export default MediaInfo;

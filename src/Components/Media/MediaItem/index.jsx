@@ -152,7 +152,6 @@ class MediaItem extends Component {
                         <MediaCard
                             size={type === 'Episode' ? 'largeWide' : 'large'}
                             playMedia={this.playMedia}
-                            healthy={selectedFile.healthy}
                             internalCard
                             text
                             {...mediaInfo}
