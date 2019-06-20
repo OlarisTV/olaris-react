@@ -31,7 +31,7 @@ class MediaItem extends Component {
         this.state = {
             source: '',
             resume: false,
-            files: [],
+            fileList: [],
             selectedFile: {},
             mimeType: '',
         };
@@ -42,7 +42,7 @@ class MediaItem extends Component {
         const fileList = generateFileList(files);
 
         this.setState({
-            files: fileList,
+            fileList,
             selectedFile: fileList[0],
         });
     }
@@ -124,10 +124,10 @@ class MediaItem extends Component {
 
     render() {
         const { posterPath, season, type, uuid, playState } = this.props;
-        const { source, mimeType, files, selectedFile, resume } = this.state;
+        const { source, mimeType, fileList, selectedFile, resume } = this.state;
         const background = posterPath || season.series.posterPath;
 
-        const videoCodec = files[selectedFile.value].streams
+        const videoCodec = fileList[selectedFile.value].streams
             .filter((s) => s.streamType === 'video')
             .map((s) => s.codecMime)[0];
 
@@ -139,7 +139,6 @@ class MediaItem extends Component {
 
         const mediaInfo = {
             ...this.props,
-            playState,
         };
 
         return (
@@ -153,6 +152,7 @@ class MediaItem extends Component {
                         <MediaCard
                             size={type === 'Episode' ? 'largeWide' : 'large'}
                             playMedia={this.playMedia}
+                            healthy={selectedFile.healthy}
                             internalCard
                             text
                             {...mediaInfo}
@@ -163,7 +163,7 @@ class MediaItem extends Component {
                         <MediaOverview
                             mediaInfo={mediaInfo}
                             selectedFile={selectedFile}
-                            files={files}
+                            files={fileList}
                             fileChange={this.fileChange}
                             playMedia={this.playMedia}
                         />
