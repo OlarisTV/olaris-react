@@ -49,7 +49,7 @@ const MediaInfo = (props) => {
             return (
                 <li
                     className="warning"
-                    data-tip="This is an unhealthy rclone remote, playback may be broken"
+                    data-tip="This file is on an unhealthy library, playback may be broken."
                 >
                     <LibraryUnhealthy icon={faExclamation} />
                     Warning

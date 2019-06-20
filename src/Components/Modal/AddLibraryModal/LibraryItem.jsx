@@ -63,7 +63,7 @@ class LibraryItem extends Component {
             return (
                 <LibraryUnhealthy
                     icon={faExclamation}
-                    data-tip="This is an unhealthy rclone remote, playback may be broken"
+                    data-tip="This is an unhealthy library, playback may be broken."
                 />
             );
         };
