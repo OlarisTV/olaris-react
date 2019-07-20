@@ -1,32 +1,42 @@
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
+import { WebSocketLink } from 'apollo-link-ws';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloLink, from } from 'apollo-link';
+import { ApolloLink, from, split } from 'apollo-link';
+import { getMainDefinition } from 'apollo-utilities';
 import Cookies from 'universal-cookie';
 
 import { Auth } from 'Client/Auth';
-import { getBaseUrl } from 'Helpers';
+import { getBaseUrl, getWebsocketUrl } from 'Helpers';
 
 import fragmentMatcher from './fragmentMatcher';
 
 const cookies = new Cookies();
+let token;
+
+if (document.cookie.indexOf('jwt') >= 0) {
+    token = cookies.get('jwt');
+}
 
 const httpLink = new HttpLink({
     uri: `${getBaseUrl()}/olaris/m/query`,
 });
 
-const authMiddleware = new ApolloLink((operation, forward) => {
-    if (document.cookie.indexOf('jwt') >= 0) {
-        const token = cookies.get('jwt');
+const wsLink = new WebSocketLink({
+    uri: `${getWebsocketUrl()}/olaris/m/query?JWT=${token.jwt}`,
+    options: {
+        reconnect: true,
+    },
+});
 
-        operation.setContext(({ headers = {} }) => ({
-            headers: {
-                ...headers,
-                authorization: token.jwt ? `Bearer ${token.jwt}` : '',
-            },
-        }));
-    }
+const authMiddleware = new ApolloLink((operation, forward) => {
+    operation.setContext(({ headers = {} }) => ({
+        headers: {
+            ...headers,
+            authorization: token.jwt ? `Bearer ${token.jwt}` : '',
+        },
+    }));
 
     return forward(operation);
 });
@@ -46,9 +56,24 @@ const cache = new InMemoryCache({
     dataIdFromObject: (object) => object.uuid || null,
 });
 
+const link = from([
+    errorLink,
+    authMiddleware,
+    split(
+        ({ query }) => {
+            const { kind, operation } = getMainDefinition(query);
+            return (
+                kind === 'OperationDefinition' && operation === 'subscription'
+            );
+        },
+        wsLink,
+        httpLink,
+    ),
+]);
+
 const client = new ApolloClient({
     cache,
-    link: from([errorLink, authMiddleware, httpLink]),
+    link,
 });
 
 export default client;

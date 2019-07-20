@@ -5,9 +5,12 @@ import { connect } from 'react-redux';
 class InfiniteScroll extends Component {
     shouldComponentUpdate(nextProps) {
         const { viewport: nextViewport } = nextProps;
-        const { viewport: prevViewport, id } = this.props;
+        const { viewport: prevViewport, id, length } = this.props;
 
-        if (nextViewport[id].scrollTop !== prevViewport[id].scrollTop) {
+        if (
+            nextViewport[id].scrollTop !== prevViewport[id].scrollTop ||
+            nextProps.length !== length
+        ) {
             return true;
         }
 
@@ -17,7 +20,9 @@ class InfiniteScroll extends Component {
     componentDidUpdate() {
         const { viewport, id, threshold, onLoadMore } = this.props;
         const viewData = viewport[id];
-        const bottomOffset = viewData.scrollHeight - (viewData.scrollTop + viewData.clientHeight);
+        const bottomOffset =
+            viewData.scrollHeight -
+            (viewData.scrollTop + viewData.clientHeight);
 
         if (bottomOffset < threshold) {
             onLoadMore();
@@ -37,8 +42,12 @@ InfiniteScroll.propTypes = {
     onLoadMore: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
     children: PropTypes.func.isRequired,
+    length: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = ({ viewport }) => ({ viewport });
 
-export default connect(mapStateToProps, null)(InfiniteScroll);
+export default connect(
+    mapStateToProps,
+    null,
+)(InfiniteScroll);

@@ -1,5 +1,5 @@
 import getUrlParameter from './getUrlParameter';
-import getBaseUrl from './getBaseUrl';
+import { getBaseUrl, getWebsocketUrl } from './getBaseUrl';
 import updateSuggestions from './updateSuggestions';
 import canPlayCodec from './canPlayCodec';
 import generateMediaUrl from './generateMediaUrl';
@@ -13,6 +13,7 @@ import compileEpisodes from './compileEpisodes';
 export {
     getUrlParameter,
     getBaseUrl,
+    getWebsocketUrl,
     canPlayCodec,
     generateMediaUrl,
     updateSuggestions,

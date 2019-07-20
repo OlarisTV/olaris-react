@@ -2,7 +2,7 @@
  * Generate base url using current window.location
  * @return {String} String containing the base url
  */
-const getBaseUrl = () => {
+export const getBaseUrl = () => {
     let path;
 
     if (process && process.env && process.env.REACT_APP_GRAPHQL_URL) {
@@ -16,4 +16,16 @@ const getBaseUrl = () => {
     return path;
 };
 
-export default getBaseUrl;
+export const getWebsocketUrl = () => {
+    let path;
+
+    if (process && process.env && process.env.REACT_APP_GRAPHQL_WS) {
+        path = process.env.REACT_APP_GRAPHQL_WS;
+    } else if (typeof window !== 'undefined') {
+        path = `ws://${window.location.host}`;
+    } else {
+        return false;
+    }
+
+    return path;
+};

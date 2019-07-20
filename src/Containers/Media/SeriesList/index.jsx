@@ -1,13 +1,13 @@
 import React from 'react';
 
 import Empty from 'Components/Media/Card/Empty';
-import RenderSeriesList from './RenderSeriesList';
+import GetSeries from './GetSeries';
 
 import { LibraryListWrap } from '../Styles';
 
 const SeriesList = () => (
     <LibraryListWrap>
-        <RenderSeriesList />
+        <GetSeries />
         <Empty />
     </LibraryListWrap>
 );
