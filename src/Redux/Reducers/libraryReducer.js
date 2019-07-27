@@ -3,11 +3,9 @@ import {
     ADD_LIBRARY_SUCCESS,
     ADD_LIBRARY_FAILURE,
     CLEAR_LIBRARY_ERROR,
-    LIBRARY_STATUS,
 } from '../Actions/libraryActions';
 
 const initialState = {
-    importing: [],
     loading: false,
     error: false,
     errorMessage: '',
@@ -33,11 +31,6 @@ const library = (state = initialState, { payload, type }) => {
                 loading: false,
                 error: true,
                 errorMessage: payload.err,
-            };
-        case LIBRARY_STATUS:
-            return {
-                ...state,
-                importing: payload.importing,
             };
         default:
             return state;

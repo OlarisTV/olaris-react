@@ -4,16 +4,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { transparentize } from 'polished';
 
 export const SidebarWrap = styled.nav`
-  width: ${(props) => props.theme.layout.sidebar};
-  position: fixed;
-  top 0;
-  left: 0;
-  height: ${(props) =>
-      props.castPlaying ? `calc(100vh - ${props.theme.layout.player})` : '100vh'};
-  background:${(props) => props.theme.sidebar && transparentize(0.5, props.theme.sidebar)};
-  transition:.2s transform;
-  transform: translateX(${(props) => (props.navHidden ? `-${props.theme.layout.sidebar}` : '0')});
-  z-index: ${(props) => (props.videoOpen ? 4 : 5)};
+    width: ${(props) => props.theme.layout.sidebar};
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: ${(props) =>
+        props.castPlaying ? `calc(100vh - ${props.theme.layout.player})` : '100vh'};
+    background: ${(props) => props.theme.sidebar && transparentize(0.5, props.theme.sidebar)};
+    transition: 0.2s transform;
+    transform: translateX(${(props) => (props.navHidden ? `-${props.theme.layout.sidebar}` : '0')});
+    z-index: ${(props) => (props.videoOpen ? 4 : 5)};
 `;
 
 export const HomeLink = styled(NavLink)`
@@ -116,7 +116,9 @@ export const LoadingWrap = styled.div`
     display: flex;
 
     svg {
-        top: 0;
-        left: 0;
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        margin: -0.5rem;
     }
 `;

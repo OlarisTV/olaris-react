@@ -5,15 +5,13 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import { showModal, LIBRARY_MODAL } from 'Redux/Actions/modalActions';
 
-import Importing from './Importing';
-
+import Importing from './ImportingData';
 import { NavItemWrap, NavItemHeading, NavItemLink, AddFolder } from './Styles';
 
 class NavItem extends Component {
     handleClick = (e, type) => {
         const { showModal } = this.props;
-        const linkDisabled =
-            e.target.nodeName === 'svg' || e.target.nodeName === 'path';
+        const linkDisabled = e.target.nodeName === 'svg' || e.target.nodeName === 'path';
 
         if (linkDisabled) {
             e.preventDefault();
@@ -38,8 +36,9 @@ class NavItem extends Component {
                         to={link.to}
                         key={link.id}
                     >
-                        <Importing name={link.id} />
+                        <Importing kind={link.name === 'Movies' ? 0 : 1} />
                         {link.name}
+
                         <AddFolder id={`add-${link.id}`} icon={faPlus}>
                             +
                         </AddFolder>

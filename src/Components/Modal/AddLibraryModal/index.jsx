@@ -6,24 +6,18 @@ import { graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
 
 import { ADD_LIBRARY } from 'Mutations/manageLibraries';
-import { FetchLibraryList, FETCH_LIBRARIES } from 'Queries/fetchLibraries';
+import FETCH_LIBRARIES from 'Queries/fetchLibraries';
 import {
     addLibrary,
     addLibrarySuccess,
     addLibraryFailure,
     clearLibraryError,
-    setLibraryStatus,
 } from 'Redux/Actions/libraryActions';
 import { hideModal } from 'Redux/Actions/modalActions';
 
+import LibraryList from 'Components/Libraries/LibraryList';
 import { AlertInline } from 'Components/Alerts';
-import {
-    Modal,
-    ModalWrap,
-    ModalHeader,
-    ModalHeading,
-    ModalBody,
-} from 'Components/Modal/Styles';
+import { Modal, ModalWrap, ModalHeader, ModalHeading, ModalBody } from 'Components/Modal/Styles';
 import ModalClose from '../ModalClose';
 import AddLibraryAction from './AddLibraryAction';
 
@@ -42,13 +36,12 @@ class AddLibraryModal extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
+        const { error, errorMessage, loading } = nextProps;
+
         return {
-            error: nextProps.error !== prevState.error && nextProps.error,
-            errorMessage:
-                nextProps.errorMessage !== prevState.errorMessage &&
-                nextProps.errorMessage,
-            loading:
-                nextProps.loading !== prevState.loading && nextProps.loading,
+            error: error !== prevState.error && error,
+            errorMessage: errorMessage !== prevState.errorMessage && errorMessage,
+            loading: loading !== prevState.loading && loading,
         };
     }
 
@@ -56,15 +49,16 @@ class AddLibraryModal extends Component {
         const { type } = this.props;
 
         document.addEventListener('keydown', this.escapeClose, false);
-        this.setState({
-            kind: type === 'movies' ? 0 : 1,
-        });
+
+        this.setState({ kind: type === 'movies' ? 0 : 1 });
     }
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.escapeClose, false);
-        this.setState({ isMounted: false });
+
         clearTimeout(this.timeout);
+
+        this.setState({ isMounted: false });
     }
 
     closeModal = () => {
@@ -91,11 +85,9 @@ class AddLibraryModal extends Component {
             type,
             alert,
             mutate,
-            importing,
             addLibrary,
             addLibrarySuccess,
             addLibraryFailure,
-            setLibraryStatus,
         } = this.props;
 
         let variables = {
@@ -126,7 +118,6 @@ class AddLibraryModal extends Component {
                 } else {
                     this.closeModal();
                     addLibrarySuccess();
-                    setLibraryStatus([...importing, type]);
                     alert.success('Library Added');
                 }
             })
@@ -150,15 +141,9 @@ class AddLibraryModal extends Component {
                         </ModalHeading>
                     </ModalHeader>
                     <ModalBody>
-                        {error && (
-                            <AlertInline type="error">
-                                {errorMessage}
-                            </AlertInline>
-                        )}
-                        <FetchLibraryList kind={kind} />
-                        <AddLibraryAction
-                            createLibrary={(props) => this.createLibrary(props)}
-                        />
+                        {error && <AlertInline type="error">{errorMessage}</AlertInline>}
+                        <LibraryList kind={kind} />
+                        <AddLibraryAction createLibrary={(props) => this.createLibrary(props)} />
                     </ModalBody>
                 </ModalWrap>
             </Modal>
@@ -174,7 +159,6 @@ AddLibraryModal.propTypes = {
     errorMessage: PropTypes.string,
     error: PropTypes.bool.isRequired,
     clearLibraryError: PropTypes.func.isRequired,
-    importing: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 AddLibraryModal.defaultProps = {
@@ -198,7 +182,6 @@ const mapDispatchToProps = (dispatch) => ({
     addLibrarySuccess: () => dispatch(addLibrarySuccess()),
     addLibraryFailure: (props) => dispatch(addLibraryFailure(props)),
     clearLibraryError: () => dispatch(clearLibraryError()),
-    setLibraryStatus: (importing) => dispatch(setLibraryStatus(importing)),
 });
 
 export default compose(

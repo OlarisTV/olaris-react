@@ -6,7 +6,7 @@ import ReactToolTip from 'react-tooltip';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faExclamation } from '@fortawesome/free-solid-svg-icons';
 import { AlertInline } from 'Components/Alerts';
-import { FETCH_LIBRARIES } from 'Queries/fetchLibraries';
+import FETCH_LIBRARIES from 'Queries/fetchLibraries';
 import { DELETE_LIBRARY } from 'Mutations/manageLibraries';
 
 import {
@@ -70,32 +70,19 @@ class LibraryItem extends Component {
 
         return (
             <LibraryItemWrap>
-                <ReactToolTip
-                    effect="solid"
-                    place="bottom"
-                    className="tooltip"
-                />
+                <ReactToolTip effect="solid" place="bottom" className="tooltip" />
 
-                {error && (
-                    <AlertInline type="error">{errorMessage}</AlertInline>
-                )}
+                {error && <AlertInline type="error">{errorMessage}</AlertInline>}
                 <LibraryItemFilePath>
                     <span>
                         {isHealthy()}
                         {libraryType}
                     </span>
 
-                    {filePath.length > 50 ? (
-                        <p data-tip={filePath}>{filePath}</p>
-                    ) : (
-                        filePath
-                    )}
+                    {filePath.length > 50 ? <p data-tip={filePath}>{filePath}</p> : filePath}
                 </LibraryItemFilePath>
 
-                <LibraryItemDelete
-                    icon={faTrashAlt}
-                    onClick={() => this.deleteLibrary(id)}
-                />
+                <LibraryItemDelete icon={faTrashAlt} onClick={() => this.deleteLibrary(id)} />
             </LibraryItemWrap>
         );
     }
