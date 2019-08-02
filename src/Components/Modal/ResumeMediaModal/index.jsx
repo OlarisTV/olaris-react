@@ -6,13 +6,7 @@ import { convertToMinutesSeconds } from 'Helpers';
 
 import { hideModal } from 'Redux/Actions/modalActions';
 
-import {
-    Modal,
-    ModalWrap,
-    ModalBody,
-    ModalHeader,
-    ModalHeading,
-} from 'Components/Modal/Styles';
+import { Modal, ModalWrap, ModalBody, ModalHeader, ModalHeading } from 'Components/Modal/Styles';
 import ModalClose from '../ModalClose';
 import ResumeOption from './Styles';
 
@@ -56,9 +50,7 @@ class ResumeModal extends Component {
                             onClick={() => this.handlePlayRequest(true, true)}
                         >
                             {playState &&
-                                `Resume video from ${convertToMinutesSeconds(
-                                    playState.playtime,
-                                )}`}
+                                `Resume video from ${convertToMinutesSeconds(playState.playtime)}`}
                         </ResumeOption>
                         <ResumeOption
                             type="submit"

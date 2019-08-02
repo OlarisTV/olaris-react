@@ -7,33 +7,25 @@ import { hideModal } from 'Redux/Actions/modalActions';
 import { Modal, ModalWrap, ModalBody, ModalHeader, ModalHeading } from 'Components/Modal/Styles';
 import ModalClose from '../ModalClose';
 
-class WarningModal extends Component {
+class EditMediaModal extends Component {
     closeModal = () => {
-        const { hideModal } = this.props;
+        const { hModal } = this.props;
 
-        hideModal();
+        hModal();
     };
 
     render() {
-        const { title, message, confirm, cancel } = this.props;
-
         return (
             <Modal>
                 <ModalWrap>
                     <ModalHeader>
                         <ModalHeading>
-                            {title}
+                            Edit Media
                             <ModalClose onClick={() => this.closeModal()} />
                         </ModalHeading>
                     </ModalHeader>
                     <ModalBody>
-                        <h2>{message}</h2>
-                        <button type="button" onClick={() => cancel()}>
-                            Cancel
-                        </button>
-                        <button type="button" onClick={() => confirm()}>
-                            Confirm
-                        </button>
+                        <h2>Editing</h2>
                     </ModalBody>
                 </ModalWrap>
             </Modal>
@@ -41,19 +33,15 @@ class WarningModal extends Component {
     }
 }
 
-WarningModal.propTypes = {
-    title: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-    confirm: PropTypes.func.isRequired,
-    cancel: PropTypes.func.isRequired,
-    hideModal: PropTypes.func.isRequired,
+EditMediaModal.propTypes = {
+    hModal: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    hideModal: () => dispatch(hideModal()),
+    hModal: () => dispatch(hideModal()),
 });
 
 export default connect(
     null,
     mapDispatchToProps,
-)(WarningModal);
+)(EditMediaModal);

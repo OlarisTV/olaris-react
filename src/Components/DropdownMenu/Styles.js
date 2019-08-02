@@ -12,7 +12,6 @@ export const DropdownContents = styled.div`
     border-radius: 0.3rem;
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
     padding: 0.5rem;
-    animation: ${`.2s ${aFadeInUp} alternate`};
 
     &:after {
         top: -1rem;
