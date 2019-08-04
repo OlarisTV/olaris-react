@@ -12,6 +12,7 @@ import { hideVideo } from 'Redux/Actions/videoActions';
 import Breadcrumbs from 'Components/Breadcrumbs';
 import MediaCard from 'Components/Media/Card';
 import getVideoSource from './Video/getVideoSource';
+import MediaItemHeader from './MediaItemHeader';
 import MediaDropdown from './MediaDropdown';
 import MediaOverview from './MediaOverview';
 import VideoController from './Video';
@@ -114,7 +115,7 @@ class MediaItem extends Component {
     };
 
     render() {
-        const { posterPath, season, type, uuid, isConnected } = this.props;
+        const { posterPath, season, type, uuid, name, isConnected } = this.props;
         const { selectedFile, fileList } = this.state;
         const background = posterPath || season.series.posterPath;
 
@@ -139,7 +140,8 @@ class MediaItem extends Component {
                         />
                     </MediaLeftCol>
                     <MediaRightCol>
-                        <MediaDropdown uuid={uuid} />
+                        <MediaItemHeader type={type} />
+                        <MediaDropdown uuid={uuid} name={name} type={type} />
                         <MediaOverview
                             mediaInfo={mediaInfo}
                             selectedFile={selectedFile}

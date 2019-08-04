@@ -15,18 +15,18 @@ class EditMediaModal extends Component {
     };
 
     render() {
+        const { title } = this.props;
+
         return (
             <Modal>
                 <ModalWrap>
                     <ModalHeader>
                         <ModalHeading>
-                            Edit Media
+                            {title}
                             <ModalClose onClick={() => this.closeModal()} />
                         </ModalHeading>
                     </ModalHeader>
-                    <ModalBody>
-                        <h2>Editing</h2>
-                    </ModalBody>
+                    <ModalBody />
                 </ModalWrap>
             </Modal>
         );
@@ -35,6 +35,7 @@ class EditMediaModal extends Component {
 
 EditMediaModal.propTypes = {
     hModal: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

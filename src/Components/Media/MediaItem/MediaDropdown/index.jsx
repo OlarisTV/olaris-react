@@ -7,15 +7,21 @@ import { MediaActionsDropdown } from '../Styles';
 import RefreshMetadata from './RefreshMetadata';
 import EditMediaData from './EditMediaData';
 
-const MediaDropdown = ({ uuid }) => (
+const MediaDropdown = ({ uuid, name, type }) => (
     <MediaActionsDropdown icon={faEllipsisH}>
         <RefreshMetadata uuid={uuid} />
-        <EditMediaData />
+        {type === 'Movie' && <EditMediaData name={name} />}
     </MediaActionsDropdown>
 );
 
 MediaDropdown.propTypes = {
     uuid: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    type: PropTypes.string.isRequired,
+};
+
+MediaDropdown.defaultProps = {
+    name: 'Media',
 };
 
 export default MediaDropdown;

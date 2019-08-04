@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
 
@@ -58,6 +59,10 @@ class RenderRecentEpisodes extends Component {
         );
     }
 }
+
+RenderRecentEpisodes.propTypes = {
+    sModal: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => ({
     sModal: (type, props) => dispatch(showModal(type, props)),

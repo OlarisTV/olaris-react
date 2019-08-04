@@ -4,6 +4,7 @@ export const HIDE_MODAL = 'HIDE_MODAL';
 export const LIBRARY_MODAL = 'LIBRARY_MODAL';
 export const RESUME_MODAL = 'RESUME_MODAL';
 export const WARNING_MODAL = 'WARNING_MODAL';
+export const EDITMEDIA_MODAL = 'EDITMEDIA_MODAL';
 
 export const showModal = (type, props) => ({
     type: SHOW_MODAL,

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-export default class EditMediaData extends Component {
+import { showModal, EDITMEDIA_MODAL } from 'Redux/Actions/modalActions';
+
+class EditMediaData extends Component {
     constructor(props) {
         super(props);
 
@@ -9,7 +13,13 @@ export default class EditMediaData extends Component {
         };
     }
 
-    toggleModal = () => {};
+    toggleModal = () => {
+        const { sModal, name } = this.props;
+
+        sModal(EDITMEDIA_MODAL, {
+            title: `Edit: ${name}`,
+        });
+    };
 
     render() {
         const { label } = this.state;
@@ -21,3 +31,17 @@ export default class EditMediaData extends Component {
         );
     }
 }
+
+EditMediaData.propTypes = {
+    sModal: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+    sModal: (type, props) => dispatch(showModal(type, props)),
+});
+
+export default connect(
+    null,
+    mapDispatchToProps,
+)(EditMediaData);
