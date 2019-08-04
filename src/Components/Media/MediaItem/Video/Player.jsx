@@ -129,6 +129,7 @@ class Player extends Component {
         return (
             <Fragment>
                 <div data-vjs-player>
+                    {/* eslint-disable-next-line */}
                     <video
                         ref={(node) => {
                             this.videoNode = node;
@@ -170,4 +171,4 @@ Player.defaultProps = {
     resume: false,
 };
 
-export default (Player = graphql(UPDATE_PLAYSTATE)(Player));
+export default graphql(UPDATE_PLAYSTATE)(Player);

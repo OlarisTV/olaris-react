@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { canPlayCodec } from 'Helpers';
-import { setCastPlayingStatus, setCastSendingStatus } from 'Redux/Actions/castActions';
+import { setCastSendingStatus } from 'Redux/Actions/castActions';
 import CastVideo from './CastVideo';
 
 import Player from './Player';
@@ -27,10 +27,10 @@ class VideoController extends Component {
     }
 
     componentDidUpdate() {
-        const { castsource, mimeType, isCasting, setCastSendingStatus } = this.props;
+        const { castsource, mimeType, isCasting, setSendingStatus } = this.props;
 
         if (castsource.length > 0 && isCasting) {
-            setCastSendingStatus(true);
+            setSendingStatus(true);
             this.castMedia(castsource, mimeType);
         }
     }
@@ -114,7 +114,7 @@ class VideoController extends Component {
 }
 
 VideoController.propTypes = {
-    setCastSendingStatus: PropTypes.func.isRequired,
+    setSendingStatus: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
     isCasting: PropTypes.bool.isRequired,
     closePlayer: PropTypes.func.isRequired,
@@ -148,8 +148,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    setCastPlayingStatus: (status) => dispatch(setCastPlayingStatus(status)),
-    setCastSendingStatus: (status) => dispatch(setCastSendingStatus(status)),
+    setSendingStatus: (status) => dispatch(setCastSendingStatus(status)),
 });
 
 export default connect(

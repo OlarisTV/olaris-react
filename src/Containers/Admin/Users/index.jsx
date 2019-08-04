@@ -32,9 +32,7 @@ class Users extends Component {
                 <List>
                     <ListHeading>Invites</ListHeading>
                     <RenderInvites />
-                    <CreateInvite
-                        generateInvite={() => this.generateUserInvite()}
-                    />
+                    <CreateInvite generateInvite={() => this.generateUserInvite()} />
                 </List>
             </InnerContent>
         );
@@ -45,4 +43,4 @@ Users.propTypes = {
     mutate: PropTypes.func.isRequired,
 };
 
-export default (Users = graphql(CREATE_USER_INVITE)(Users));
+export default graphql(CREATE_USER_INVITE)(Users);

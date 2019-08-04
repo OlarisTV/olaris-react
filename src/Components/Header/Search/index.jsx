@@ -142,9 +142,9 @@ Search.defaultProps = {
     data: {},
 };
 
-export default (Search = withRouter(
+export default withRouter(
     graphql(FETCH_SUGGESTIONS, {
         skip: (props) => !(props.value.trim().length > 3),
         options: (props) => ({ variables: { name: props.value } }),
     })(Search),
-));
+);

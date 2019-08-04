@@ -30,9 +30,9 @@ class MediaCard extends Component {
     resumeModal = () => {
         const { url } = this.state;
 
-        const { showModal, history, playMedia, playState } = this.props;
+        const { loadModal, history, playMedia, playState } = this.props;
 
-        showModal(RESUME_MODAL, {
+        loadModal(RESUME_MODAL, {
             title: 'Resume Media',
             url,
             history,
@@ -125,7 +125,7 @@ class MediaCard extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    showModal: (type, props) => dispatch(showModal(type, props)),
+    loadModal: (type, props) => dispatch(showModal(type, props)),
 });
 
 MediaCard.propTypes = {
@@ -135,6 +135,7 @@ MediaCard.propTypes = {
     stillPath: PropTypes.string,
     type: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
+    loadModal: PropTypes.func.isRequired,
     files: PropTypes.arrayOf(
         PropTypes.shape({
             totalDuration: PropTypes.number,
@@ -160,9 +161,9 @@ MediaCard.defaultProps = {
     ],
 };
 
-export default (MediaCard = withRouter(
+export default withRouter(
     connect(
         null,
         mapDispatchToProps,
     )(MediaCard),
-));
+);

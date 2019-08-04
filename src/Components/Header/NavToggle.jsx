@@ -2,10 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
-import {
-    hideNavigation,
-    showNavigation,
-} from 'Redux/Actions/navigationActions';
+import { hideNavigation, showNavigation } from 'Redux/Actions/navigationActions';
 
 import { NavButton, NavIcon, ContentOverlay, HideNavIcon } from './Styles';
 
@@ -20,19 +17,19 @@ class NavToggle extends Component {
     }
 
     toggleNav = () => {
-        const { showNavigation, hideNavigation, navHidden } = this.props;
+        const { sNavigation, hNavigation, navHidden } = this.props;
 
         if (navHidden) {
-            showNavigation();
+            sNavigation();
         } else {
-            hideNavigation();
+            hNavigation();
         }
     };
 
     responsiveTrigger() {
-        const { hideNavigation, browser } = this.props;
+        const { hNavigation, browser } = this.props;
 
-        if (browser.lessThan.large) hideNavigation();
+        if (browser.lessThan.large) hNavigation();
     }
 
     render() {
@@ -63,14 +60,14 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    hideNavigation: () => dispatch(hideNavigation()),
-    showNavigation: () => dispatch(showNavigation()),
+    hNavigation: () => dispatch(hideNavigation()),
+    sNavigation: () => dispatch(showNavigation()),
 });
 
 NavToggle.propTypes = {
     navHidden: PropTypes.bool.isRequired,
-    showNavigation: PropTypes.func.isRequired,
-    hideNavigation: PropTypes.func.isRequired,
+    sNavigation: PropTypes.func.isRequired,
+    hNavigation: PropTypes.func.isRequired,
     browser: PropTypes.shape({
         lessThan: PropTypes.shape({
             large: PropTypes.bool.isRequired,

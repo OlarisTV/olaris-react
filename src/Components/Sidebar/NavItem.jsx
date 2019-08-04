@@ -10,13 +10,13 @@ import { NavItemWrap, NavItemHeading, NavItemLink, AddFolder } from './Styles';
 
 class NavItem extends Component {
     handleClick = (e, type) => {
-        const { showModal } = this.props;
+        const { loadModal } = this.props;
         const linkDisabled = e.target.nodeName === 'svg' || e.target.nodeName === 'path';
 
         if (linkDisabled) {
             e.preventDefault();
 
-            showModal(LIBRARY_MODAL, {
+            loadModal(LIBRARY_MODAL, {
                 title: `Add ${type} folder`,
                 type,
             });
@@ -64,7 +64,7 @@ class NavItem extends Component {
 
 NavItem.propTypes = {
     name: PropTypes.string.isRequired,
-    showModal: PropTypes.func.isRequired,
+    loadModal: PropTypes.func.isRequired,
     links: PropTypes.arrayOf(
         PropTypes.shape({
             name: PropTypes.string.isRequired,
@@ -75,7 +75,7 @@ NavItem.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    showModal: (type, props) => dispatch(showModal(type, props)),
+    loadModal: (type, props) => dispatch(showModal(type, props)),
 });
 
 export default connect(

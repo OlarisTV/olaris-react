@@ -62,33 +62,26 @@ class AddLibraryModal extends Component {
     }
 
     closeModal = () => {
-        const { hideModal } = this.props;
+        const { hModal } = this.props;
 
-        hideModal();
+        hModal();
     };
 
     escapeClose = (e) => e.key === 'Escape' && this.closeModal();
 
     clearError = () => {
         const { isMounted } = this.state;
-        const { clearLibraryError } = this.props;
+        const { cLibraryError } = this.props;
 
         this.timeout = setTimeout(() => {
-            if (isMounted) clearLibraryError();
+            if (isMounted) cLibraryError();
             this.timeout = null;
         }, 5000);
     };
 
     createLibrary = async ({ backend, filePath, rcloneName }) => {
         const { kind } = this.state;
-        const {
-            type,
-            alert,
-            mutate,
-            addLibrary,
-            addLibrarySuccess,
-            addLibraryFailure,
-        } = this.props;
+        const { type, alert, mutate, aLibrary, aLibrarySucess, aLibraryFailure } = this.props;
 
         let variables = {
             name: type,
@@ -103,7 +96,7 @@ class AddLibraryModal extends Component {
                 rcloneName,
             };
 
-        addLibrary();
+        aLibrary();
 
         mutate({
             variables,
@@ -113,16 +106,16 @@ class AddLibraryModal extends Component {
                 const { error } = res.data.createLibrary;
 
                 if (error) {
-                    addLibraryFailure(error.message);
+                    aLibraryFailure(error.message);
                     this.clearError();
                 } else {
                     this.closeModal();
-                    addLibrarySuccess();
+                    aLibrarySucess();
                     alert.success('Library Added');
                 }
             })
             .catch((error) => {
-                addLibraryFailure(error.message);
+                aLibraryFailure(error.message);
                 this.clearError();
             });
     };
@@ -154,11 +147,11 @@ class AddLibraryModal extends Component {
 AddLibraryModal.propTypes = {
     type: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    hideModal: PropTypes.func.isRequired,
+    hModal: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     errorMessage: PropTypes.string,
     error: PropTypes.bool.isRequired,
-    clearLibraryError: PropTypes.func.isRequired,
+    cLibraryError: PropTypes.func.isRequired,
 };
 
 AddLibraryModal.defaultProps = {
@@ -177,11 +170,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    hideModal: () => dispatch(hideModal()),
-    addLibrary: () => dispatch(addLibrary()),
-    addLibrarySuccess: () => dispatch(addLibrarySuccess()),
-    addLibraryFailure: (props) => dispatch(addLibraryFailure(props)),
-    clearLibraryError: () => dispatch(clearLibraryError()),
+    hModal: () => dispatch(hideModal()),
+    aLibrary: () => dispatch(addLibrary()),
+    aLibrarySuccess: () => dispatch(addLibrarySuccess()),
+    aLibraryFailure: (props) => dispatch(addLibraryFailure(props)),
+    cLibraryError: () => dispatch(clearLibraryError()),
 });
 
 export default compose(

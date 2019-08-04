@@ -100,4 +100,4 @@ LibraryItem.defaultProps = {
     healthy: true,
 };
 
-export default (LibraryItem = graphql(DELETE_LIBRARY)(LibraryItem));
+export default graphql(DELETE_LIBRARY)(LibraryItem);

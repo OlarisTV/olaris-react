@@ -15,9 +15,9 @@ import { MediaCardWrap } from './Styles';
 
 class RenderRecentMovies extends Component {
     toggleModal = () => {
-        const { showModal } = this.props;
+        const { sModal } = this.props;
 
-        showModal(LIBRARY_MODAL, {
+        sModal(LIBRARY_MODAL, {
             title: 'Add Movies folder',
             type: 'movies',
         });
@@ -57,7 +57,7 @@ class RenderRecentMovies extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    showModal: (type, props) => dispatch(showModal(type, props)),
+    sModal: (type, props) => dispatch(showModal(type, props)),
 });
 
 export default connect(

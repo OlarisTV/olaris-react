@@ -72,4 +72,4 @@ MediaActions.propTypes = {
     playMedia: PropTypes.func.isRequired,
 };
 
-export default (MediaActions = graphql(UPDATE_PLAYSTATE)(MediaActions));
+export default graphql(UPDATE_PLAYSTATE)(MediaActions);

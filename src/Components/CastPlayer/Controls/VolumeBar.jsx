@@ -32,14 +32,14 @@ class VolumeBar extends Component {
     }
 
     volumeChange = (value) => {
-        const { setCastPlaystate } = this.props;
+        const { setPlaystate } = this.props;
 
         this.setState({
             value,
             isSeeking: true,
         });
 
-        setCastPlaystate({
+        setPlaystate({
             volume: value,
         });
     };
@@ -80,7 +80,7 @@ VolumeBar.propTypes = {
     playstate: PropTypes.shape({
         volume: PropTypes.number,
     }),
-    setCastPlaystate: PropTypes.func.isRequired,
+    setPlaystate: PropTypes.func.isRequired,
     setVolume: PropTypes.func.isRequired,
     isMuted: PropTypes.bool,
 };
@@ -93,7 +93,7 @@ VolumeBar.defaultProps = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    setCastPlaystate: (playstate) => dispatch(setCastPlaystate(playstate)),
+    setPlaystate: (playstate) => dispatch(setCastPlaystate(playstate)),
 });
 
 export default connect(

@@ -12,9 +12,9 @@ import ResumeOption from './Styles';
 
 class ResumeModal extends Component {
     closeModal = () => {
-        const { hideModal } = this.props;
+        const { hModal } = this.props;
 
-        hideModal();
+        hModal();
     };
 
     handlePlayRequest = (resume, autoplay) => {
@@ -69,7 +69,7 @@ ResumeModal.propTypes = {
     url: PropTypes.string,
     playMedia: PropTypes.func,
     history: ReactRouterPropTypes.history,
-    hideModal: PropTypes.func.isRequired,
+    hModal: PropTypes.func.isRequired,
     title: PropTypes.string,
     playState: PropTypes.shape({
         finished: PropTypes.bool,
@@ -89,7 +89,7 @@ ResumeModal.defaultProps = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    hideModal: () => dispatch(hideModal()),
+    hModal: () => dispatch(hideModal()),
 });
 
 export default connect(

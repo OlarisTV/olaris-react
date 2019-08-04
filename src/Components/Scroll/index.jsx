@@ -36,7 +36,7 @@ class Scroll extends Component {
     }
 
     handleScroll(values) {
-        const { id, scrolled } = this.props;
+        const { id, scrollFinished } = this.props;
 
         let type;
 
@@ -45,7 +45,7 @@ class Scroll extends Component {
         } else if (id === 'sidebar') {
             type = SIDEBAR_SCROLL;
         }
-        scrolled(type, values);
+        scrollFinished(type, values);
     }
 
     render() {
@@ -68,11 +68,11 @@ class Scroll extends Component {
 Scroll.propTypes = {
     children: PropTypes.element.isRequired,
     id: PropTypes.string.isRequired,
-    scrolled: PropTypes.func.isRequired,
+    scrollFinished: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    scrolled: (type, props) => dispatch(scrolled(type, props)),
+    scrollFinished: (type, props) => dispatch(scrolled(type, props)),
 });
 
 export default connect(

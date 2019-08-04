@@ -36,10 +36,7 @@ class UserItem extends Component {
             return (
                 <UserListItem>
                     {username}
-                    <DeleteUser
-                        icon={faTrash}
-                        onClick={() => this.deleteUser(id)}
-                    />
+                    <DeleteUser icon={faTrash} onClick={() => this.deleteUser(id)} />
                 </UserListItem>
             );
         }
@@ -57,4 +54,4 @@ UserItem.defaultProps = {
     id: '',
 };
 
-export default (UserItem = graphql(DELETE_USER)(UserItem));
+export default graphql(DELETE_USER)(UserItem);

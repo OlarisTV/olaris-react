@@ -15,9 +15,9 @@ import { LibraryListItem } from '../Styles';
 
 class RenderMovieList extends Component {
     toggleModal = () => {
-        const { showModal } = this.props;
+        const { sModal } = this.props;
 
-        showModal(LIBRARY_MODAL, {
+        sModal(LIBRARY_MODAL, {
             title: 'Add Movies Library',
             type: 'movies',
         });
@@ -92,7 +92,7 @@ class RenderMovieList extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    showModal: (type, props) => dispatch(showModal(type, props)),
+    sModal: (type, props) => dispatch(showModal(type, props)),
 });
 
 export default connect(
