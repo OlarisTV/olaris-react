@@ -9,18 +9,23 @@ export const Header = styled.header`
 `;
 
 export const HeaderIconWrap = styled.div`
-    float: left;
+    float: ${(props) => (props.right ? 'right' : 'left')};
     width: 6rem;
     height: 6rem;
     text-align: center;
     border-right: 1px solid rgba(255, 255, 255, 0.05);
-    cursor: pointer;
     position: relative;
+    opacity: ${(props) => (props.disabled ? '0.5' : '1')};
+    cursor: ${(props) => (props.disabled ? 'initial' : 'pointer')};
+
+    &:last-child {
+        border-right: 0;
+    }
 
     &:hover {
         svg {
             opacity: 1;
-            color: ${(props) => props.theme.primary};
+            color: ${(props) => (props.disabled ? '#FFF' : props.theme.primary)};
         }
     }
 `;

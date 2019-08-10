@@ -1,40 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 import { showModal, EDITMEDIA_MODAL } from 'Redux/Actions/modalActions';
 
-class EditMediaData extends Component {
-    constructor(props) {
-        super(props);
+import { HeaderIconWrap, HeaderIcon } from './Styles';
 
-        this.state = {
-            label: 'Fix Match',
-        };
-    }
-
-    toggleModal = () => {
-        const { sModal, name } = this.props;
-
+const EditMediaData = ({ sModal, name, type }) => {
+    const toggleModal = () => {
         sModal(EDITMEDIA_MODAL, {
             title: `Edit: ${name}`,
         });
     };
 
-    render() {
-        const { label } = this.state;
-
-        return (
-            <button type="button" onClick={() => this.toggleModal()}>
-                {label}
-            </button>
-        );
-    }
-}
+    return (
+        <HeaderIconWrap onClick={() => toggleModal()} data-tip={`Edit ${type}`} right>
+            <HeaderIcon icon={faEdit} />
+        </HeaderIconWrap>
+    );
+};
 
 EditMediaData.propTypes = {
     sModal: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

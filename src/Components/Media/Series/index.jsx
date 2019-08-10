@@ -6,7 +6,7 @@ import { getBaseUrl } from 'Helpers';
 import Breadcrumbs from 'Components/Breadcrumbs';
 import Media from 'Components/Media/Card';
 import MediaDescription from 'Components/Media/MediaItem/MediaOverview/MediaDescription';
-import MediaListHeader from '../MediaListHeader';
+import MediaListHeader from '../MediaHeader/MediaListHeader';
 
 import {
     MediaFullWrap,
@@ -20,36 +20,24 @@ import {
 import SeasonsWrap from './Styles';
 
 const Series = (props) => {
-    const {
-        name,
-        uuid,
-        posterPath,
-        overview,
-        firstAirDate,
-        seasons,
-        children,
-    } = props;
+    const { name, uuid, posterPath, overview, firstAirDate, seasons, children } = props;
 
     const releaseDate = `(${firstAirDate.split('-')[0]})`;
 
     return (
         <MediaFullWrap>
             <Breadcrumbs props={props} />
-            <MediaBackground
-                bgimg={`${getBaseUrl()}/olaris/m/images/tmdb/w342/${posterPath}`}
-            />
+            <MediaBackground bgimg={`${getBaseUrl()}/olaris/m/images/tmdb/w342/${posterPath}`} />
             <MediaLeftCol>
                 <Media size="large" {...props} hover={false} />
             </MediaLeftCol>
             <MediaRightCol>
-                <MediaListHeader data={seasons} uuid={uuid} type="series" />
+                <MediaListHeader data={seasons} uuid={uuid} name={name} type="series" />
                 <MediaName>
                     {name}
                     <MediaRelease>{releaseDate}</MediaRelease>
                 </MediaName>
-                {overview.length > 0 && (
-                    <MediaDescription overview={overview} />
-                )}
+                {overview.length > 0 && <MediaDescription overview={overview} />}
                 <SubTitle>Seasons</SubTitle>
                 <SeasonsWrap>{children}</SeasonsWrap>
             </MediaRightCol>

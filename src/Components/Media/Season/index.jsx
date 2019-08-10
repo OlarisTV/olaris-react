@@ -6,7 +6,7 @@ import { getBaseUrl, generateMediaUrl } from 'Helpers';
 import Breadcrumbs from 'Components/Breadcrumbs';
 import Media from 'Components/Media/Card';
 import MediaDescription from 'Components/Media/MediaItem/MediaOverview/MediaDescription';
-import MediaListHeader from '../MediaListHeader';
+import MediaListHeader from '../MediaHeader/MediaListHeader';
 
 import {
     MediaFullWrap,
@@ -21,25 +21,14 @@ import {
 import EpisodesWrap from './Styles';
 
 const Season = (props) => {
-    const {
-        name,
-        uuid,
-        posterPath,
-        airDate,
-        overview,
-        children,
-        episodes,
-        series,
-    } = props;
+    const { name, uuid, posterPath, airDate, overview, children, episodes, series } = props;
 
     const releaseDate = `(${airDate.split('-')[0]})`;
 
     return (
         <MediaFullWrap>
             <Breadcrumbs props={props} />
-            <MediaBackground
-                bgimg={`${getBaseUrl()}/olaris/m/images/tmdb/w342/${posterPath}`}
-            />
+            <MediaBackground bgimg={`${getBaseUrl()}/olaris/m/images/tmdb/w342/${posterPath}`} />
             <MediaLeftCol>
                 <Media size="large" {...props} hover={false} />
             </MediaLeftCol>
@@ -52,9 +41,7 @@ const Season = (props) => {
                     {name}
                     <MediaRelease>{releaseDate}</MediaRelease>
                 </SeasonNumber>
-                {overview.length > 0 && (
-                    <MediaDescription overview={overview} />
-                )}
+                {overview.length > 0 && <MediaDescription overview={overview} />}
                 <SubTitle>Episodes</SubTitle>
 
                 <EpisodesWrap>{children}</EpisodesWrap>

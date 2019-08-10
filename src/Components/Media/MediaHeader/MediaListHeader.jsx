@@ -20,6 +20,8 @@ import {
     faCheckCircle as faCheckCircleSolid,
 } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
+import EditMediaData from './EditMediaData';
+
 import { Header, HeaderIconWrap, HeaderIcon } from './Styles';
 
 class MediaListHeader extends Component {
@@ -90,13 +92,6 @@ class MediaListHeader extends Component {
         this.playEpisode(nextEpisode.uuid, resume);
     };
 
-    playRandomEpisode = () => {
-        const { randomEpisode } = this.state;
-        const resume = randomEpisode.playState.playtime > 0;
-
-        this.playEpisode(randomEpisode.uuid, resume);
-    };
-
     markAsWatched = () => {
         const { episodes, finished } = this.state;
         const { mutate, uuid, type } = this.props;
@@ -115,8 +110,8 @@ class MediaListHeader extends Component {
     };
 
     render() {
-        const { finished } = this.state;
-        const { type } = this.props;
+        const { finished, randomEpisode } = this.state;
+        const { type, name } = this.props;
 
         return (
             <Header>
@@ -128,7 +123,10 @@ class MediaListHeader extends Component {
                     <HeaderIcon icon={faPlay} />
                 </HeaderIconWrap>
 
-                <HeaderIconWrap onClick={this.playRandomEpisode} data-tip="Play Random Episode">
+                <HeaderIconWrap
+                    onClick={() => this.playEpisode(randomEpisode.uuid, false)}
+                    data-tip="Play Random Episode"
+                >
                     <HeaderIcon icon={faRandom} />
                 </HeaderIconWrap>
 
@@ -138,6 +136,8 @@ class MediaListHeader extends Component {
                 >
                     <HeaderIcon icon={finished ? faCheckCircleSolid : faCheckCircle} />
                 </HeaderIconWrap>
+
+                {type === 'series' && <EditMediaData name={name} type={type} />}
             </Header>
         );
     }
@@ -158,6 +158,11 @@ MediaListHeader.propTypes = {
     type: PropTypes.string.isRequired,
     mutate: PropTypes.func.isRequired,
     uuid: PropTypes.string.isRequired,
+    name: PropTypes.string,
+};
+
+MediaListHeader.defaultProps = {
+    name: '',
 };
 
 const mapDispatchToProps = (dispatch) => ({

@@ -3,14 +3,16 @@ import { compose } from 'lodash/fp';
 import { graphql } from 'react-apollo';
 import { withAlert } from 'react-alert';
 import PropTypes from 'prop-types';
+import { faSync } from '@fortawesome/free-solid-svg-icons';
 
 import REFRESH_METADATA from 'Mutations/refreshMetadata';
+
+import { HeaderIconWrap, HeaderIcon } from './Styles';
 
 class RefreshMetadata extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            label: 'Refresh Metadata',
             disabled: false,
         };
     }
@@ -23,7 +25,6 @@ class RefreshMetadata extends Component {
         })
             .then(() => {
                 this.setState({
-                    label: 'Refreshing',
                     disabled: true,
                 });
 
@@ -33,16 +34,17 @@ class RefreshMetadata extends Component {
     };
 
     render() {
-        const { label, disabled } = this.state;
+        const { disabled } = this.state;
 
         return (
-            <button
-                type="button"
+            <HeaderIconWrap
                 disabled={disabled}
                 onClick={() => this.refreshMetadata()}
+                data-tip="Refresh Meta Data"
+                right
             >
-                {label}
-            </button>
+                <HeaderIcon icon={faSync} />
+            </HeaderIconWrap>
         );
     }
 }

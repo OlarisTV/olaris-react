@@ -4,20 +4,9 @@ import MediaInfo from './MediaInfo';
 import MediaFiles from './MediaFiles';
 import MediaSubtitles from './MediaSubtitles';
 import MediaAudio from './MediaAudio';
-import MediaActions from './MediaActions';
 
 const MediaOverview = (props) => {
-    const {
-        mediaInfo,
-        selectedFile,
-        files,
-        fileChange,
-        playMedia,
-        resumeMedia,
-        isConnected,
-    } = props;
-
-    const { type, uuid, playState } = mediaInfo;
+    const { mediaInfo, selectedFile, files, fileChange } = props;
 
     return (
         <Fragment>
@@ -25,14 +14,6 @@ const MediaOverview = (props) => {
             <MediaFiles files={files} selectedFile={selectedFile} fileChange={fileChange} />
             <MediaSubtitles selectedFile={selectedFile} />
             <MediaAudio selectedFile={selectedFile} />
-            <MediaActions
-                type={type}
-                uuid={uuid}
-                playState={playState}
-                playMedia={playMedia}
-                resumeMedia={resumeMedia}
-                isConnected={isConnected}
-            />
         </Fragment>
     );
 };
