@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { media } from 'Styles/Utils';
 
 const fadeInZoom = keyframes`
   from {
@@ -29,10 +30,15 @@ export const Modal = styled.div`
 export const ModalWrap = styled.div`
     opacity: 0;
     max-width: 50rem;
+    width: 100%;
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
     animation: ${`.3s ${fadeInZoom} forwards`};
     border-radius: 0.3rem;
     background: ${(props) => props.theme.background};
+
+    ${media.tablet`
+        min-width: 50rem;
+    `};
 `;
 
 export const ModalCloseButton = styled(FontAwesomeIcon)`
@@ -61,6 +67,15 @@ export const ModalHeader = styled.header`
     width: 100%;
     padding: 2rem;
     background: rgba(0, 0, 0, 0.1);
+
+    p {
+        font-size: 1.2rem;
+        font-weight: 600;
+        font-family: ${(props) => props.theme.fonts.opensans};
+        color: #fffc;
+        line-height: 1.8;
+        margin-top: 0.5rem;
+    }
 `;
 
 export const ModalHeading = styled.h3`

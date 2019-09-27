@@ -4,6 +4,7 @@
     "private": true,
     "homepage": "/olaris/app",
     "dependencies": {
+        "@apollo/react-hooks": "^3.1.1",
         "@fortawesome/fontawesome-svg-core": "^1.2.21",
         "@fortawesome/free-regular-svg-icons": "^5.4.2",
         "@fortawesome/free-solid-svg-icons": "^5.4.2",
@@ -41,7 +42,7 @@
         "postcss-preset-env": "6.0.6",
         "postcss-safe-parser": "4.0.1",
         "prop-types": "^15.6.2",
-        "react": "^16.4.0",
+        "react": "^16.8.0",
         "react-alert": "^4.0.4",
         "react-animations": "^1.0.0",
         "react-apollo": "^2.1.4",

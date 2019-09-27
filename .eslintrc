@@ -20,6 +20,7 @@
     },
     "rules": {
         "indent": ["error", 4, { "SwitchCase": 1 }],
+        "max-len": [2, 120, 4, { "ignoreUrls": true }],
         "react/jsx-indent": ["error", 4],
         "react/jsx-indent-props": ["error", 4],
         "react/jsx-one-expression-per-line": "off",

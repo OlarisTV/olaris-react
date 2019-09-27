@@ -9,7 +9,7 @@ import { compileEpisodes, generateMediaUrl } from 'Helpers';
 import { showModal } from 'Redux/Actions/modalActions';
 
 import { faPlay, faRandom } from '@fortawesome/free-solid-svg-icons';
-import EditMediaData from './EditMediaData';
+import MediaMismatch from './MediaMismatch';
 import MarkWatched from './MarkWatched';
 
 import { Header, HeaderIconWrap, HeaderIcon } from './Styles';
@@ -83,10 +83,7 @@ class MediaListHeader extends Component {
         return (
             <Header>
                 <ReactToolTip effect="solid" place="bottom" className="tooltip" />
-                <HeaderIconWrap
-                    onClick={this.playSeries}
-                    data-tip={`Play ${type === 'series' ? 'Series' : 'Season'}`}
-                >
+                <HeaderIconWrap onClick={this.playSeries} data-tip={`Play ${type === 'series' ? 'Series' : 'Season'}`}>
                     <HeaderIcon icon={faPlay} />
                 </HeaderIconWrap>
 
@@ -98,7 +95,7 @@ class MediaListHeader extends Component {
                 </HeaderIconWrap>
 
                 <MarkWatched type={type} uuid={uuid} playState={playState} episodes={episodes} />
-                {type === 'series' && <EditMediaData name={name} type={type} />}
+                {type === 'series' && <MediaMismatch name={name} type={type} />}
             </Header>
         );
     }

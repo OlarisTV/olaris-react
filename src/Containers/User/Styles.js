@@ -10,16 +10,13 @@ const UserFormWrap = styled.section`
     align-self: center;
     flex-direction: column;
     background: #fff;
-    animation: ${(props) =>
-        props.success
-            ? `.25s ${aFadeOut} forwards`
-            : `.5s ${aFadeIn} alternate`};
+    animation: ${(props) => (props.success ? `.25s ${aFadeOut} forwards` : `.5s ${aFadeIn} alternate`)};
 
     ${media.tablet`
-    background:none;
-    height:auto;
-    max-width: 50rem;
-  `};
+        background:none;
+        height:auto;
+        max-width: 50rem;
+    `};
 `;
 
 export default UserFormWrap;

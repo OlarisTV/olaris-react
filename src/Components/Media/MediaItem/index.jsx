@@ -114,7 +114,7 @@ class MediaItem extends Component {
     };
 
     render() {
-        const { posterPath, season, type, uuid, name, isConnected, playState } = this.props;
+        const { posterPath, season, type, uuid, name, isConnected, playState, files } = this.props;
         const { selectedFile, fileList } = this.state;
         const background = posterPath || season.series.posterPath;
 
@@ -124,9 +124,7 @@ class MediaItem extends Component {
 
         return (
             <MediaFullWrap>
-                <MediaBackground
-                    bgimg={`${getBaseUrl()}/olaris/m/images/tmdb/w342/${background}`}
-                />
+                <MediaBackground bgimg={`${getBaseUrl()}/olaris/m/images/tmdb/w342/${background}`} />
                 <Breadcrumbs props={this.props} />
                 <MediaFull>
                     <MediaLeftCol>
@@ -141,6 +139,7 @@ class MediaItem extends Component {
                     <MediaRightCol>
                         <MediaItemHeader
                             type={type}
+                            file={files[0].filePath}
                             uuid={uuid}
                             name={name}
                             playMedia={this.playMedia}

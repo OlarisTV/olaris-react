@@ -37,12 +37,7 @@ class RefreshMetadata extends Component {
         const { disabled } = this.state;
 
         return (
-            <HeaderIconWrap
-                disabled={disabled}
-                onClick={() => this.refreshMetadata()}
-                data-tip="Refresh Meta Data"
-                right
-            >
+            <HeaderIconWrap disabled={disabled} onClick={() => this.refreshMetadata()} data-tip="Refresh Meta Data">
                 <HeaderIcon icon={faSync} />
             </HeaderIconWrap>
         );
