@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/react-hooks';
 import { orderBy } from 'lodash';
+
 import FETCH_SERIES from 'Queries/fetchSeries';
 
 import Empty from 'Components/Media/Card/Empty';
@@ -26,11 +28,15 @@ const RenderSeries = ({ uuid }) => {
     ));
 
     return (
-        <Season {...series}>
+        <Series {...series}>
             {seasonList}
             <Empty wide />
-        </Season>
+        </Series>
     );
+};
+
+RenderSeries.propTypes = {
+    uuid: PropTypes.string.isRequired,
 };
 
 export default RenderSeries;

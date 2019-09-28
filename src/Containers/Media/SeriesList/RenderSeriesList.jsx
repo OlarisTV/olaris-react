@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useQuery } from '@apollo/react-hooks';
 import { orderBy } from 'lodash';
-import FETCH_SERIES_LIST from 'Queries/fetchSeriesList';
 
+import FETCH_SERIES_LIST from 'Queries/fetchSeriesList';
 import { showModal, LIBRARY_MODAL } from 'Redux/Actions/modalActions';
 
 import InfiniteScroll from 'Components/InfiniteScroll';
@@ -76,6 +77,10 @@ const RenderSeriesList = ({ sModal }) => {
             </button>
         </NoResults>
     );
+};
+
+RenderSeriesList.propTypes = {
+    sModal: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

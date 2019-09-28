@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/react-hooks';
 import { orderBy } from 'lodash';
+
 import FETCH_SEASON from 'Queries/fetchSeason';
 
 import Empty from 'Components/Media/Card/Empty';
@@ -30,6 +32,10 @@ const RenderSeason = ({ uuid }) => {
             <Empty wide />
         </Season>
     );
+};
+
+RenderSeason.propTypes = {
+    uuid: PropTypes.string.isRequired,
 };
 
 export default RenderSeason;

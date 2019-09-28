@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/react-hooks';
 
 import FETCH_EPISODE from 'Queries/fetchEpisode';
@@ -14,6 +15,10 @@ const RenderEpisode = ({ uuid }) => {
     if (error) return `Error! ${error.message}`;
 
     return <MediaItem wide {...data.episode} />;
+};
+
+RenderEpisode.propTypes = {
+    uuid: PropTypes.string.isRequired,
 };
 
 export default RenderEpisode;

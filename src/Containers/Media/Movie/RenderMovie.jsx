@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/react-hooks';
 
 import FETCH_MOVIE from 'Queries/fetchMovie';
@@ -13,7 +14,11 @@ const RenderMovie = ({ uuid }) => {
     if (loading) return <Loading />;
     if (error) return `Error! ${error.message}`;
 
-    return <MediaItem wide {...data.movies[0]} />;
+    return <MediaItem {...data.movies[0]} />;
+};
+
+RenderMovie.propTypes = {
+    uuid: PropTypes.string.isRequired,
 };
 
 export default RenderMovie;
