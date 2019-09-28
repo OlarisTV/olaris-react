@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 import { orderBy } from 'lodash';
 import FETCH_SEASON from 'Queries/fetchSeason';
 
@@ -8,30 +8,28 @@ import Loading from 'Components/Loading';
 import Season from 'Components/Media/Season';
 import MediaCard from 'Components/Media/Card';
 
-import { LibraryListItemWide } from '../Styles';
+import * as S from '../Styles';
 
-const RenderSeason = ({ uuid }) => (
-    <Query query={FETCH_SEASON} variables={{ uuid }} pollInterval={5000}>
-        {({ loading, error, data }) => {
-            if (loading) return <Loading />;
-            if (error) return `Error! ${error.message}`;
+const RenderSeason = ({ uuid }) => {
+    const { loading, error, data } = useQuery(FETCH_SEASON, {
+        variables: { uuid },
+    });
 
-            const episodeList = orderBy(data.season.episodes, ['episodeNumber'], ['asc']).map(
-                (s) => (
-                    <LibraryListItemWide key={s.uuid}>
-                        <MediaCard {...s} wide showText />
-                    </LibraryListItemWide>
-                ),
-            );
+    if (loading) return <Loading />;
+    if (error) return `Error! ${error.message}`;
 
-            return (
-                <Season {...data.season}>
-                    {episodeList}
-                    <Empty wide />
-                </Season>
-            );
-        }}
-    </Query>
-);
+    const episodeList = orderBy(data.season.episodes, ['episodeNumber'], ['asc']).map((s) => (
+        <S.LibraryListItemWide key={s.uuid}>
+            <MediaCard {...s} wide showText />
+        </S.LibraryListItemWide>
+    ));
+
+    return (
+        <Season {...data.season}>
+            {episodeList}
+            <Empty wide />
+        </Season>
+    );
+};
 
 export default RenderSeason;

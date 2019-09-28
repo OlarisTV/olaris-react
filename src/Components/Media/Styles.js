@@ -195,12 +195,12 @@ export const MediaBackground = styled.span`
     z-index: -1;
     filter: blur(25px);
     opacity: 0;
-    animation: ${`.3s ${fadeInLow} forwards`};
+    animation: 0.3s ${fadeInLow} forwards;
     animation-delay: 0.3s;
     display: none;
     pointer-events: none;
 
     ${media.mobile`
-    display:block;
-  `}
+        display:block;
+    `}
 `;

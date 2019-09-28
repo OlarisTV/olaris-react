@@ -32,7 +32,7 @@ export const ModalWrap = styled.div`
     max-width: 50rem;
     width: 100%;
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
-    animation: ${`.3s ${fadeInZoom} forwards`};
+    animation: 0.3s ${fadeInZoom} forwards;
     border-radius: 0.3rem;
     background: ${(props) => props.theme.background};
 

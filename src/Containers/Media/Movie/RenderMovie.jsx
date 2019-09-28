@@ -1,21 +1,19 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 
 import FETCH_MOVIE from 'Queries/fetchMovie';
 import Loading from 'Components/Loading';
 import MediaItem from 'Components/Media/MediaItem';
 
-const RenderMovie = ({ uuid }) => (
-    <Query query={FETCH_MOVIE} variables={{ uuid }}>
-        {({ loading, error, data }) => {
-            if (loading) return <Loading />;
-            if (error) return `Error! ${error.message}`;
+const RenderMovie = ({ uuid }) => {
+    const { loading, error, data } = useQuery(FETCH_MOVIE, {
+        variables: { uuid },
+    });
 
-            const m = { ...data.movies[0] };
+    if (loading) return <Loading />;
+    if (error) return `Error! ${error.message}`;
 
-            return <MediaItem {...m} />;
-        }}
-    </Query>
-);
+    return <MediaItem wide {...data.movies[0]} />;
+};
 
 export default RenderMovie;

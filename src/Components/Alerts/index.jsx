@@ -1,25 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { transitions, positions } from 'react-alert';
 
 import AlertIcon from './AlertIcon';
 import AlertInline from './AlertInline';
 
-import { AlertWrap, AlertMessage, IconWrap, Close } from './Styles';
+import * as S from './Styles';
 
 const AlertOptions = {
-    position: 'bottom right',
+    position: positions.BOTTOM_RIGHT,
     timeout: 5000,
-    transition: 'fade',
+    transition: transitions.SCALE,
     offset: '30',
 };
 
 const AlertTemplate = ({ message, options, close }) => (
-    <AlertWrap>
-        <AlertMessage>{message}</AlertMessage>
+    <S.AlertWrap>
+        <S.AlertMessage>{message}</S.AlertMessage>
 
-        <IconWrap>{AlertIcon(options.type)}</IconWrap>
-        <Close onClick={close}>×</Close>
-    </AlertWrap>
+        <S.IconWrap>{AlertIcon(options.type)}</S.IconWrap>
+        <S.Close onClick={close}>×</S.Close>
+    </S.AlertWrap>
 );
 
 AlertTemplate.propTypes = {

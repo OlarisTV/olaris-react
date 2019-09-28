@@ -33,7 +33,7 @@ export const VideoWrap = styled.article`
     z-index: 999;
     background: #00000090;
     width: 100%;
-    animation: ${`.4s ${aFadeIn} alternate`};
+    animation: 0.4s ${aFadeIn} alternate;
 `;
 
 export const MediaFull = styled.article`

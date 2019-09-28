@@ -10,7 +10,7 @@ import placeholder from './placeholder.png';
 export const CardWrap = styled.article`
     width: 100%;
     position: relative;
-    animation: ${`.4s ${aFadeIn} alternate`};
+    animation: 0.4s ${aFadeIn} alternate;
     z-index: 1;
 `;
 
@@ -32,8 +32,7 @@ export const Lazy = styled(LazyLoad)`
     `}
 
     ${media.desktop`
-        padding-top: ${(props) =>
-            props.wide ? props.theme.wideCard.paddingTop : props.theme.card.paddingTop};
+        padding-top: ${(props) => (props.wide ? props.theme.wideCard.paddingTop : props.theme.card.paddingTop)};
     `}
 `;
 
@@ -49,14 +48,13 @@ export const CardPoster = styled.span`
     position: relative;
     z-index: 1;
     opacity: 0;
-    animation: ${`.3s ${aFadeIn} forwards`};
+    animation: 0.3s ${aFadeIn} forwards;
     animation-delay: 0.3s;
     filter: grayscale(0) saturate(125%);
     pointer-events: none;
 
     ${PosterWrap}:hover & {
-        filter: ${(props) =>
-            props.hover ? 'grayscale(25%) saturate(75%)' : 'grayscale(0) saturate(125%)'};
+        filter: ${(props) => (props.hover ? 'grayscale(25%) saturate(75%)' : 'grayscale(0) saturate(125%)')};
     }
 
     ${media.tablet`
@@ -64,8 +62,7 @@ export const CardPoster = styled.span`
     `}
 
     ${media.desktop`
-        padding-top: ${(props) =>
-            props.wide ? props.theme.wideCard.paddingTop : props.theme.card.paddingTop};
+        padding-top: ${(props) => (props.wide ? props.theme.wideCard.paddingTop : props.theme.card.paddingTop)};
     `}
 `;
 
@@ -116,7 +113,7 @@ export const Unwatched = styled.span`
     transform: rotate(45deg);
     transition: 0.2s all;
     background: ${(props) => props.theme.playbar};
-    animation: ${`.3s ${aFadeIn} forwards`};
+    animation: 0.3s ${aFadeIn} alternate;
     box-shadow: 0 0 15px rgba(0, 0, 0 0.8);
 
     ${PosterWrap}:hover & {

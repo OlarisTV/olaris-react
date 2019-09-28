@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { placeholder } from 'polished';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { aFadeIn } from 'Styles/Animations';
 
@@ -17,7 +16,6 @@ export const Input = styled.input`
     font-size: 1.5rem;
     background: rgba(0, 0, 0, 0.2);
     margin: 0 0 1rem;
-    ${placeholder({ color: 'rgba(255,255,255,.1)' })}
 
     &:focus {
         outline: none;

@@ -1,58 +1,37 @@
-import React, { Component } from 'react';
-import { compose } from 'lodash/fp';
-import { graphql } from 'react-apollo';
-import { withAlert } from 'react-alert';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useMutation } from '@apollo/react-hooks';
+import { useAlert } from 'react-alert';
+
 import { faSync } from '@fortawesome/free-solid-svg-icons';
 
 import REFRESH_METADATA from 'Mutations/refreshMetadata';
 
-import { HeaderIconWrap, HeaderIcon } from './Styles';
+import * as S from './Styles';
 
-class RefreshMetadata extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            disabled: false,
-        };
-    }
+const RefreshMetadata = ({ uuid }) => {
+    const alert = useAlert();
+    const [state, setState] = useState(false);
+    const [refreshMetadata, { data }] = useMutation(REFRESH_METADATA, {
+        onCompleted: () => {
+            setState(true);
+            alert.show('Success!, Refreshing metadata this may take a while');
+        },
+    });
 
-    refreshMetadata = () => {
-        const { uuid, mutate, alert } = this.props;
-
-        mutate({
-            variables: { uuid },
-        })
-            .then(() => {
-                this.setState({
-                    disabled: true,
-                });
-
-                alert.success('Refreshing Metadata, this may take a while');
-            })
-            .catch((err) => err);
-    };
-
-    render() {
-        const { disabled } = this.state;
-
-        return (
-            <HeaderIconWrap disabled={disabled} onClick={() => this.refreshMetadata()} data-tip="Refresh Meta Data">
-                <HeaderIcon icon={faSync} />
-            </HeaderIconWrap>
-        );
-    }
-}
+    return (
+        <S.HeaderIconWrap
+            disabled={state}
+            onClick={() => refreshMetadata({ variables: { uuid } })}
+            data-tip="Refresh Meta Data"
+        >
+            <S.HeaderIcon icon={faSync} />
+        </S.HeaderIconWrap>
+    );
+};
 
 RefreshMetadata.propTypes = {
     uuid: PropTypes.string.isRequired,
-    mutate: PropTypes.func.isRequired,
-    alert: PropTypes.shape({
-        show: PropTypes.func.isRequired,
-    }).isRequired,
 };
 
-export default compose(
-    withAlert,
-    graphql(REFRESH_METADATA),
-)(RefreshMetadata);
+export default RefreshMetadata;

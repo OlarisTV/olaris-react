@@ -110,7 +110,7 @@ export const ContentOverlay = styled.div`
     height: 100%;
     background: rgba(13, 14, 26, 0.8);
     z-index: 6;
-    animation: ${`.2s ${fadeInLeft} alternate`};
+    animation: 0.2s ${fadeInLeft} alternate;
     transition: 0.2s all;
 
     ${media.desktop`

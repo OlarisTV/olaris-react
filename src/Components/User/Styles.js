@@ -11,10 +11,8 @@ export const FormWrap = styled.form`
     transition: 0.2s border;
     border-radius: 0.2rem;
     border: 1px solid;
-    border-color: ${(props) =>
-        props.error ? props.theme.alerts.error : 'transparent'};
-    animation: ${(props) =>
-        props.error ? `.5s ${aHeadShake} alternate` : 'none'};
+    border-color: ${(props) => (props.error ? props.theme.alerts.error : 'transparent')};
+    animation: ${(props) => (props.error ? `.5s ${aHeadShake} alternate` : 'none')};
 
     ${media.tablet`
       padding:5rem;
@@ -47,8 +45,7 @@ export const InputWrap = styled.div`
     padding-bottom: .2rem;
     margin:0 0 2rem;
     border: 1px solid;
-    border-color: ${(props) =>
-        !props.isValid ? '#DDD' : props.theme.alerts.error}
+    border-color: ${(props) => (!props.isValid ? '#DDD' : props.theme.alerts.error)}
 
     &:after, &:before {
         content:'';
@@ -62,8 +59,7 @@ export const InputWrap = styled.div`
     }
 
     &:after {
-        background: ${(props) =>
-            props.error ? props.theme.alerts.error : props.theme.light};
+        background: ${(props) => (props.error ? props.theme.alerts.error : props.theme.light)};
     }
 
     &:before {

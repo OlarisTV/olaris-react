@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { splitFilepath } from 'Helpers';
 import PropTypes from 'prop-types';
-import { truncate } from 'lodash';
 
 import { hideModal } from 'Redux/Actions/modalActions';
 
@@ -9,17 +9,6 @@ import FixMismatch from 'Containers/FixMismatch';
 
 import * as S from 'Components/Modal/Styles';
 import ModalClose from '../ModalClose';
-
-const fileSplit = (file) => {
-    const splitFile = file.split('/');
-    let fileIndex = file.lastIndexOf('/');
-    fileIndex = fileIndex === -1 ? file.length : fileIndex + 1;
-
-    const filePath = truncate(file.substring(0, fileIndex), { length: 30 });
-    const fileName = splitFile[splitFile.length - 1];
-
-    return `${filePath} ${fileName}`;
-};
 
 const EditMediaModal = ({ name, file, type, hModal }) => {
     return (
@@ -31,7 +20,7 @@ const EditMediaModal = ({ name, file, type, hModal }) => {
                         <ModalClose onClick={() => hModal()} />
                     </S.ModalHeading>
 
-                    {file && <p>Location: {fileSplit(file)}</p>}
+                    {file && <p>Location: {splitFilepath(file)}</p>}
                 </S.ModalHeader>
                 <S.ModalBody>
                     <FixMismatch type={type} name={name} />
