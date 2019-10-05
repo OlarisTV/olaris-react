@@ -1,9 +1,12 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { aHeadShake } from 'Styles/Animations';
 import { media } from 'Styles/Utils';
 
-// Containers
+const shake = () => css`
+    .5s ${aHeadShake} alternate;
+`;
+
 export const FormWrap = styled.form`
     padding: 3rem;
     background: #fff;
@@ -12,7 +15,7 @@ export const FormWrap = styled.form`
     border-radius: 0.2rem;
     border: 1px solid;
     border-color: ${(props) => (props.error ? props.theme.alerts.error : 'transparent')};
-    animation: ${(props) => (props.error ? `.5s ${aHeadShake} alternate` : 'none')};
+    animation: ${(props) => (props.error ? shake : 'none')};
 
     ${media.tablet`
       padding:5rem;

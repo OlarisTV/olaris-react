@@ -1,6 +1,14 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { aFadeIn, aFadeOut } from 'Styles/Animations';
 import { media } from 'Styles/Utils';
+
+const fadeIn = () => css`
+    .5s ${aFadeIn} alternate;
+`;
+
+const fadeOut = () => css`
+    .25s ${aFadeOut} forwards;
+`;
 
 const UserFormWrap = styled.section`
     display: flex;
@@ -10,7 +18,7 @@ const UserFormWrap = styled.section`
     align-self: center;
     flex-direction: column;
     background: #fff;
-    animation: ${(props) => (props.success ? `.25s ${aFadeOut} forwards` : `.5s ${aFadeIn} alternate`)};
+    animation: ${(props) => (props.success ? fadeOut : fadeIn)};
 
     ${media.tablet`
         background:none;

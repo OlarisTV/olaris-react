@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { withAlert } from 'react-alert';
-import { Redirect } from 'react-router';
-import { getUrlParameter } from 'Helpers';
+import { Redirect, useLocation } from 'react-router';
+import { getUrlParameter, isInitialSetup } from 'Helpers';
 
 import { Auth } from 'Client/Auth';
 import CREATE_USER from 'Mutations/createUser';
@@ -9,47 +9,27 @@ import RegisterForm from 'Components/User/Register';
 
 import UserFormWrap from '../Styles';
 
-class Register extends Component {
-    state = {
+const Register = ({ alert }) => {
+    const [formData, setFormData] = useState({
         error: false,
-        redirectToDashboard: false,
         username: '',
         password: '',
-        inviteCode: '',
-        initialSetup: true,
-        registeredSuccessful: false,
+        inviteCode: getUrlParameter('inviteCode') ? getUrlParameter('inviteCode') : '',
+        initialSetup: isInitialSetup(),
+        success: false,
+    });
+
+    const { from } = useLocation().state || { from: { pathname: '/dashboard' } };
+    const { success, error, username, password, inviteCode, initialSetup } = formData;
+
+    const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const onError = (message) => {
+        setFormData({ ...formData, error: true });
+        alert.error(`There was a problem with your request: ${message}`);
     };
 
-    componentWillMount() {
-        const { initialSetup } = this.props;
-
-        if (Auth.isAuthenticated) this.setState({ redirectToDashboard: true });
-
-        this.setState({
-            inviteCode: getUrlParameter('inviteCode')
-                ? getUrlParameter('inviteCode')
-                : '',
-            initialSetup,
-        });
-    }
-
-    handleChange = ({ target: { name, value } }) => {
-        this.setState({
-            [name]: value,
-        });
-    };
-
-    formError = (err) => {
-        const { alert } = this.props;
-
-        this.setState({ error: true }, () => {
-            alert.error(`There is a problem: ${err}`);
-        });
-    };
-
-    handleRegister = () => {
-        const { username, password, inviteCode, initialSetup } = this.state;
-
+    const onSubmit = () => {
         let registerInfo = {
             username,
             password,
@@ -64,50 +44,27 @@ class Register extends Component {
 
         CREATE_USER(registerInfo)
             .then(() => {
-                this.setState({ registeredSuccessful: true });
-                return true;
+                setFormData({ ...formData, success: true });
             })
             .catch((err) => {
-                this.formError(err.response.data.message);
+                onError(err.response.data.message);
             });
-
-        return false;
     };
 
-    render() {
-        const { location } = this.props;
-        const {
-            redirectToDashboard,
-            error,
-            inviteCode,
-            initialSetup,
-            registeredSuccessful,
-        } = this.state;
+    if (Auth.isAuthenticated) return <Redirect to={from} />;
+    if (success) return <Redirect to={{ pathname: '/login', state: { registered: true } }} />;
 
-        if (registeredSuccessful)
-            return (
-                <Redirect
-                    to={{ pathname: '/login', state: { registered: true } }}
-                />
-            );
+    return (
+        <UserFormWrap>
+            <RegisterForm
+                onSubmit={onSubmit}
+                onChange={onChange}
+                error={error}
+                inviteCode={inviteCode}
+                initialSetup={initialSetup}
+            />
+        </UserFormWrap>
+    );
+};
 
-        const { from } = location.state || { from: { pathname: '/dashboard' } };
-        if (redirectToDashboard) return <Redirect to={from} />;
-
-        const RegisterProps = {
-            handleRegister: this.handleRegister,
-            handleChange: this.handleChange,
-            error,
-            inviteCode,
-            initialSetup,
-        };
-
-        return (
-            <UserFormWrap>
-                <RegisterForm {...RegisterProps} />
-            </UserFormWrap>
-        );
-    }
-}
-
-export default withAlert(Register);
+export default withAlert()(Register);

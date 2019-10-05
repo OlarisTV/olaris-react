@@ -38,11 +38,7 @@ export default class Button extends Component {
         const { value } = this.props;
 
         return (
-            <FormButton
-                type="submit"
-                onClick={this.handleSubmit}
-                disabled={throttle}
-            >
+            <FormButton type="submit" onClick={this.handleSubmit} disabled={throttle}>
                 {value}
             </FormButton>
         );

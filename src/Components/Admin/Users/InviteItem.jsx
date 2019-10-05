@@ -28,4 +28,4 @@ InviteItem.propTypes = {
     }).isRequired,
 };
 
-export default withAlert(InviteItem);
+export default withAlert()(InviteItem);

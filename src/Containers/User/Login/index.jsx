@@ -1,98 +1,59 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router';
+import React, { useState } from 'react';
+import { Redirect, useHistory, useLocation } from 'react-router';
 import { withAlert } from 'react-alert';
 
+import { isInitialSetup } from 'Helpers';
 import { AUTH_REQUEST, Auth } from 'Client/Auth';
+
 import LoginForm from 'Components/User/Login';
+
 import UserFormWrap from '../Styles';
 
-class Login extends Component {
-    state = {
-        redirectToDashboard: false,
+const Login = ({ alert }) => {
+    const [redirect, setRedirect] = useState(false);
+    const [formData, setFormData] = useState({
         success: false,
         error: false,
-        isMounted: false,
         username: '',
         password: '',
+    });
+
+    const { from } = useLocation().state || { from: { pathname: '/dashboard' } };
+    const { success, error, username, password } = formData;
+
+    if (useHistory().location.state && useHistory().location.state.registered) {
+        alert.success('Account Successfully Created, login with your details above');
+    }
+
+    const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const onError = (message) => {
+        setFormData({ ...formData, error: true });
+        alert.error(`There was a problem with your request: ${message}`);
     };
 
-    componentWillMount() {
-        this.setState({ isMounted: true });
-        if (Auth.isAuthenticated) this.setState({ redirectToDashboard: true });
-    }
-
-    componentDidMount() {
-        const { history, alert } = this.props;
-
-        if (history.location.state) {
-            if (history.location.state.registered === true)
-                alert.success(
-                    'Account Successfully Created, login with your details above',
-                );
-        }
-    }
-
-    componentWillUnmount() {
-        this.setState({ isMounted: false });
-    }
-
-    formError = (message) => {
-        const { alert } = this.props;
-
-        this.setState({ error: true }, () => {
-            alert.error(`There was a problem with your request: ${message}`);
-        });
-    };
-
-    handleLogin = () => {
-        const { username, password } = this.state;
-
+    const onSubmit = () => {
         AUTH_REQUEST(username, password)
             .then(() => {
-                this.setState({ success: true });
+                setFormData({ ...formData, success: true });
+
                 setTimeout(() => {
-                    this.setState({ redirectToDashboard: true });
+                    setRedirect(true);
                 }, 750);
             })
-            .catch((error) => {
-                if (error.response === undefined) {
-                    this.formError(error.message);
-                } else {
-                    this.formError(error.response.data.message);
-                }
+            .catch((err) => {
+                onError(err.message && err.response.data.message);
             });
     };
 
-    handleChange = (e) => {
-        const { isMounted } = this.state;
+    if (isInitialSetup()) return <Redirect to="/register" />;
+    if (redirect || Auth.isAuthenticated) return <Redirect to={from} />;
 
-        if (isMounted) {
-            this.setState({
-                [e.target.name]: e.target.value,
-            });
-        }
-    };
+    return (
+        <UserFormWrap success={success}>
+            <LoginForm onSubmit={onSubmit} onChange={onChange} error={error} />
+        </UserFormWrap>
+    );
+};
 
-    render() {
-        const { error, success, redirectToDashboard } = this.state;
-        const { location } = this.props;
-
-        const { from } = location.state || { from: { pathname: '/dashboard' } };
-
-        if (redirectToDashboard) return <Redirect to={from} />;
-
-        const LoginProps = {
-            handleLogin: this.handleLogin,
-            handleChange: this.handleChange,
-            error,
-        };
-
-        return (
-            <UserFormWrap success={success}>
-                <LoginForm {...LoginProps} />
-            </UserFormWrap>
-        );
-    }
-}
-
-export default withAlert(Login);
+export default withAlert()(Login);

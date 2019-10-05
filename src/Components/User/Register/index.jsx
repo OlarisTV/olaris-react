@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import LogoIcon from 'Components/Logo/LogoIcon';
@@ -9,22 +9,13 @@ import Input from '../Components/Input';
 import Button from '../Components/Button';
 import FormLink from '../Components/FormLink';
 
-const RegisterForm = ({
-    error,
-    handleChange,
-    handleRegister,
-    initialSetup,
-    inviteCode,
-}) => {
+const RegisterForm = ({ error, onChange, onSubmit, initialSetup, inviteCode }) => {
     const heading = initialSetup ? 'Welcome To Olaris' : 'Olaris';
-    const title = initialSetup
-        ? 'Setup your admin account'
-        : 'Register Account';
-    const warning =
-        'You are currently creating your admin account ensure you remember your details';
+    const title = initialSetup ? 'Setup your admin account' : 'Register Account';
+    const warning = 'You are currently creating your admin account ensure you remember your details';
 
     return (
-        <Fragment>
+        <>
             {initialSetup && <Help>{warning}</Help>}
             <FormWrap error={error}>
                 <LogoIcon alt="Olaris" height="30" />
@@ -37,7 +28,7 @@ const RegisterForm = ({
                         name="inviteCode"
                         autocomplete="inviteCode"
                         placeholder="Enter Invite Code"
-                        handleChange={handleChange}
+                        handleChange={onChange}
                         uniqueCode
                     />
                 )}
@@ -47,7 +38,7 @@ const RegisterForm = ({
                     autocomplete="new-username"
                     placeholder="Username"
                     required
-                    handleChange={handleChange}
+                    handleChange={onChange}
                 />
                 <Input
                     type="password"
@@ -55,27 +46,20 @@ const RegisterForm = ({
                     autocomplete="new-password"
                     placeholder="Password"
                     required
-                    handleChange={handleChange}
+                    handleChange={onChange}
                 />
-                <Button handleSubmit={handleRegister} value="Create Account" />
+                <Button handleSubmit={onSubmit} value="Create Account" />
 
-                {!initialSetup && (
-                    <FormLink
-                        to="/login"
-                        strapline="Have An Account?"
-                        value="Log In"
-                        setup={false}
-                    />
-                )}
+                {!initialSetup && <FormLink to="/login" strapline="Have An Account?" value="Log In" setup={false} />}
             </FormWrap>
-        </Fragment>
+        </>
     );
 };
 
 RegisterForm.propTypes = {
     error: PropTypes.bool.isRequired,
-    handleChange: PropTypes.func.isRequired,
-    handleRegister: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     initialSetup: PropTypes.bool.isRequired,
     inviteCode: PropTypes.string,
 };

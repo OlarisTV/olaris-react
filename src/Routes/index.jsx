@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Loading from 'Components/Loading';
@@ -28,74 +28,35 @@ import Search from 'Containers/Media/Search';
 
 // Auth
 import { Auth } from 'Client/Auth';
-import { isInitialSetup } from 'Helpers';
 import AdminRoute from './Helper/AdminRoute';
 import PrivateRoute from './Helper/PrivateRoute';
 
-class Routes extends Component {
-    state = {
-        initialSetup: false,
-        loading: true,
-    };
+const Routes = () => {
+    return (
+        <Switch>
+            <Route exact path="/">
+                {Auth.isAuthenticated ? <Dashboard /> : <Redirect to="/login" />}
+            </Route>
+            <Route exact path="/login">
+                <Login />
+            </Route>
+            <Route exact path="/register" render={(routeProps) => <Register {...routeProps} />} />
 
-    componentWillMount() {
-        isInitialSetup().then((res) => {
-            this.setState({
-                initialSetup: res.data,
-                loading: false,
-            });
-        });
-    }
+            <AdminRoute exact path="/users" component={Users} />
 
-    initialRender = () => {
-        const { initialSetup } = this.state;
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
 
-        if (Auth.isAuthenticated) {
-            return <Redirect to="/dashboard" />;
-        }
+            <PrivateRoute exact path="/movies" component={MovieList} />
+            <PrivateRoute exact path="/movie/:uuid" component={Movie} />
 
-        if (initialSetup) {
-            return <Redirect to="/register" />;
-        }
+            <PrivateRoute exact path="/series" component={SeriesList} />
+            <PrivateRoute exact path="/series/:uuid" component={Series} />
+            <PrivateRoute exact path="/season/:uuid" component={Season} />
+            <PrivateRoute exact path="/episode/:uuid" component={Episode} />
 
-        return <Redirect to="/login" />;
-    };
-
-    render() {
-        const { loading, initialSetup } = this.state;
-
-        if (loading) {
-            return <Loading />;
-        }
-
-        return (
-            <Switch>
-                <Route exact path="/" render={this.initialRender} />
-                <Route exact path="/login" component={Login} />
-                <Route
-                    exact
-                    path="/register"
-                    render={(routeProps) => (
-                        <Register {...routeProps} initialSetup={initialSetup} />
-                    )}
-                />
-
-                <AdminRoute exact path="/users" component={Users} />
-
-                <PrivateRoute exact path="/dashboard" component={Dashboard} />
-
-                <PrivateRoute exact path="/movies" component={MovieList} />
-                <PrivateRoute exact path="/movie/:uuid" component={Movie} />
-
-                <PrivateRoute exact path="/series" component={SeriesList} />
-                <PrivateRoute exact path="/series/:uuid" component={Series} />
-                <PrivateRoute exact path="/season/:uuid" component={Season} />
-                <PrivateRoute exact path="/episode/:uuid" component={Episode} />
-
-                <PrivateRoute exact path="/search/:value" component={Search} />
-            </Switch>
-        );
-    }
-}
+            <PrivateRoute exact path="/search/:value" component={Search} />
+        </Switch>
+    );
+};
 
 export default Routes;
