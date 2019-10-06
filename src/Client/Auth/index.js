@@ -6,6 +6,8 @@ import { getBaseUrl } from 'Helpers';
 import { store, history } from 'Redux/store';
 
 import { setAuthData } from 'Redux/Actions/castActions';
+
+// eslint-disable-next-line
 import client from '../index';
 
 const cookies = new Cookies();
@@ -29,7 +31,7 @@ export const Auth = {
 
         if (!this.isAuthenticated) store.dispatch(setAuthData(authData));
 
-        this.isAdmin = jwtDecode.admin;
+        this.isAdmin = jwtDecoded;
         this.isAuthenticated = true;
     },
     logout() {

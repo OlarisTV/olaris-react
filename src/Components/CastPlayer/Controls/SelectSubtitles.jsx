@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Select from 'react-select';
@@ -63,7 +63,7 @@ export default class SelectSubtitles extends Component {
         const { onChange, value, options } = this.props;
 
         return (
-            <Fragment>
+            <>
                 <Select
                     ref={(ref) => {
                         this.select = ref;
@@ -77,7 +77,7 @@ export default class SelectSubtitles extends Component {
                     name="subtitles"
                     menuPlacement="top"
                 />
-            </Fragment>
+            </>
         );
     }
 }

@@ -9,7 +9,7 @@ import Input from '../Components/Input';
 import Button from '../Components/Button';
 import FormLink from '../Components/FormLink';
 
-const RegisterForm = ({ error, onChange, onSubmit, initialSetup, inviteCode }) => {
+const RegisterForm = ({ error, onChange, onSubmit, initialSetup, inviteCode, username, password }) => {
     const heading = initialSetup ? 'Welcome To Olaris' : 'Olaris';
     const title = initialSetup ? 'Setup your admin account' : 'Register Account';
     const warning = 'You are currently creating your admin account ensure you remember your details';
@@ -35,6 +35,7 @@ const RegisterForm = ({ error, onChange, onSubmit, initialSetup, inviteCode }) =
                 <Input
                     type="text"
                     name="username"
+                    value={username}
                     autocomplete="new-username"
                     placeholder="Username"
                     required
@@ -43,6 +44,7 @@ const RegisterForm = ({ error, onChange, onSubmit, initialSetup, inviteCode }) =
                 <Input
                     type="password"
                     name="password"
+                    value={password}
                     autocomplete="new-password"
                     placeholder="Password"
                     required
@@ -62,6 +64,8 @@ RegisterForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     initialSetup: PropTypes.bool.isRequired,
     inviteCode: PropTypes.string,
+    username: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
 };
 
 RegisterForm.defaultProps = {

@@ -59,11 +59,21 @@ const RenderSeriesList = ({ sModal }) => {
                 }
             >
                 {() => {
-                    return orderBy(data.series, ['name'], ['asc']).map((s) => (
-                        <S.LibraryListItem key={s.uuid}>
-                            <MediaCard {...s} />
-                        </S.LibraryListItem>
-                    ));
+                    return orderBy(data.series, ['name'], ['asc']).map((s) => {
+                        const { name, posterPath, type, unwatchedEpisodesCount, uuid } = s;
+
+                        return (
+                            <S.LibraryListItem key={s.uuid}>
+                                <MediaCard
+                                    name={name}
+                                    posterPath={posterPath}
+                                    type={type}
+                                    unwatchedEpisodesCount={unwatchedEpisodesCount}
+                                    uuid={uuid}
+                                />
+                            </S.LibraryListItem>
+                        );
+                    });
                 }}
             </InfiniteScroll>
         );

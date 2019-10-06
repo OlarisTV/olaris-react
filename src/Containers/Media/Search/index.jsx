@@ -1,20 +1,16 @@
 import React from 'react';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import { useParams } from 'react-router';
 
 import Empty from 'Components/Media/Card/Empty';
 import RenderSearchResults from './RenderSearchResults';
 
 import { LibraryListWrap } from '../Styles';
 
-const Search = ({ match }) => (
+const Search = () => (
     <LibraryListWrap>
-        <RenderSearchResults value={match.params.value} />
+        <RenderSearchResults value={useParams().value} />
         <Empty />
     </LibraryListWrap>
 );
-
-Search.propTypes = {
-    match: ReactRouterPropTypes.match.isRequired,
-};
 
 export default Search;

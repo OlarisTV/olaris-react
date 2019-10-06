@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getBaseUrl, generateMediaUrl } from 'Helpers';
@@ -70,17 +70,7 @@ class MediaCard extends Component {
     };
 
     render() {
-        const {
-            wide,
-            showText,
-            history,
-            name,
-            posterPath,
-            stillPath,
-            type,
-            files,
-            hover,
-        } = this.props;
+        const { wide, showText, history, name, posterPath, stillPath, type, files, hover } = this.props;
         const { url } = this.state;
 
         const showPlayStatus = type === 'Movie' || type === 'Episode';
@@ -97,16 +87,12 @@ class MediaCard extends Component {
         }
 
         return (
-            <Fragment>
+            <>
                 <CardWrap onClick={(e) => this.cardClick(e, url, history, showPlayStatus)}>
                     <PosterWrap>
                         <Lazy wide={wide} height={0} debounce={100} overflow resize>
                             <CardPoster hover={hover} wide={wide} bgimg={bgImage}>
-                                <MediaInfo
-                                    {...this.props}
-                                    length={length}
-                                    showPlayStatus={showPlayStatus}
-                                />
+                                <MediaInfo {...this.props} length={length} showPlayStatus={showPlayStatus} />
                             </CardPoster>
                         </Lazy>
                         {hover && (
@@ -119,7 +105,7 @@ class MediaCard extends Component {
                     </PosterWrap>
                     {showText && <MediaName name={name} {...this.props} />}
                 </CardWrap>
-            </Fragment>
+            </>
         );
     }
 }

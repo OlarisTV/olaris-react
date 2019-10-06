@@ -59,11 +59,23 @@ const RenderMovieList = ({ sModal }) => {
                 }
             >
                 {() => {
-                    return orderBy(data.movies, ['name'], ['asc']).map((m) => (
-                        <LibraryListItem key={m.uuid}>
-                            <MediaCard {...m} />
-                        </LibraryListItem>
-                    ));
+                    return orderBy(data.movies, ['name'], ['asc']).map((m) => {
+                        const { files, name, playState, posterPath, type, uuid, year } = m;
+
+                        return (
+                            <LibraryListItem key={m.uuid}>
+                                <MediaCard
+                                    files={files}
+                                    name={name}
+                                    playState={playState}
+                                    posterPath={posterPath}
+                                    type={type}
+                                    uuid={uuid}
+                                    year={year}
+                                />
+                            </LibraryListItem>
+                        );
+                    });
                 }}
             </InfiniteScroll>
         );

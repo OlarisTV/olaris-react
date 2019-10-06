@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-
-import Loading from 'Components/Loading';
 
 // Auth
 import Login from 'Containers/User/Login';
@@ -40,21 +38,38 @@ const Routes = () => {
             <Route exact path="/login">
                 <Login />
             </Route>
-            <Route exact path="/register" render={(routeProps) => <Register {...routeProps} />} />
+            <Route exact path="/register">
+                <Register />
+            </Route>
 
-            <AdminRoute exact path="/users" component={Users} />
+            <AdminRoute exact path="/users">
+                <Users />
+            </AdminRoute>
 
-            <PrivateRoute exact path="/dashboard" component={Dashboard} />
-
-            <PrivateRoute exact path="/movies" component={MovieList} />
-            <PrivateRoute exact path="/movie/:uuid" component={Movie} />
-
-            <PrivateRoute exact path="/series" component={SeriesList} />
-            <PrivateRoute exact path="/series/:uuid" component={Series} />
-            <PrivateRoute exact path="/season/:uuid" component={Season} />
-            <PrivateRoute exact path="/episode/:uuid" component={Episode} />
-
-            <PrivateRoute exact path="/search/:value" component={Search} />
+            <PrivateRoute exact path="/dashboard">
+                <Dashboard />
+            </PrivateRoute>
+            <PrivateRoute exact path="/movies">
+                <MovieList />
+            </PrivateRoute>
+            <PrivateRoute exact path="/movie/:uuid">
+                <Movie />
+            </PrivateRoute>
+            <PrivateRoute exact path="/series">
+                <SeriesList />
+            </PrivateRoute>
+            <PrivateRoute exact path="/series/:uuid">
+                <Series />
+            </PrivateRoute>
+            <PrivateRoute exact path="/season/:uuid">
+                <Season />
+            </PrivateRoute>
+            <PrivateRoute exact path="/episode/:uuid">
+                <Episode />
+            </PrivateRoute>
+            <PrivateRoute exact path="/search/:value">
+                <Search />
+            </PrivateRoute>
         </Switch>
     );
 };

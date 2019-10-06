@@ -1,12 +1,8 @@
 import React from 'react';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import { useParams } from 'react-router';
 
 import RenderSeries from './RenderSeries';
 
-const Series = ({ match }) => <RenderSeries uuid={match.params.uuid} />;
-
-Series.propTypes = {
-    match: ReactRouterPropTypes.match.isRequired,
-};
+const Series = () => <RenderSeries uuid={useParams().uuid} />;
 
 export default Series;

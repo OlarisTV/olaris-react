@@ -7,12 +7,7 @@ import PropTypes from 'prop-types';
 
 import { ADD_LIBRARY } from 'Mutations/manageLibraries';
 import FETCH_LIBRARIES from 'Queries/fetchLibraries';
-import {
-    addLibrary,
-    addLibrarySuccess,
-    addLibraryFailure,
-    clearLibraryError,
-} from 'Redux/Actions/libraryActions';
+import { addLibrary, addLibrarySuccess, addLibraryFailure, clearLibraryError } from 'Redux/Actions/libraryActions';
 import { hideModal } from 'Redux/Actions/modalActions';
 
 import LibraryList from 'Components/Libraries/LibraryList';
@@ -152,6 +147,13 @@ AddLibraryModal.propTypes = {
     errorMessage: PropTypes.string,
     error: PropTypes.bool.isRequired,
     cLibraryError: PropTypes.func.isRequired,
+    mutate: PropTypes.func.isRequired,
+    aLibrary: PropTypes.func.isRequired,
+    aLibrarySucess: PropTypes.func.isRequired,
+    aLibraryFailure: PropTypes.func.isRequired,
+    alert: PropTypes.shape({
+        success: PropTypes.func.isRequired,
+    }).isRequired,
 };
 
 AddLibraryModal.defaultProps = {

@@ -1,12 +1,8 @@
 import React from 'react';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import { useParams } from 'react-router';
 
 import RenderEpisode from './RenderEpisode';
 
-const Episode = ({ match }) => <RenderEpisode uuid={match.params.uuid} />;
-
-Episode.propTypes = {
-    match: ReactRouterPropTypes.match.isRequired,
-};
+const Episode = () => <RenderEpisode uuid={useParams().uuid} />;
 
 export default Episode;

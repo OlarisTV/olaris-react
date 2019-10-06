@@ -90,7 +90,7 @@ class VideoController extends Component {
 
         if (source.length > 0 && !isCasting) {
             return (
-                <Fragment>
+                <>
                     <VideoWrap>
                         <CloseVideo icon={faTimes} onClick={closePlayer} />
                         <Player
@@ -105,7 +105,7 @@ class VideoController extends Component {
                             dispatch={dispatch}
                         />
                     </VideoWrap>
-                </Fragment>
+                </>
             );
         }
 
