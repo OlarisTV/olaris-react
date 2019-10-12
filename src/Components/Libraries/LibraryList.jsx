@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 
 import Loading from 'Components/Loading';
 import { AlertInline } from 'Components/Alerts';
@@ -8,22 +8,24 @@ import LibraryItem from 'Components/Modal/AddLibraryModal/LibraryItem';
 
 import FETCH_LIBRARIES from 'Queries/fetchLibraries';
 
-const LibraryList = ({ kind }) => (
-    <Query query={FETCH_LIBRARIES}>
-        {({ loading, error, data }) => {
-            if (loading) return <Loading relative />;
-            if (error) return `Error! ${error.message}`;
+const LibraryList = ({ kind }) => {
+    const { loading, error, data } = useQuery(FETCH_LIBRARIES);
 
-            const filteredLibrary = data.libraries.filter((l) => l.kind === kind);
+    if (loading) return <Loading />;
+    if (error) return `Error! ${error.message}`;
 
-            if (filteredLibrary.length === 0) {
-                return <AlertInline>No active folders within library</AlertInline>;
-            }
+    const filteredLibrary = data.libraries.filter((l) => l.kind === kind);
 
-            return filteredLibrary.map((li) => <LibraryItem key={li.id} {...li} />);
-        }}
-    </Query>
-);
+    if (!filteredLibrary.length) {
+        return <AlertInline>No active folders within library</AlertInline>;
+    }
+
+    return filteredLibrary.map((li) => {
+        const { filePath, id, backend, healthy } = li;
+
+        return <LibraryItem key={id} filePath={filePath} id={id} backend={backend} healthy={healthy} />;
+    });
+};
 
 LibraryList.propTypes = {
     kind: PropTypes.number.isRequired,

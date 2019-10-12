@@ -20,15 +20,47 @@ const RenderSeries = ({ uuid }) => {
     if (loading) return <Loading />;
     if (error) return `Error! ${error.message}`;
 
-    const series = { ...data.series[0] };
-    const seasonList = orderBy(series.seasons, ['seasonNumber'], ['asc']).map((s) => (
-        <S.LibraryListItem key={s.uuid}>
-            <MediaCard {...s} showText />
-        </S.LibraryListItem>
-    ));
+    const { name, posterPath, firstAirDate, overview, seasons, type } = data.series[0];
+
+    const seasonList = orderBy(seasons, ['seasonNumber'], ['asc']).map((item) => {
+        const {
+            posterPath: sPosterPath,
+            type: sType,
+            name: sName,
+            playState,
+            files,
+            uuid: sUuid,
+            unwatchedEpisodesCount,
+            episodes,
+        } = item;
+
+        return (
+            <S.LibraryListItemWide key={sUuid}>
+                <MediaCard
+                    files={files}
+                    name={sName}
+                    playState={playState}
+                    posterPath={sPosterPath}
+                    type={sType}
+                    uuid={sUuid}
+                    episodes={episodes}
+                    unwatchedEpisodesCount={unwatchedEpisodesCount}
+                    showText
+                />
+            </S.LibraryListItemWide>
+        );
+    });
 
     return (
-        <Series {...series}>
+        <Series
+            name={name}
+            firstAirDate={firstAirDate}
+            overview={overview}
+            uuid={uuid}
+            posterPath={posterPath}
+            type={type}
+            seasons={seasons}
+        >
             {seasonList}
             <Empty wide />
         </Series>

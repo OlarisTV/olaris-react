@@ -8,9 +8,12 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { UserListItem, DeleteUser } from './Styles';
 
 class UserItem extends Component {
-    state = {
-        deleted: false,
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            deleted: false,
+        };
+    }
 
     deleteUser = (id) => {
         const { mutate } = this.props;

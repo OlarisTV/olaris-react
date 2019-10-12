@@ -47,10 +47,7 @@ const MediaInfo = (props) => {
     const renderHealth = () => {
         if (!selectedFile.healthy) {
             return (
-                <li
-                    className="warning"
-                    data-tip="This file is on an unhealthy library, playback may be broken."
-                >
+                <li className="warning" data-tip="This file is on an unhealthy library, playback may be broken.">
                     <LibraryUnhealthy icon={faExclamation} />
                     Warning
                 </li>
@@ -100,6 +97,8 @@ MediaInfo.propTypes = {
     }).isRequired,
     selectedFile: PropTypes.shape({
         totalDuration: PropTypes.number,
+        healthy: PropTypes.bool,
+        streams: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     }).isRequired,
     year: requiredPropsCheck,
     airDate: requiredPropsCheck,

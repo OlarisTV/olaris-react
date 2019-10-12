@@ -1,30 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Select, { components } from 'react-select';
+import Select from 'react-select';
 
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import DropdownIndicator from './DropdownIndicator';
 
-import { DropdownIcon, SelectStyle } from './Styles';
+import * as S from './Styles';
 
-const DropdownIndicator = (props) => {
-    return (
-        components.DropdownIndicator && (
-            <components.DropdownIndicator {...props}>
-                <DropdownIcon icon={faAngleDown} />
-            </components.DropdownIndicator>
-        )
-    );
-};
-
-const SingleSelect = ({
-    searchable,
-    onChange,
-    options,
-    value,
-    placeholder,
-    name,
-    menuPlacement,
-}) => {
+const SingleSelect = ({ searchable, onChange, options, value, placeholder, name, menuPlacement }) => {
     return (
         <Select
             placeholder={placeholder}
@@ -32,7 +14,7 @@ const SingleSelect = ({
             options={options}
             onChange={onChange}
             components={{ DropdownIndicator }}
-            styles={SelectStyle}
+            styles={S.SelectStyle}
             name={name}
             isSearchable={searchable}
             menuPlacement={menuPlacement}

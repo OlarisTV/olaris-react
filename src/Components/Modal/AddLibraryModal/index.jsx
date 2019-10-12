@@ -76,7 +76,7 @@ class AddLibraryModal extends Component {
 
     createLibrary = async ({ backend, filePath, rcloneName }) => {
         const { kind } = this.state;
-        const { type, alert, mutate, aLibrary, aLibrarySucess, aLibraryFailure } = this.props;
+        const { type, alert, mutate, aLibrary, aLibrarySuccess, aLibraryFailure } = this.props;
 
         let variables = {
             name: type,
@@ -105,8 +105,8 @@ class AddLibraryModal extends Component {
                     this.clearError();
                 } else {
                     this.closeModal();
-                    aLibrarySucess();
                     alert.success('Library Added');
+                    aLibrarySuccess();
                 }
             })
             .catch((error) => {
@@ -149,7 +149,7 @@ AddLibraryModal.propTypes = {
     cLibraryError: PropTypes.func.isRequired,
     mutate: PropTypes.func.isRequired,
     aLibrary: PropTypes.func.isRequired,
-    aLibrarySucess: PropTypes.func.isRequired,
+    aLibrarySuccess: PropTypes.func.isRequired,
     aLibraryFailure: PropTypes.func.isRequired,
     alert: PropTypes.shape({
         success: PropTypes.func.isRequired,
@@ -180,10 +180,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
+    withAlert(),
     connect(
         mapStateToProps,
         mapDispatchToProps,
     ),
     graphql(ADD_LIBRARY),
-    withAlert,
 )(AddLibraryModal);

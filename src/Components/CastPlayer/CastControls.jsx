@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { faClosedCaptioning } from '@fortawesome/free-solid-svg-icons';
@@ -50,39 +50,28 @@ export default class CastControls extends Component {
                 <CastPlayerWrap>
                     <CastPopupOptions>
                         {metadata.tracks && metadata.tracks.length > 0 && (
-                            <Fragment>
+                            <>
                                 <SelectSubtitles
                                     value={subtitle}
                                     options={metadata.tracks}
                                     onChange={(val) => this.subtitleChange(val)}
                                     menuIsOpen={subtitleOpen}
                                 />
-                            </Fragment>
+                            </>
                         )}
                     </CastPopupOptions>
                     <CastingInfo>
                         <h4>{metadata.title}</h4>
                         {metadata.subtitle && <h5>{metadata.subtitle}</h5>}
-                        {metadata.images && (
-                            <img src={metadata.images[0].url} alt={metadata.title} />
-                        )}
+                        {metadata.images && <img src={metadata.images[0].url} alt={metadata.title} />}
                     </CastingInfo>
 
                     <CastingControls>
-                        <BackThirty
-                            seek={(val) => PlayerControls.seek(val)}
-                            playstate={playstate}
-                        />
+                        <BackThirty seek={(val) => PlayerControls.seek(val)} playstate={playstate} />
 
-                        <PlayPause
-                            playPause={() => PlayerControls.playOrPause()}
-                            isPaused={playstate.paused}
-                        />
+                        <PlayPause playPause={() => PlayerControls.playOrPause()} isPaused={playstate.paused} />
 
-                        <ForwardThirty
-                            seek={(val) => PlayerControls.seek(val)}
-                            playstate={playstate}
-                        />
+                        <ForwardThirty seek={(val) => PlayerControls.seek(val)} playstate={playstate} />
 
                         <SeekBar
                             playstate={playstate}
@@ -94,15 +83,9 @@ export default class CastControls extends Component {
 
                     <CastingVolume>
                         {metadata.tracks && metadata.tracks.length > 1 && (
-                            <SubtitleToggle
-                                icon={faClosedCaptioning}
-                                onClick={() => this.toggleSubtitles()}
-                            />
+                            <SubtitleToggle icon={faClosedCaptioning} onClick={() => this.toggleSubtitles()} />
                         )}
-                        <MuteUnmute
-                            muteUnmute={() => PlayerControls.muteOrUnmute()}
-                            isMuted={playstate.muted}
-                        />
+                        <MuteUnmute muteUnmute={() => PlayerControls.muteOrUnmute()} isMuted={playstate.muted} />
                         <VolumeBar
                             playstate={playstate}
                             isMuted={playstate.muted}
@@ -124,8 +107,23 @@ export default class CastControls extends Component {
 }
 
 CastControls.propTypes = {
-    metadata: PropTypes.shape({}).isRequired,
-    playstate: PropTypes.shape({}).isRequired,
+    metadata: PropTypes.shape({
+        tracks: PropTypes.shape({
+            length: PropTypes.string,
+        }),
+        images: PropTypes.array,
+        title: PropTypes.string,
+        subtitle: PropTypes.string,
+        muted: PropTypes.bool,
+    }),
+    playstate: PropTypes.shape({
+        muted: PropTypes.bool.isRequired,
+        paused: PropTypes.bool.isRequired,
+    }).isRequired,
     castSending: PropTypes.bool.isRequired,
     castPlaying: PropTypes.bool.isRequired,
+};
+
+CastControls.defaultProps = {
+    metadata: {},
 };

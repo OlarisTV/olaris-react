@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { Auth, checkAuth } from 'Client/Auth';
@@ -16,17 +16,17 @@ const App = () => {
     checkAuth();
 
     const LoggedIn = () => (
-        <Fragment>
+        <>
             <Sidebar />
             <ContentWrap>
-                <Fragment>
+                <>
                     <Header />
                     <Routes />
-                </Fragment>
+                </>
             </ContentWrap>
             <ModalContainer />
             <CastPlayer />
-        </Fragment>
+        </>
     );
 
     return (
@@ -34,10 +34,10 @@ const App = () => {
             {Auth.isAuthenticated ? (
                 <LoggedIn />
             ) : (
-                <Fragment>
+                <>
                     <Routes />
                     <CastPlayer />
-                </Fragment>
+                </>
             )}
         </AppWrap>
     );

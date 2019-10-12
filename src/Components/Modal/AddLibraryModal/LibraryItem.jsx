@@ -9,12 +9,7 @@ import { AlertInline } from 'Components/Alerts';
 import FETCH_LIBRARIES from 'Queries/fetchLibraries';
 import { DELETE_LIBRARY } from 'Mutations/manageLibraries';
 
-import {
-    LibraryItemWrap,
-    LibraryItemFilePath,
-    LibraryItemDelete,
-    LibraryUnhealthy,
-} from './Styles';
+import { LibraryItemWrap, LibraryItemFilePath, LibraryItemDelete, LibraryUnhealthy } from './Styles';
 
 class LibraryItem extends Component {
     constructor(props) {

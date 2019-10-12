@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -36,7 +36,7 @@ class NavToggle extends Component {
         const { navHidden, browser } = this.props;
 
         return (
-            <Fragment>
+            <>
                 {browser.lessThan.large && !navHidden && (
                     <ContentOverlay onClick={this.toggleNav}>
                         <HideNavIcon icon={faTimes} />
@@ -46,7 +46,7 @@ class NavToggle extends Component {
                 <NavButton onClick={this.toggleNav} alignLeft>
                     <NavIcon icon={navHidden ? faBars : faTimes} />
                 </NavButton>
-            </Fragment>
+            </>
         );
     }
 }

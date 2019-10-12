@@ -10,7 +10,7 @@ const fadeOut = () => css`
     .25s ${aFadeOut} forwards;
 `;
 
-const UserFormWrap = styled.section`
+export const UserFormWrap = styled.section`
     display: flex;
     width: 100%;
     margin: 0 auto;
@@ -26,5 +26,3 @@ const UserFormWrap = styled.section`
         max-width: 50rem;
     `};
 `;
-
-export default UserFormWrap;

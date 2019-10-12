@@ -1,3 +1,4 @@
+/* eslint react/jsx-props-no-spreading: ["off"] */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -44,10 +45,7 @@ class SearchInput extends Component {
         const splitloc = location.pathname.split('/');
         const currentLocation = splitloc.pop() || splitloc.pop();
 
-        if (
-            e.key === 'Enter' &&
-            value.replace(/\s*$/, '') !== currentLocation.replace(/\s*$/, '')
-        ) {
+        if (e.key === 'Enter' && value.replace(/\s*$/, '') !== currentLocation.replace(/\s*$/, '')) {
             unmount();
 
             history.push(`/search/${value}`);
@@ -92,6 +90,17 @@ SearchInput.propTypes = {
     toggleFocus: PropTypes.func.isRequired,
     hasSuggestions: PropTypes.bool.isRequired,
     value: PropTypes.string,
+    location: PropTypes.shape({
+        pathname: PropTypes.shape({
+            split: PropTypes.func,
+        }),
+    }).isRequired,
+    unmount: PropTypes.func.isRequired,
+    inputProps: PropTypes.shape({
+        onFocus: PropTypes.func,
+        onBlur: PropTypes.func,
+        onChange: PropTypes.func,
+    }).isRequired,
 };
 
 SearchInput.defaultProps = {

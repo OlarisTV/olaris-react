@@ -1,46 +1,29 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import Select, { components } from 'react-select';
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import Select from 'react-select';
 
-import {
-    SelectStyle,
-    MediaInfo,
-    DropdownIcon,
-    FileName,
-    MediaInfoSubhead,
-} from '../Styles';
+import DropdownIndicator from './DropdownIndicator';
 
-const DropdownIndicator = (props) => {
-    return (
-        components.DropdownIndicator && (
-            <components.DropdownIndicator {...props}>
-                <DropdownIcon icon={faAngleDown} />
-            </components.DropdownIndicator>
-        )
-    );
-};
+import * as S from '../Styles';
 
 const MediaFiles = ({ files, selectedFile, fileChange }) => (
-    <Fragment>
-        <MediaInfo>
-            <MediaInfoSubhead>
-                {files.length > 1 ? 'Select File:' : 'File Name:'}
-            </MediaInfoSubhead>
+    <>
+        <S.MediaInfo>
+            <S.MediaInfoSubhead>{files.length > 1 ? 'Select File:' : 'File Name:'}</S.MediaInfoSubhead>
             {files.length > 1 ? (
                 <Select
                     value={selectedFile}
                     options={files}
                     onChange={fileChange}
                     components={{ DropdownIndicator }}
-                    styles={SelectStyle}
+                    styles={S.SelectStyle}
                     isSearchable={false}
                 />
             ) : (
-                <FileName>{selectedFile.label}</FileName>
+                <S.FileName>{selectedFile.label}</S.FileName>
             )}
-        </MediaInfo>
-    </Fragment>
+        </S.MediaInfo>
+    </>
 );
 
 MediaFiles.propTypes = {

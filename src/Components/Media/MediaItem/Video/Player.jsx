@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { throttle } from 'lodash';
 import { graphql } from 'react-apollo';
@@ -14,10 +14,7 @@ import 'videojs-http-source-selector';
 
 import UPDATE_PLAYSTATE from 'Mutations/updatePlaystate';
 import { showVideo } from 'Redux/Actions/videoActions';
-import {
-    updatePlayStateEpisode,
-    updatePlayStateMovie,
-} from 'Components/Media/Actions/updatePlayState';
+import { updatePlayStateEpisode, updatePlayStateMovie } from 'Components/Media/Actions/updatePlayState';
 
 class Player extends Component {
     t = throttle(() => this.playStateMutation(Math.floor(this.player.currentTime())), 2000);
@@ -127,7 +124,7 @@ class Player extends Component {
 
     render() {
         return (
-            <Fragment>
+            <>
                 <div data-vjs-player>
                     {/* eslint-disable-next-line */}
                     <video
@@ -137,7 +134,7 @@ class Player extends Component {
                         className="video-js"
                     />
                 </div>
-            </Fragment>
+            </>
         );
     }
 }

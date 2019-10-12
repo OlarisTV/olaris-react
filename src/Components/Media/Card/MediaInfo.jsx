@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Unwatched, UnwatchedCount, PlayState } from './Styles';
@@ -12,12 +12,12 @@ export default class MediaInfo extends Component {
         const watchStatus = () => {
             if (showPlayStatus) {
                 return (
-                    <Fragment>
+                    <>
                         {!playState.finished && <Unwatched />}
                         {!playState.finished && playState.playtime > 0 && (
                             <PlayState percent={this.playPosition(length, playState.playtime)} />
                         )}
-                    </Fragment>
+                    </>
                 );
             }
 
@@ -28,11 +28,11 @@ export default class MediaInfo extends Component {
             return false;
         };
 
-        return <Fragment>{watchStatus()}</Fragment>;
+        return <>{watchStatus()}</>;
     };
 
     render() {
-        return <Fragment>{this.mediaState()}</Fragment>;
+        return <>{this.mediaState()}</>;
     }
 }
 

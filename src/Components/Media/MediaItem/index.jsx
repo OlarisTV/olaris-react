@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { compose } from 'lodash/fp';
 import { graphql } from 'react-apollo';
 import { connect } from 'react-redux';
@@ -25,20 +26,18 @@ class MediaItem extends Component {
 
         this.state = {
             source: '',
-            castsource: '',
             resume: false,
             autoplay: false,
             fileList: [],
             selectedFile: {},
-            streams: [],
             mimeType: '',
+            castsource: '',
         };
     }
 
     componentWillMount() {
         const { files, location } = this.props;
         const { state } = location;
-
         const fileList = generateFileList(files);
         const resume = state !== undefined ? state.resume : false;
         const autoplay = state && state.autoplay ? state.autoplay : false;
@@ -86,12 +85,6 @@ class MediaItem extends Component {
         mutate({
             variables: { uuid: files[selectedFile.value].uuid },
         })
-            .then(({ data }) => {
-                const { streams } = data.createStreamingTicket;
-                this.setState({ streams });
-
-                return data;
-            })
             .then((data) => {
                 fetch(getBaseUrl() + data.createStreamingTicket.metadataPath)
                     .then((response) => response.json())
@@ -114,8 +107,8 @@ class MediaItem extends Component {
     };
 
     render() {
-        const { posterPath, season, type, uuid, name, isConnected, playState, files } = this.props;
-        const { selectedFile, fileList } = this.state;
+        const { posterPath, season, type, wide, uuid, name, isConnected, playState, files, dispatch } = this.props;
+        const { selectedFile, fileList, source, mimeType, resume, castsource } = this.state;
         const background = posterPath || season.series.posterPath;
 
         const mediaInfo = {
@@ -125,15 +118,20 @@ class MediaItem extends Component {
         return (
             <MediaFullWrap>
                 <MediaBackground bgimg={`${getBaseUrl()}/olaris/m/images/tmdb/w342/${background}`} />
-                <Breadcrumbs props={this.props} />
+                <Breadcrumbs type={type} name={name} season={season} />
                 <MediaFull>
                     <MediaLeftCol>
                         <MediaCard
-                            size={type === 'Episode' ? 'largeWide' : 'large'}
+                            wide={wide}
                             playMedia={this.playMedia}
                             internalCard
                             text
-                            {...mediaInfo}
+                            files={files}
+                            name={name}
+                            playState={playState}
+                            posterPath={posterPath}
+                            type={type}
+                            uuid={uuid}
                         />
                     </MediaLeftCol>
                     <MediaRightCol>
@@ -155,17 +153,64 @@ class MediaItem extends Component {
                         />
                     </MediaRightCol>
                 </MediaFull>
-
                 <VideoController
-                    {...this.props}
-                    {...this.state}
+                    source={source}
+                    files={files}
+                    selectedFile={selectedFile}
+                    resume={resume}
+                    playState={playState}
+                    type={type}
+                    mimeType={mimeType}
+                    uuid={uuid}
                     background={background}
+                    castsource={castsource}
+                    dispatch={dispatch}
                     closePlayer={() => this.closePlayer()}
                 />
             </MediaFullWrap>
         );
     }
 }
+
+MediaItem.propTypes = {
+    name: PropTypes.string.isRequired,
+    isConnected: PropTypes.bool.isRequired,
+    posterPath: PropTypes.string,
+    dispatch: PropTypes.func.isRequired,
+    mutate: PropTypes.func.isRequired,
+    wide: PropTypes.bool,
+    files: PropTypes.arrayOf(
+        PropTypes.shape({
+            fileName: PropTypes.string,
+            filePath: PropTypes.string,
+        }),
+    ).isRequired,
+    season: PropTypes.shape({
+        series: PropTypes.shape({
+            posterPath: PropTypes.string,
+        }),
+    }),
+    location: PropTypes.shape({
+        state: PropTypes.shape({
+            autoplay: PropTypes.bool,
+            resume: PropTypes.bool,
+        }),
+    }),
+    uuid: PropTypes.string.isRequired,
+    resume: PropTypes.bool,
+    isPlaying: PropTypes.bool,
+    playState: PropTypes.shape({}).isRequired,
+    type: PropTypes.string.isRequired,
+};
+
+MediaItem.defaultProps = {
+    resume: false,
+    posterPath: false,
+    isPlaying: false,
+    wide: false,
+    season: {},
+    location: {},
+};
 
 const mapStateToProps = (state) => {
     const { video, cast } = state;

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { CardTitle, CardInfo } from './Styles';
@@ -29,10 +29,10 @@ const MediaName = ({ episodes, type, year, name, episodeNumber, season }) => {
     };
 
     return (
-        <Fragment>
+        <>
             <CardTitle>{name}</CardTitle>
             <CardInfo>{info()}</CardInfo>
-        </Fragment>
+        </>
     );
 };
 

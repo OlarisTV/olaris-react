@@ -20,23 +20,19 @@ import {
 } from '../Styles';
 import EpisodesWrap from './Styles';
 
-const Season = (props) => {
-    const { name, uuid, posterPath, airDate, overview, children, episodes, series } = props;
-
+const Season = ({ name, uuid, posterPath, airDate, overview, children, episodes, series, type }) => {
     const releaseDate = `(${airDate.split('-')[0]})`;
 
     return (
         <MediaFullWrap>
-            <Breadcrumbs props={props} />
+            <Breadcrumbs name={name} series={series} type={type} />
             <MediaBackground bgimg={`${getBaseUrl()}/olaris/m/images/tmdb/w342/${posterPath}`} />
             <MediaLeftCol>
-                <Media size="large" {...props} hover={false} />
+                <Media size="large" hover={false} name={name} posterPath={posterPath} type={type} />
             </MediaLeftCol>
             <MediaRightCol>
                 <MediaListHeader data={episodes} type="season" uuid={uuid} />
-                <MediaNameLink to={generateMediaUrl('series', series.uuid)}>
-                    {series.name}
-                </MediaNameLink>
+                <MediaNameLink to={generateMediaUrl('series', series.uuid)}>{series.name}</MediaNameLink>
                 <SeasonNumber>
                     {name}
                     <MediaRelease>{releaseDate}</MediaRelease>
@@ -51,13 +47,29 @@ const Season = (props) => {
 };
 
 Season.propTypes = {
+    uuid: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    posterPath: PropTypes.string,
+    overview: PropTypes.string,
+    airDate: PropTypes.string,
+    type: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    series: PropTypes.shape({
+        uuid: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+    }).isRequired,
     episodes: PropTypes.arrayOf(
         PropTypes.shape({
             name: PropTypes.string.isRequired,
             uuid: PropTypes.string.isRequired,
         }),
     ).isRequired,
+};
+
+Season.defaultProps = {
+    posterPath: null,
+    airDate: null,
+    overview: '',
 };
 
 export default Season;

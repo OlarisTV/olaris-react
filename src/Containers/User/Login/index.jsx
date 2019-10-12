@@ -1,7 +1,6 @@
 import React, { useState, useReducer, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useAlert } from 'react-alert';
 import { Redirect, useHistory, useLocation } from 'react-router';
-import { withAlert } from 'react-alert';
 
 import { isInitialSetup } from 'Helpers';
 import { AUTH_REQUEST, Auth } from 'Client/Auth';
@@ -9,13 +8,15 @@ import { AUTH_REQUEST, Auth } from 'Client/Auth';
 import LoginForm from 'Components/User/LoginForm';
 import { initialState, reducer } from './reducer';
 
-import UserFormWrap from '../Styles';
+import * as S from '../Styles';
 
-const Login = ({ alert }) => {
+const Login = () => {
     const [formState, dispatch] = useReducer(reducer, initialState);
     const [initialSetup, setInitialSetup] = useState(false);
     const [redirect, setRedirect] = useState(false);
 
+    const alert = useAlert();
+    const history = useHistory();
     const { from } = useLocation().state || { from: { pathname: '/dashboard' } };
     const { success, error, username, password } = formState;
 
@@ -43,17 +44,17 @@ const Login = ({ alert }) => {
 
     useEffect(() => {
         setInitialSetup(isInitialSetup);
-    }, []);
 
-    if (useHistory().location.state && useHistory().location.state.registered) {
-        alert.success('Account Successfully Created, login with your details above');
-    }
+        if (history.location.state && history.location.state.registered) {
+            alert.success('Account Successfully Created, login with your details above');
+        }
+    }, []);
 
     if (initialSetup) return <Redirect to="/register" />;
     if (redirect || Auth.isAuthenticated) return <Redirect to={from} />;
 
     return (
-        <UserFormWrap success={success}>
+        <S.UserFormWrap success={success}>
             <LoginForm
                 username={username}
                 password={password}
@@ -61,15 +62,8 @@ const Login = ({ alert }) => {
                 onChange={({ target: { name, value } }) => onChange(name, value)}
                 error={error}
             />
-        </UserFormWrap>
+        </S.UserFormWrap>
     );
 };
 
-Login.propTypes = {
-    alert: PropTypes.shape({
-        success: PropTypes.func.isRequired,
-        error: PropTypes.func.isRequired,
-    }).isRequired,
-};
-
-export default withAlert()(Login);
+export default Login;

@@ -2,12 +2,9 @@ import React from 'react';
 
 import BreadcrumbList from './BreadcrumbList';
 
-const Breadcrumbs = ({ props }) => {
-    const { type } = props;
-
+const Breadcrumbs = ({ type, season, name, series }) => {
     switch (type) {
         case 'Episode': {
-            const { season, name } = props;
             const items = [
                 { name: 'TV Shows', url: '/series' },
                 {
@@ -21,8 +18,6 @@ const Breadcrumbs = ({ props }) => {
             return <BreadcrumbList items={items} />;
         }
         case 'Season': {
-            const { series, name } = props;
-
             const items = [
                 { name: 'TV Shows', url: '/series' },
                 { name: series.name, url: `/series/${series.uuid}` },
@@ -32,15 +27,11 @@ const Breadcrumbs = ({ props }) => {
             return <BreadcrumbList items={items} />;
         }
         case 'Series': {
-            const { name } = props;
-
             const items = [{ name: 'TV Shows', url: '/series' }, { name }];
 
             return <BreadcrumbList items={items} />;
         }
         case 'Movie': {
-            const { name } = props;
-
             const items = [{ name: 'Movies', url: '/movies' }, { name }];
 
             return <BreadcrumbList items={items} />;

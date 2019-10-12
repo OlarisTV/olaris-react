@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -14,13 +14,13 @@ const Sidebar = (props) => {
     return (
         <SidebarWrap navHidden={navHidden} videoOpen={videoOpen} castPlaying={castPlaying}>
             <Scroll id="sidebar">
-                <Fragment>
+                <>
                     <DashboardLink to="/">
                         <LogoIcon height="30" />
                     </DashboardLink>
 
                     <Navigation />
-                </Fragment>
+                </>
             </Scroll>
         </SidebarWrap>
     );

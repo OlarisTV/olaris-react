@@ -15,6 +15,7 @@ const MODAL_COMPONENTS = {
     [FIXMISMATCH_MODAL]: FixMismatchModal,
 };
 
+// eslint-disable-next-line
 const ModalContainer = ({ type, props }) => {
     if (!type) {
         return null;
@@ -22,6 +23,7 @@ const ModalContainer = ({ type, props }) => {
 
     const Modal = MODAL_COMPONENTS[type];
 
+    // eslint-disable-next-line
     return <Modal {...props} />;
 };
 

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -125,7 +125,10 @@ VideoController.propTypes = {
             fileName: PropTypes.string,
         }),
     ).isRequired,
-    selectedFile: PropTypes.shape({}).isRequired,
+    selectedFile: PropTypes.shape({
+        totalDuration: PropTypes.number,
+        value: PropTypes.number,
+    }).isRequired,
     uuid: PropTypes.string.isRequired,
     auth: PropTypes.shape({}).isRequired,
     resume: PropTypes.bool,

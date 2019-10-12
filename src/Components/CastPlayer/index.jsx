@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Script from 'react-load-script';
@@ -27,23 +27,37 @@ class CastPlayer extends Component {
     };
 
     render() {
-        const { isCasting } = this.props;
+        const { metadata, playstate, castSending, castPlaying, isCasting } = this.props;
 
         return (
-            <Fragment>
+            <>
                 <Script
                     url="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"
                     onLoad={() => this.handleScriptLoad()}
                 />
-                {isCasting && <CastControls {...this.props} />}
-            </Fragment>
+                {isCasting && (
+                    <CastControls
+                        metadata={metadata}
+                        playstate={playstate}
+                        castsending={castSending}
+                        castPlaying={castPlaying}
+                    />
+                )}
+            </>
         );
     }
 }
 
 CastPlayer.propTypes = {
     isCasting: PropTypes.bool.isRequired,
+    castPlaying: PropTypes.bool.isRequired,
     castSending: PropTypes.bool.isRequired,
+    metadata: PropTypes.shape({}),
+    playstate: PropTypes.shape({}).isRequired,
+};
+
+CastPlayer.defaultProps = {
+    metadata: {},
 };
 
 const mapStateToProps = (state) => {

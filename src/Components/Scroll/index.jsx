@@ -7,16 +7,16 @@ import { scrolled, CONTENT_SCROLL, SIDEBAR_SCROLL } from 'Redux/Actions/viewport
 
 import { throttle } from 'lodash';
 
-const renderThumb = ({ style, ...props }) => {
+const renderThumb = ({ style }) => {
     const thumbStyle = {
         background: '#191a28',
         borderRadius: '2px',
     };
 
-    return <div style={{ ...style, ...thumbStyle }} {...props} />;
+    return <div style={{ ...style, ...thumbStyle }} />;
 };
 
-const renderTrack = ({ style, ...props }) => {
+const renderTrack = ({ style }) => {
     const trackStyle = {
         width: '1rem',
         right: '.5rem',
@@ -25,7 +25,7 @@ const renderTrack = ({ style, ...props }) => {
         height: '100%',
     };
 
-    return <div style={{ ...style, ...trackStyle }} {...props} />;
+    return <div style={{ ...style, ...trackStyle }} />;
 };
 
 class Scroll extends Component {
@@ -69,6 +69,14 @@ Scroll.propTypes = {
     children: PropTypes.element.isRequired,
     id: PropTypes.string.isRequired,
     scrollFinished: PropTypes.func.isRequired,
+};
+
+renderTrack.propTypes = {
+    style: PropTypes.shape({}).isRequired,
+};
+
+renderThumb.propTypes = {
+    style: PropTypes.shape({}).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

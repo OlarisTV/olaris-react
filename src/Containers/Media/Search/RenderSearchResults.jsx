@@ -15,13 +15,23 @@ const RenderSearchResults = ({ value }) => {
 
     if (loading) return <Loading />;
     if (error) return `Error! ${error.message}`;
-    if (data.search.length) return `No Results Found For ${value}`;
 
-    return data.search.map((r) => (
-        <S.LibraryListItem key={r.uuid}>
-            <MediaCard {...r} />
-        </S.LibraryListItem>
-    ));
+    return data.search.map((item) => {
+        const { posterPath, type, name, playState, files, uuid } = item;
+
+        return (
+            <S.LibraryListItem key={uuid}>
+                <MediaCard
+                    files={files}
+                    name={name}
+                    playState={playState}
+                    posterPath={posterPath}
+                    type={type}
+                    uuid={uuid}
+                />
+            </S.LibraryListItem>
+        );
+    });
 };
 
 RenderSearchResults.propTypes = {

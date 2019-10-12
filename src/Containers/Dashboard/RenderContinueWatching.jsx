@@ -1,5 +1,5 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { useQuery } from 'react-apollo';
 
 import CONTINUE_WATCHING from 'Queries/fetchContinueWatching';
 
@@ -10,35 +10,40 @@ import MediaCard from 'Components/Media/Card';
 import { NoResults } from 'Containers/Styles';
 import { MediaCardWrap } from './Styles';
 
-const RenderContinueWatching = () => (
-    <Query query={CONTINUE_WATCHING} fetchPolicy="cache-and-network">
-        {({ loading, error, data }) => {
-            if (error) return `Error! ${error.message}`;
-            if (loading) return <Loading />;
+const RenderContinueWatching = () => {
+    const { loading, error, data } = useQuery(CONTINUE_WATCHING, {
+        fetchPolicy: 'cache-and-network',
+    });
 
-            if (data.upNext.length === 0) {
-                return (
-                    <NoResults alignLeft>
-                        {'Nothing here? Why not start watching something?'}
-                    </NoResults>
-                );
-            }
+    if (loading) return <Loading />;
+    if (error) return `Error! ${error.message}`;
 
-            const continueWatching = data.upNext.map((un) => {
-                if (un.name.length === 0) return false;
+    if (data.upNext.length === 0) {
+        return <NoResults alignLeft>Nothing here? Why not start watching something?</NoResults>;
+    }
 
-                const posterPath = un.posterPath || un.season.series.posterPath;
+    const continueWatching = data.upNext.map((item) => {
+        if (item.name.length === 0) return false;
 
-                return (
-                    <MediaCardWrap key={un.uuid}>
-                        <MediaCard showText {...un} posterPath={posterPath} />
-                    </MediaCardWrap>
-                );
-            });
+        const { files, name, playState, type, uuid } = item;
+        const posterPath = item.posterPath || item.season.series.posterPath;
 
-            return <Carousel>{continueWatching}</Carousel>;
-        }}
-    </Query>
-);
+        return (
+            <MediaCardWrap key={uuid}>
+                <MediaCard
+                    showText
+                    files={files}
+                    name={name}
+                    playState={playState}
+                    posterPath={posterPath}
+                    type={type}
+                    uuid={uuid}
+                />
+            </MediaCardWrap>
+        );
+    });
+
+    return <Carousel>{continueWatching}</Carousel>;
+};
 
 export default RenderContinueWatching;

@@ -14,7 +14,22 @@ const RenderEpisode = ({ uuid }) => {
     if (loading) return <Loading />;
     if (error) return `Error! ${error.message}`;
 
-    return <MediaItem wide {...data.episode} />;
+    const { stillPath, airDate, season, type, name, playState, files, overview } = data.episode;
+
+    return (
+        <MediaItem
+            wide
+            uuid={uuid}
+            airDate={airDate}
+            posterPath={stillPath}
+            season={season}
+            type={type}
+            name={name}
+            playState={playState}
+            files={files}
+            overview={overview}
+        />
+    );
 };
 
 RenderEpisode.propTypes = {

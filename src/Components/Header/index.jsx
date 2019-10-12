@@ -13,9 +13,12 @@ import Search from './Search';
 import { HeaderWrap, BackButton, BackIcon } from './Styles';
 
 class Header extends Component {
-    state = {
-        value: '',
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: '',
+        };
+    }
 
     updateSearch = (value) => {
         this.setState({

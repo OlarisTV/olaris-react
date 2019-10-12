@@ -12,7 +12,7 @@ import * as S from './Styles';
 const RefreshMetadata = ({ uuid }) => {
     const alert = useAlert();
     const [state, setState] = useState(false);
-    const [refreshMetadata, { data }] = useMutation(REFRESH_METADATA, {
+    const [refreshMetadata] = useMutation(REFRESH_METADATA, {
         onCompleted: () => {
             setState(true);
             alert.show('Success!, Refreshing metadata this may take a while');

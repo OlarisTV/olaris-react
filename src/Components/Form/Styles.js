@@ -2,6 +2,11 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { aFadeIn } from 'Styles/Animations';
 
+const animation = (props) =>
+    css`
+        ${aFadeIn} 0.2 infinite alternate;
+    `;
+
 export const Input = styled.input`
     padding: 0 6.5rem 0 1.5rem;
     line-height: 5rem;
@@ -72,7 +77,7 @@ export const SelectStyle = {
         borderRadius: '0',
         overflow: 'hidden',
         cursor: 'pointer',
-        animation: `${`.4s ${aFadeIn} alternate`}`,
+        animation: animation,
         margin: '0',
         width: '100%',
         boxShadow: 'none',

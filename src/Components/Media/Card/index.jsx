@@ -1,3 +1,4 @@
+/* eslint react/jsx-props-no-spreading: ["off"] */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -15,9 +16,13 @@ import placeholder from './placeholder.png';
 import { CardPoster, CardWrap, CardPopup, PosterWrap, PopupLink, PopupIcon, Lazy } from './Styles';
 
 class MediaCard extends Component {
-    state = {
-        url: '',
-    };
+    constructor() {
+        super();
+
+        this.state = {
+            url: '',
+        };
+    }
 
     componentDidMount() {
         const { type, uuid } = this.props;
@@ -115,6 +120,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 MediaCard.propTypes = {
+    playMedia: PropTypes.bool,
     name: PropTypes.string.isRequired,
     airDate: PropTypes.string,
     posterPath: PropTypes.string,
@@ -127,6 +133,11 @@ MediaCard.propTypes = {
             totalDuration: PropTypes.number,
         }),
     ),
+    playState: PropTypes.shape({
+        playtime: PropTypes.number,
+        finished: PropTypes.bool,
+    }).isRequired,
+    internalCard: PropTypes.bool,
     history: ReactRouterPropTypes.history.isRequired,
     hover: PropTypes.bool,
     wide: PropTypes.bool,
@@ -139,7 +150,9 @@ MediaCard.defaultProps = {
     posterPath: null,
     stillPath: null,
     wide: false,
+    playMedia: false,
     showText: false,
+    internalCard: false,
     files: [
         {
             totalDuration: 0,

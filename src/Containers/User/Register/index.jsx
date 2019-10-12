@@ -1,7 +1,6 @@
 import React, { useState, useReducer, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Auth } from 'Client/Auth';
-import { withAlert } from 'react-alert';
+import { useAlert } from 'react-alert';
 import { Redirect, useLocation } from 'react-router';
 import { getUrlParameter, isInitialSetup } from 'Helpers';
 
@@ -9,14 +8,15 @@ import CREATE_USER from 'Mutations/createUser';
 import RegisterForm from 'Components/User/RegisterForm';
 import { initialState, reducer } from './reducer';
 
-import UserFormWrap from '../Styles';
+import * as S from '../Styles';
 
-const Register = ({ alert }) => {
+const Register = () => {
     const [initialSetup, setInitialSetup] = useState(false);
     const [formState, dispatch] = useReducer(reducer, initialState);
 
+    const alert = useAlert();
     const { from } = useLocation().state || { from: { pathname: '/dashboard' } };
-    const { success, error, username, password, inviteCode } = formState;
+    const { success, error, username, password, inviteCode: code } = formState;
 
     const onChange = (name, value) => dispatch({ type: 'UPDATE_FORM', payload: { name, value } });
 
@@ -40,16 +40,13 @@ const Register = ({ alert }) => {
         }
 
         CREATE_USER(registerInfo)
-            .then(() => {
-                dispatch({ type: 'SUCCESS' });
-            })
-            .catch((err) => {
-                onError(err.response.data.message);
-            });
+            .then(() => dispatch({ type: 'SUCCESS' }))
+            .catch((err) => onError(err.response.data.message));
     };
 
     useEffect(() => {
         setInitialSetup(isInitialSetup);
+
         dispatch({
             type: 'UPDATE_FORM',
             payload: {
@@ -63,25 +60,18 @@ const Register = ({ alert }) => {
     if (success) return <Redirect to={{ pathname: '/login', state: { registered: true } }} />;
 
     return (
-        <UserFormWrap>
+        <S.UserFormWrap>
             <RegisterForm
                 onSubmit={onSubmit}
                 error={error}
-                inviteCode={inviteCode}
+                inviteCode={code}
                 onChange={({ target: { name, value } }) => onChange(name, value)}
                 initialSetup={initialSetup}
                 username={username}
                 password={password}
             />
-        </UserFormWrap>
+        </S.UserFormWrap>
     );
 };
 
-Register.propTypes = {
-    alert: PropTypes.shape({
-        success: PropTypes.func.isRequired,
-        error: PropTypes.func.isRequired,
-    }).isRequired,
-};
-
-export default withAlert()(Register);
+export default Register;

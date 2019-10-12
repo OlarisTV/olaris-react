@@ -14,7 +14,21 @@ const RenderMovie = ({ uuid }) => {
     if (loading) return <Loading />;
     if (error) return `Error! ${error.message}`;
 
-    return <MediaItem {...data.movies[0]} />;
+    const { posterPath, airDate, season, type, name, playState, files, overview } = data.movies[0];
+
+    return (
+        <MediaItem
+            uuid={uuid}
+            airDate={airDate}
+            posterPath={posterPath}
+            season={season}
+            type={type}
+            name={name}
+            playState={playState}
+            files={files}
+            overview={overview}
+        />
+    );
 };
 
 RenderMovie.propTypes = {

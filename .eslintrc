@@ -1,6 +1,6 @@
 {
     "extends": ["airbnb", "prettier"],
-    "plugins": ["react"],
+    "plugins": ["react", "react-hooks"],
     "parser": "babel-eslint",
     "settings": {
         "import/resolver": {
@@ -25,6 +25,8 @@
         "react/jsx-indent-props": ["error", 4],
         "react/jsx-one-expression-per-line": "off",
         "react/jsx-curly-newline": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "off",
         "no-bitwise": [
             "error",
             {

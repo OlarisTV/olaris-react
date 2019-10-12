@@ -5,20 +5,24 @@ import { useLocation } from 'react-router';
 
 import { Auth } from 'Client/Auth';
 
-const AdminRoute = ({ children, computedMatch, exact, path }) => (
-    <Route computedMatch={computedMatch} exact={exact} path={path}>
-        {Auth.isAuthenticated && Auth.isAdmin ? (
-            children
-        ) : (
-            <Redirect
-                to={{
-                    pathname: '/',
-                    state: { from: useLocation() },
-                }}
-            />
-        )}
-    </Route>
-);
+const AdminRoute = ({ children, computedMatch, exact, path }) => {
+    const from = useLocation();
+
+    return (
+        <Route computedMatch={computedMatch} exact={exact} path={path}>
+            {Auth.isAuthenticated && Auth.isAdmin ? (
+                children
+            ) : (
+                <Redirect
+                    to={{
+                        pathname: '/',
+                        state: { from },
+                    }}
+                />
+            )}
+        </Route>
+    );
+};
 
 AdminRoute.propTypes = {
     children: PropTypes.node,

@@ -20,16 +20,16 @@ import {
 import SeasonsWrap from './Styles';
 
 const Series = (props) => {
-    const { name, uuid, posterPath, overview, firstAirDate, seasons, children } = props;
+    const { name, uuid, posterPath, overview, firstAirDate, seasons, children, type } = props;
 
     const releaseDate = `(${firstAirDate.split('-')[0]})`;
 
     return (
         <MediaFullWrap>
-            <Breadcrumbs props={props} />
+            <Breadcrumbs name={name} type={type} />
             <MediaBackground bgimg={`${getBaseUrl()}/olaris/m/images/tmdb/w342/${posterPath}`} />
             <MediaLeftCol>
-                <Media size="large" {...props} hover={false} />
+                <Media size="large" hover={false} name={name} posterPath={posterPath} type={type} />
             </MediaLeftCol>
             <MediaRightCol>
                 <MediaListHeader data={seasons} uuid={uuid} name={name} type="series" />
@@ -46,14 +46,25 @@ const Series = (props) => {
 };
 
 Series.propTypes = {
+    uuid: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    posterPath: PropTypes.string,
+    overview: PropTypes.string,
+    firstAirDate: PropTypes.string,
+    type: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
     seasons: PropTypes.arrayOf(
         PropTypes.shape({
             name: PropTypes.string.isRequired,
             uuid: PropTypes.string.isRequired,
         }),
     ).isRequired,
-    overview: PropTypes.string.isRequired,
+};
+
+Series.defaultProps = {
+    posterPath: null,
+    firstAirDate: null,
+    overview: '',
 };
 
 export default Series;
