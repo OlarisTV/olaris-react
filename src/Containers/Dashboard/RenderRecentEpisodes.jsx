@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React from 'react';
+=======
+import React, { Component } from 'react';
+>>>>>>> develop
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useQuery } from 'react-apollo';
@@ -62,6 +66,10 @@ const RenderRecentEpisodes = ({ sModal }) => {
     }
 
     return <Carousel>{RecentlyAddedEpisodes}</Carousel>;
+};
+
+RenderRecentEpisodes.propTypes = {
+    sModal: PropTypes.func.isRequired,
 };
 
 RenderRecentEpisodes.propTypes = {
