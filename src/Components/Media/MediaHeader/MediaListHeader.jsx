@@ -9,10 +9,10 @@ import { compileEpisodes, generateMediaUrl } from 'Helpers';
 import { showModal } from 'Redux/Actions/modalActions';
 
 import { faPlay, faRandom } from '@fortawesome/free-solid-svg-icons';
-import EditMediaData from './EditMediaData';
+import MediaMismatch from './MediaMismatch';
 import MarkWatched from './MarkWatched';
 
-import { Header, HeaderIconWrap, HeaderIcon } from './Styles';
+import * as S from './Styles';
 
 class MediaListHeader extends Component {
     constructor(props) {
@@ -93,15 +93,15 @@ class MediaListHeader extends Component {
                     <S.HeaderIcon icon={faPlay} />
                 </S.HeaderIconWrap>
 
-                <HeaderIconWrap
+                <S.HeaderIconWrap
                     onClick={() => this.playEpisode(randomEpisode.uuid, false)}
                     data-tip="Play Random Episode"
                 >
-                    <HeaderIcon icon={faRandom} />
-                </HeaderIconWrap>
+                    <S.HeaderIcon icon={faRandom} />
+                </S.HeaderIconWrap>
 
                 <MarkWatched type={type} uuid={uuid} playState={playState} episodes={episodes} />
-                {type === 'series' && <EditMediaData name={name} type={type} />}
+                {type === 'series' && <MediaMismatch name={name} type={type} />}
             </S.Header>
         );
     }

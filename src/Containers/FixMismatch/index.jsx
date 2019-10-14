@@ -12,8 +12,6 @@ const FixMismatch = ({ type, name }) => {
     if (error) return <p>Error Fetching Data</p>;
     if (loading) return <p>Loading</p>;
 
-    console.log(data);
-
     return (
         <p>
             {type} {name}

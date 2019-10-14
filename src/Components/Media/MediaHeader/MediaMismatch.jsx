@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { faWrench } from '@fortawesome/free-solid-svg-icons';
 
-import { showModal, FIXMISMATCH_MODAL } from 'Redux/Actions/modalActions';
+import { showModal, FIX_MISMATCH_MODAL } from 'Redux/Actions/modalActions';
 
 import { HeaderIconWrap, HeaderIcon } from './Styles';
 
 const FixMismatch = ({ sModal, name, file, type }) => {
     const toggleModal = () => {
-        sModal(FIXMISMATCH_MODAL, {
+        sModal(FIX_MISMATCH_MODAL, {
             name,
             file,
             type,

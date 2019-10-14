@@ -4,30 +4,15 @@ import { connect } from 'react-redux';
 import AddLibraryModal from 'Components/Modal/AddLibraryModal';
 import ResumeMediaModal from 'Components/Modal/ResumeMediaModal';
 import WarningModal from 'Components/Modal/WarningModal';
-<<<<<<< HEAD
 import FixMismatchModal from 'Components/Modal/FixMismatchModal';
 
-import { LIBRARY_MODAL, RESUME_MODAL, WARNING_MODAL, FIXMISMATCH_MODAL } from 'Redux/Actions/modalActions';
-=======
-import EditMediaModal from 'Components/Modal/EditMediaModal';
-
-import {
-    LIBRARY_MODAL,
-    RESUME_MODAL,
-    WARNING_MODAL,
-    EDITMEDIA_MODAL,
-} from 'Redux/Actions/modalActions';
->>>>>>> develop
+import { LIBRARY_MODAL, RESUME_MODAL, WARNING_MODAL, FIX_MISMATCH_MODAL } from 'Redux/Actions/modalActions';
 
 const MODAL_COMPONENTS = {
     [LIBRARY_MODAL]: AddLibraryModal,
     [RESUME_MODAL]: ResumeMediaModal,
     [WARNING_MODAL]: WarningModal,
-<<<<<<< HEAD
-    [FIXMISMATCH_MODAL]: FixMismatchModal,
-=======
-    [EDITMEDIA_MODAL]: EditMediaModal,
->>>>>>> develop
+    [FIX_MISMATCH_MODAL]: FixMismatchModal,
 };
 
 // eslint-disable-next-line

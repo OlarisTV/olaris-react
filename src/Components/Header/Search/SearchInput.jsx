@@ -91,9 +91,7 @@ SearchInput.propTypes = {
     hasSuggestions: PropTypes.bool.isRequired,
     value: PropTypes.string,
     location: PropTypes.shape({
-        pathname: PropTypes.shape({
-            split: PropTypes.func,
-        }),
+        pathname: PropTypes.string,
     }).isRequired,
     unmount: PropTypes.func.isRequired,
     inputProps: PropTypes.shape({

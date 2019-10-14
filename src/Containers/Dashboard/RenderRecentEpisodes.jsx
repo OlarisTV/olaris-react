@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React from 'react';
-=======
-import React, { Component } from 'react';
->>>>>>> develop
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useQuery } from 'react-apollo';

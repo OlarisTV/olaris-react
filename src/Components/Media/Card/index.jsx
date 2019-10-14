@@ -120,13 +120,13 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 MediaCard.propTypes = {
-    playMedia: PropTypes.bool,
+    playMedia: PropTypes.func,
     name: PropTypes.string.isRequired,
     airDate: PropTypes.string,
     posterPath: PropTypes.string,
     stillPath: PropTypes.string,
     type: PropTypes.string.isRequired,
-    uuid: PropTypes.string.isRequired,
+    uuid: PropTypes.string,
     loadModal: PropTypes.func.isRequired,
     files: PropTypes.arrayOf(
         PropTypes.shape({
@@ -136,7 +136,7 @@ MediaCard.propTypes = {
     playState: PropTypes.shape({
         playtime: PropTypes.number,
         finished: PropTypes.bool,
-    }).isRequired,
+    }),
     internalCard: PropTypes.bool,
     history: ReactRouterPropTypes.history.isRequired,
     hover: PropTypes.bool,
@@ -153,6 +153,8 @@ MediaCard.defaultProps = {
     playMedia: false,
     showText: false,
     internalCard: false,
+    playState: null,
+    uuid: '',
     files: [
         {
             totalDuration: 0,

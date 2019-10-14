@@ -10,18 +10,18 @@ import { showModal } from 'Redux/Actions/modalActions';
 import PlayMedia from './PlayMedia';
 import MarkWatched from './MarkWatched';
 import RefreshMetadata from './RefreshMetadata';
-import EditMediaData from './EditMediaData';
+import MediaMismatch from './MediaMismatch';
 
 import { Header } from './Styles';
 
-const MediaItemHeader = ({ name, type, uuid, playMedia, playState, isConnected }) => (
+const MediaItemHeader = ({ name, type, uuid, playMedia, playState, isConnected, file }) => (
     <Header>
         <ReactToolTip effect="solid" place="bottom" className="tooltip" />
 
         <PlayMedia type={type} isConnected={isConnected} playMedia={playMedia} playState={playState} />
         <MarkWatched playState={playState} type={type} uuid={uuid} />
         <RefreshMetadata uuid={uuid} />
-        {type === 'Movie' && <EditMediaData name={name} type={type} />}
+        {type === 'Movie' && <MediaMismatch name={name} type={type} file={file} />}
     </Header>
 );
 
@@ -35,6 +35,11 @@ MediaItemHeader.propTypes = {
     isConnected: PropTypes.bool.isRequired,
     type: PropTypes.string.isRequired,
     playMedia: PropTypes.func.isRequired,
+    file: PropTypes.string,
+};
+
+MediaItemHeader.defaultProps = {
+    file: null,
 };
 
 const mapDispatchToProps = (dispatch) => ({

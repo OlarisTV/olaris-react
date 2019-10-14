@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { compose } from 'lodash/fp';
 import { graphql } from 'react-apollo';
-import { withAlert } from 'react-alert';
+import { useAlert } from 'react-alert';
 import PropTypes from 'prop-types';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,7 +17,8 @@ class RefreshMetadata extends Component {
     }
 
     refreshMetadata = () => {
-        const { uuid, mutate, alert } = this.props;
+        const { uuid, mutate } = this.props;
+        const alert = useAlert();
 
         mutate({
             variables: { uuid },
@@ -52,12 +52,6 @@ class RefreshMetadata extends Component {
 RefreshMetadata.propTypes = {
     uuid: PropTypes.string.isRequired,
     mutate: PropTypes.func.isRequired,
-    alert: PropTypes.shape({
-        success: PropTypes.func.isRequired,
-    }).isRequired,
 };
 
-export default compose(
-    withAlert,
-    graphql(REFRESH_METADATA),
-)(RefreshMetadata);
+export default graphql(REFRESH_METADATA)(RefreshMetadata);
