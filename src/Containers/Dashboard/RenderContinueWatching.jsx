@@ -26,8 +26,8 @@ const RenderContinueWatching = () => {
         if (item.name.length === 0) return false;
 
         const { files, name, playState, type, uuid, episodeNumber, season } = item;
-        const { seasonNumber } = season;
         const posterPath = item.posterPath || item.season.series.posterPath;
+        const seasonNumber = season && season.seasonNumber;
 
         return (
             <MediaCardWrap key={uuid}>

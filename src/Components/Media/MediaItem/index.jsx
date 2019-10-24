@@ -85,10 +85,10 @@ class MediaItem extends Component {
         mutate({
             variables: { uuid: files[selectedFile.value].uuid },
         })
-            .then((data) => {
-                fetch(getBaseUrl() + data.createStreamingTicket.metadataPath)
+            .then((res) => {
+                fetch(getBaseUrl() + res.data.createStreamingTicket.metadataPath)
                     .then((response) => response.json())
-                    .then((response) => getVideoSource(isIOS, data, response))
+                    .then((response) => getVideoSource(isIOS, res.data, response))
                     .then((response) => {
                         this.setState({
                             mimeType: response.mimeType,

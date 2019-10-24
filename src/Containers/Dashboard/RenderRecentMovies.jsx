@@ -33,8 +33,7 @@ const RenderRecentMovies = ({ sModal }) => {
     const RecentlyAddedMovies = movies.map((item) => {
         if (item.name.length === 0) return false;
 
-        const { files, name, playState, type, uuid } = item;
-        const posterPath = item.posterPath || item.season.series.posterPath;
+        const { files, name, playState, type, uuid, posterPath } = item;
 
         return (
             <MediaCardWrap key={uuid}>
