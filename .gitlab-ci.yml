@@ -1,15 +1,17 @@
 image: node:latest
 
-variables:
-
 before_script:
     - apk add --no-cache git
-    - yarn --prod
+    - yarn install --prod
 
 stages:
     - build
 
-compile:
+cache:
+    paths:
+        - node_modules/
+
+install_dependencies:
     stage: build
     script:
         - yarn build
