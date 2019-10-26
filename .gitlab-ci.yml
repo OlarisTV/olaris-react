@@ -2,9 +2,6 @@ image: node:latest
 
 variables:
 
-before_script:
-    - yarn install --prod
-
 stages:
     - build
 
