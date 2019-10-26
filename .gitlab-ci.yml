@@ -1,12 +1,13 @@
 image: node:10.9.0-alpine
 
 variables:
-    stages:
-        - build
 
 before_script:
     - apk add --no-cache git
     - yarn install --prod
+
+stages:
+    - build
 
 compile:
     stage: build
