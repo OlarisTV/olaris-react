@@ -1,4 +1,4 @@
-image: node:10.9.0-alpine
+image: node:13.0.1-alpine
 
 variables:
 
