@@ -3,7 +3,7 @@ image: node:10.9.0-alpine
 variables:
 
 before_script:
-    - yarn install npm-run-all
+    - yarn add npm-run-all
 
 stages:
     - build
