@@ -14,12 +14,14 @@ import Users from 'Containers/Admin/Users';
 // Movie
 import MovieList from 'Containers/Media/MovieList';
 import Movie from 'Containers/Media/Movie';
+import UnmatchedMovies from 'Containers/Unmatched/Movies';
 
 // Series
 import SeriesList from 'Containers/Media/SeriesList';
 import Series from 'Containers/Media/Series';
 import Season from 'Containers/Media/Season';
 import Episode from 'Containers/Media/Episode';
+import UnmatchedEpisodes from 'Containers/Unmatched/Episodes';
 
 // Search Results
 import Search from 'Containers/Media/Search';
@@ -49,12 +51,17 @@ const Routes = () => {
             <PrivateRoute exact path="/dashboard">
                 <Dashboard />
             </PrivateRoute>
+
             <PrivateRoute exact path="/movies">
                 <MovieList />
+            </PrivateRoute>
+            <PrivateRoute exact path="/movies/unmatched">
+                <UnmatchedMovies />
             </PrivateRoute>
             <PrivateRoute exact path="/movie/:uuid">
                 <Movie />
             </PrivateRoute>
+
             <PrivateRoute exact path="/series">
                 <SeriesList />
             </PrivateRoute>
@@ -64,9 +71,14 @@ const Routes = () => {
             <PrivateRoute exact path="/season/:uuid">
                 <Season />
             </PrivateRoute>
+
+            <PrivateRoute exact path="/episodes/unmatched">
+                <UnmatchedEpisodes />
+            </PrivateRoute>
             <PrivateRoute exact path="/episode/:uuid">
                 <Episode />
             </PrivateRoute>
+
             <PrivateRoute exact path="/search/:value">
                 <Search />
             </PrivateRoute>

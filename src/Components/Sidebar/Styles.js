@@ -8,8 +8,7 @@ export const SidebarWrap = styled.nav`
     position: fixed;
     top: 0;
     left: 0;
-    height: ${(props) =>
-        props.castPlaying ? `calc(100vh - ${props.theme.layout.player})` : '100vh'};
+    height: ${(props) => (props.castPlaying ? `calc(100vh - ${props.theme.layout.player})` : '100vh')};
     background: ${(props) => props.theme.sidebar && transparentize(0.5, props.theme.sidebar)};
     transition: 0.2s transform;
     transform: translateX(${(props) => (props.navHidden ? `-${props.theme.layout.sidebar}` : '0')});
@@ -72,7 +71,7 @@ export const NavItemLink = styled(NavLink)`
     font-size: 1.4rem;
     letter-spacing: 0.1rem;
     line-height: 3rem;
-    font-weight: 400;
+    font-weight: 500;
     margin: 0;
     color: ${(props) => props.theme.light};
     opacity: 0.6;
@@ -82,6 +81,43 @@ export const NavItemLink = styled(NavLink)`
     position: relative;
     overflow: hidden;
     padding-left: 3rem;
+    border-radius: 0 3rem 3rem 0;
+
+    &.active {
+        opacity: 1;
+        color: ${(props) => props.theme.primary};
+    }
+
+    &:hover {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.1);
+
+        ${AddFolder} {
+            opacity: 0.4;
+            transform: translateX(0);
+            background: rgba(0, 0, 0, 0.3);
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+`;
+
+export const SubNavItemLink = styled(NavLink)`
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
+    line-height: 2.6rem;
+    font-weight: 500;
+    margin: 0;
+    color: ${(props) => props.theme.light};
+    opacity: 0.6;
+    float: left;
+    width: 100%;
+    transition: 0.2s all;
+    position: relative;
+    overflow: hidden;
+    padding-left: 4.5rem;
     border-radius: 0 3rem 3rem 0;
 
     &.active {
