@@ -3,33 +3,33 @@ image: node:latest
 before_script:
   - apt-get update -qq && apt-get install
 
-  stages:
-    - install_dependencies
-    - build
+stages:
+  - install_dependencies
+  - build
 
 install_dependencies:
-    stage: install_dependencies
-    cache:
-        key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
-        paths:
-            - node_modules/
-            - .yarn
-    script:
-        - npm install
-    only:
-        changes:
-            - package-lock.json
+  stage: install_dependencies
+  cache:
+    key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
+    paths:
+      - node_modules/
+      - .yarn
+  script:
+    - npm install
+  only:
+    changes:
+      - package-lock.json
 
 build:
-    stage: build
-    cache:
-        key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
-        paths:
-            - node_modules/
-            - .yarn
-        policy: pull
-    script:
-        - yarn build
-    artifacts:
-        paths:
-            - build/
+  stage: build
+  cache:
+    key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
+    paths:
+      - node_modules/
+      - .yarn
+    policy: pull
+  script:
+    - yarn build
+  artifacts:
+    paths:
+      - build/
