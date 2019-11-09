@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 npm install || true
-npm build-css || true
-npm build-js || true
+npm run build-css || true
+npm run build-js || true
