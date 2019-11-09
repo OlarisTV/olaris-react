@@ -7,8 +7,6 @@ cache:
 
 before_script:
   - apt-get update -qq && apt-get install
-  - yarn config set cache-folder .yarn
-  - yarn
 
 stages:
   - build
@@ -22,6 +20,8 @@ build:
       - .yarn
     policy: pull
   script:
+    - yarn config set cache-folder .yarn
+    - yarn
     - yarn build
   artifacts:
     paths:
