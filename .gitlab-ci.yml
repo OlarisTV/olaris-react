@@ -1,9 +1,11 @@
 image: node:latest
 
 cache:
+  untracked: true
+  key: '$CI_BUILD_REF_NAME'
   paths:
     - node_modules/
-    - .yarn
+    - build/=
 
 before_script:
   - apt-get update -qq && apt-get install

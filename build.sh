@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-yarn config set cache-folder .yarn
-yarn || true
-yarn build-css || true
-yarn build-js || true
+npm install || true
+npm build-css || true
+npm build-js || true
