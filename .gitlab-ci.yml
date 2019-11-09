@@ -15,7 +15,8 @@ install_dependencies:
       - node_modules/
       - .yarn
   script:
-    - npm install
+    - yarn config set cache-folder .yarn
+    - yarn
   only:
     changes:
       - package-lock.json
