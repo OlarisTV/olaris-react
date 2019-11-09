@@ -20,7 +20,7 @@ build:
       - .yarn
     policy: pull
   script:
-    - build.sh
+    - sh build.sh
   artifacts:
     paths:
       - build/
