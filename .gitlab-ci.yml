@@ -1,25 +1,17 @@
 image: node:latest
 
+cache:
+  paths:
+    - node_modules/
+    - .yarn
+
 before_script:
   - apt-get update -qq && apt-get install
+  - yarn config set cache-folder .yarn
+  - yarn
 
 stages:
-  - install_dependencies
   - build
-
-install_dependencies:
-  stage: install_dependencies
-  cache:
-    key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
-    paths:
-      - node_modules/
-      - .yarn
-  script:
-    - yarn config set cache-folder .yarn
-    - yarn
-  only:
-    changes:
-      - package-lock.json
 
 build:
   stage: build
