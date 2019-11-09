@@ -1,46 +1,36 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { graphql } from 'react-apollo';
+// @flow
+import React from 'react';
+import { useMutation, useQuery } from 'react-apollo';
 
 import CREATE_USER_INVITE from 'Mutations/createUserInvite';
 import FETCH_INVITES from 'Queries/fetchInvites';
 
-import { InnerContent, PageHeading } from 'Containers/Styles';
+import * as S from 'Containers/Styles';
+
+import Loading from 'Components/Loading';
 import CreateInvite from 'Components/Admin/Users/CreateInvite';
 import RenderUsers from './RenderUsers';
 import RenderInvites from './RenderInvites';
 
-import { List, ListHeading } from './Styles';
+const Users = () => {
+    const { loading, error, data } = useQuery(FETCH_INVITES);
+    const [generateInvite, { loading: loadingInvite }] = useMutation(CREATE_USER_INVITE, {
+        refetchQueries: [{ query: FETCH_INVITES }],
+    });
 
-class Users extends Component {
-    generateUserInvite = () => {
-        const { mutate } = this.props;
+    if (loading) return <Loading />;
+    if (error) return `Error! ${error.message}`;
 
-        mutate({
-            refetchQueries: [{ query: FETCH_INVITES }],
-        }).catch((err) => err);
-    };
+    const invites = data.invites.filter((i) => i.user === null);
 
-    render() {
-        return (
-            <InnerContent>
-                <PageHeading>User Management</PageHeading>
-                <List>
-                    <ListHeading>Userlist</ListHeading>
-                    <RenderUsers />
-                </List>
-                <List>
-                    <ListHeading>Invites</ListHeading>
-                    <RenderInvites />
-                    <CreateInvite generateInvite={() => this.generateUserInvite()} />
-                </List>
-            </InnerContent>
-        );
-    }
-}
-
-Users.propTypes = {
-    mutate: PropTypes.func.isRequired,
+    return (
+        <S.InnerContent>
+            <S.PageHeading>User Management</S.PageHeading>
+            <RenderUsers />
+            {invites.length > 0 && <RenderInvites invites={invites} />}
+            <CreateInvite generateInvite={() => generateInvite()} loading={loadingInvite} />
+        </S.InnerContent>
+    );
 };
 
-export default graphql(CREATE_USER_INVITE)(Users);
+export default Users;

@@ -1,3 +1,4 @@
+// @flow
 export const initialState = {
     success: false,
     error: false,
@@ -6,7 +7,7 @@ export const initialState = {
     inviteCode: '',
 };
 
-export const reducer = (state, action) => {
+export const reducer = (state: Object, action: Object) => {
     switch (action.type) {
         case 'UPDATE_FORM':
             return {

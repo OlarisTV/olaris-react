@@ -1,13 +1,34 @@
+// @flow
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { InputWrap, TextInput } from '../Styles';
 
-const Input = ({ type, name, placeholder, handleChange, uniqueCode, autocomplete, value, required }) => {
+import * as S from '../Styles';
+
+type Props = {
+    type: string,
+    name: string,
+    value: string,
+    required: boolean,
+    placeholder: string,
+    handleChange: Function,
+    uniqueCode: boolean,
+    autocomplete: string,
+};
+
+const Input = ({
+    type,
+    name,
+    placeholder,
+    handleChange,
+    autocomplete,
+    value = null,
+    required = false,
+    uniqueCode = false,
+}: Props) => {
     const [focused, setFocus] = useState(false);
 
     return (
-        <InputWrap isFocused={focused} uniqueCode={uniqueCode}>
-            <TextInput
+        <S.InputWrap isFocused={focused} uniqueCode={uniqueCode}>
+            <S.TextInput
                 type={type}
                 name={name}
                 value={value}
@@ -18,25 +39,8 @@ const Input = ({ type, name, placeholder, handleChange, uniqueCode, autocomplete
                 onBlur={() => setFocus(false)}
                 required={required}
             />
-        </InputWrap>
+        </S.InputWrap>
     );
-};
-
-Input.propTypes = {
-    type: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    value: PropTypes.string,
-    required: PropTypes.bool,
-    placeholder: PropTypes.string.isRequired,
-    handleChange: PropTypes.func.isRequired,
-    uniqueCode: PropTypes.bool,
-    autocomplete: PropTypes.string.isRequired,
-};
-
-Input.defaultProps = {
-    uniqueCode: false,
-    required: false,
-    value: '',
 };
 
 export default Input;

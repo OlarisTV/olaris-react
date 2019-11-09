@@ -1,15 +1,10 @@
-import axios from 'axios';
 import getBaseUrl from './getBaseUrl';
 
-const isInitialSetup = () => {
-    const url = `${getBaseUrl()}/olaris/m/v1/user/setup`;
-    let result = false;
+const isInitialSetup = async () => {
+    const response = await fetch(`${getBaseUrl()}/olaris/m/v1/user/setup`);
+    const data = await response.json();
 
-    axios.post(url).then((res) => {
-        result = res.data;
-    });
-
-    return result;
-};
+    return data;
+}
 
 export default isInitialSetup;

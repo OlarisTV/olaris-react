@@ -1,10 +1,11 @@
-import React from 'react';
+// @flow
+import React, { useState, useEffect } from 'react';
+import { useQuery } from 'react-apollo';
 import gql from 'graphql-tag';
-import PropTypes from 'prop-types';
-import { Query } from 'react-apollo';
 
 import Loading from 'Components/Loading';
-import { LoadingWrap } from './Styles';
+
+import * as S from './Styles';
 
 const LIBRARY_STATE = gql`
     query {
@@ -15,38 +16,36 @@ const LIBRARY_STATE = gql`
     }
 `;
 
-const Importing = ({ kind }) => (
-    <Query query={LIBRARY_STATE} pollInterval={1000}>
-        {({ loading, error, data, stopPolling }) => {
-            if (loading) return null;
-            if (error) return `Error! ${error}`;
-            if (!data.libraries) return null;
+type Props = {
+    kind: number,
+};
 
-            let importing = false;
+const Importing = ({ kind }: Props) => {
+    const [importing, setImporting] = useState(false);
+    const { loading, error, data, stopPolling } = useQuery(LIBRARY_STATE, { pollInterval: 5000 });
 
+    useEffect(() => {
+        if (data) {
             data.libraries.forEach((lib) => {
-                if (kind === lib.kind) {
-                    importing = lib.isRefreshing;
-                }
+                if (kind === lib.kind) setImporting(lib.isRefreshing);
             });
+        }
+    }, [data]);
 
-            if (!importing) {
-                stopPolling();
+    if (error) return `Error! ${error}`;
+    if (loading) return null;
 
-                return null;
-            }
+    if (!importing) {
+        stopPolling();
 
-            return (
-                <LoadingWrap>
-                    <Loading relative fsize="1rem" />
-                </LoadingWrap>
-            );
-        }}
-    </Query>
-);
+        return null;
+    }
 
-Importing.propTypes = {
-    kind: PropTypes.number.isRequired,
+    return (
+        <S.LoadingWrap>
+            <Loading relative fsize="1rem" />
+        </S.LoadingWrap>
+    );
 };
 
 export default Importing;

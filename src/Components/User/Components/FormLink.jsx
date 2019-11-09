@@ -1,21 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import { Links, FormLinkPara } from '../Styles';
+import * as S from '../Styles';
 
-const FormLink = ({ strapline, to, value }) => (
-    <FormLinkPara>
-        {strapline}
-        <Links to={to} title={value}>
-            {value}
-        </Links>
-    </FormLinkPara>
-);
-
-FormLink.propTypes = {
-    strapline: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
+type Props = {
+    strapline: string,
+    to: string,
+    value: string,
 };
+
+const FormLink = ({ strapline, to, value }: Props) => (
+    <S.FormLinkPara>
+        {strapline}
+        <S.Links to={to} title={value}>
+            {value}
+        </S.Links>
+    </S.FormLinkPara>
+);
 
 export default FormLink;

@@ -1,51 +1,30 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import React, { useState, type Node } from 'react';
 
-import { FormButton } from '../Styles';
+import * as S from '../Styles';
 
-export default class Button extends Component {
-    constructor(props) {
-        super(props);
+type Props = {
+    children: Node,
+    callback: Function,
+};
 
-        this.state = {
-            throttle: false,
-        };
-    }
+const Button = ({ children, callback }: Props) => {
+    const [throttle, setThrottle] = useState(false);
 
-    componentWillUnmount() {
-        clearTimeout(this.throttle);
-    }
+    const onClick = () => {
+        setThrottle(true);
+        callback();
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-
-        const { throttle } = this.state;
-        const { handleSubmit } = this.props;
-
-        if (!throttle) {
-            handleSubmit();
-
-            this.setState({ throttle: true });
-
-            this.throttle = setTimeout(() => {
-                this.setState({ throttle: false });
-            }, 1000);
-        }
+        setTimeout(() => {
+            setThrottle(false);
+        }, 500);
     };
 
-    render() {
-        const { throttle } = this.state;
-        const { value } = this.props;
-
-        return (
-            <FormButton type="submit" onClick={this.handleSubmit} disabled={throttle}>
-                {value}
-            </FormButton>
-        );
-    }
-}
-
-Button.propTypes = {
-    value: PropTypes.string.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
+    return (
+        <S.FormButton type="submit" onClick={() => onClick()} disabled={throttle}>
+            {children}
+        </S.FormButton>
+    );
 };
+
+export default Button;

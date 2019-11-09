@@ -1,13 +1,17 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useAlert } from 'react-alert';
 
 import { copyToClipboard } from 'Helpers';
 
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
-import { UserListItem, CopyInvite } from './Styles';
+import * as S from './Styles';
 
-const InviteItem = ({ code }) => {
+type Props = {
+    code: string,
+};
+
+const InviteItem = ({ code }: Props) => {
     const alert = useAlert();
 
     const handleClick = () => {
@@ -16,15 +20,11 @@ const InviteItem = ({ code }) => {
     };
 
     return (
-        <UserListItem>
+        <S.UserListItem>
             {code}
-            <CopyInvite icon={faCopy} onClick={() => handleClick()} />
-        </UserListItem>
+            <S.CopyInvite icon={faCopy} onClick={() => handleClick()} />
+        </S.UserListItem>
     );
-};
-
-InviteItem.propTypes = {
-    code: PropTypes.string.isRequired,
 };
 
 export default InviteItem;

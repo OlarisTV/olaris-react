@@ -1,3 +1,4 @@
+// @flow
 import React, { useState, useReducer, useEffect } from 'react';
 import { Auth } from 'Client/Auth';
 import { useAlert } from 'react-alert';
@@ -45,7 +46,8 @@ const Register = () => {
     };
 
     useEffect(() => {
-        setInitialSetup(isInitialSetup);
+        isInitialSetup()
+            .then(res => setInitialSetup(res));
 
         dispatch({
             type: 'UPDATE_FORM',

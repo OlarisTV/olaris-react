@@ -1,18 +1,18 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import { Heading, SubHeading } from '../Styles';
+import * as S from '../Styles';
 
-const Title = ({ heading, sub }) => (
-    <div>
-        <Heading>{heading}</Heading>
-        <SubHeading>{sub}</SubHeading>
-    </div>
-);
-
-Title.propTypes = {
-    heading: PropTypes.string.isRequired,
-    sub: PropTypes.string.isRequired,
+type Props = {
+    heading: string,
+    sub: string,
 };
+
+const Title = ({ heading, sub }: Props) => (
+    <>
+        <S.Heading>{heading}</S.Heading>
+        <S.SubHeading>{sub}</S.SubHeading>
+    </>
+);
 
 export default Title;

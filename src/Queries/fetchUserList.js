@@ -5,6 +5,7 @@ const FETCH_USERS = gql`
         users {
             id
             username
+            admin
         }
     }
 `;

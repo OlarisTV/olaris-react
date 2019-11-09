@@ -1,3 +1,4 @@
+// @flow
 import React, { useState, useReducer, useEffect } from 'react';
 import { useAlert } from 'react-alert';
 import { Redirect, useHistory, useLocation } from 'react-router';
@@ -43,7 +44,8 @@ const Login = () => {
     };
 
     useEffect(() => {
-        setInitialSetup(isInitialSetup);
+        isInitialSetup()
+            .then(res => setInitialSetup(res));
 
         if (history.location.state && history.location.state.registered) {
             alert.success('Account Successfully Created, login with your details above');

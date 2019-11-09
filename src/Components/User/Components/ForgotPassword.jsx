@@ -1,17 +1,17 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import { ForgotPasswordLink } from '../Styles';
+import * as S from '../Styles';
 
-const ForgotPassword = ({ to, value }) => (
-    <ForgotPasswordLink to={to} value={value}>
-        {value}
-    </ForgotPasswordLink>
-);
-
-ForgotPassword.propTypes = {
-    value: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
+type Props = {
+    value: string,
+    to: string,
 };
+
+const ForgotPassword = ({ to, value }: Props) => (
+    <S.ForgotPasswordLink to={to} value={value}>
+        {value}
+    </S.ForgotPasswordLink>
+);
 
 export default ForgotPassword;

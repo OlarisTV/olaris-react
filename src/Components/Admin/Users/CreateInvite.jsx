@@ -1,17 +1,17 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { GenerateInvite } from './Styles';
+import * as S from './Styles';
 
-const CreateInvite = (props) => {
-    const { generateInvite } = props;
-
-    return <GenerateInvite icon={faPlus} onClick={() => generateInvite()} />;
+type Props = {
+    generateInvite: Function,
+    loading: boolean,
 };
 
-CreateInvite.propTypes = {
-    generateInvite: PropTypes.func.isRequired,
-};
+const CreateInvite = ({ generateInvite, loading }: Props) => (
+    <S.GenerateInvite onClick={() => generateInvite()} disabled={loading}>
+        Create Invite
+    </S.GenerateInvite>
+);
 
 export default CreateInvite;

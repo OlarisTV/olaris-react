@@ -5,7 +5,7 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 import * as S from './Styles';
 
-const DropdownIndicator = ({ props }) => {
+const DropdownIndicator = (props) => {
     return (
         components.DropdownIndicator && (
             <components.DropdownIndicator {...props}>

@@ -1,23 +1,33 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import LogoIcon from 'Components/Logo/LogoIcon';
-import { FormWrap, Help } from '../Styles';
-
 import Title from '../Components/Title';
 import Input from '../Components/Input';
 import Button from '../Components/Button';
 import FormLink from '../Components/FormLink';
 
-const RegisterForm = ({ error, onChange, onSubmit, initialSetup, inviteCode, username, password }) => {
+import * as S from '../Styles';
+
+type Props = {
+    error: boolean,
+    initialSetup: boolean,
+    username: string,
+    password: string,
+    inviteCode: string,
+    onChange: Function,
+    onSubmit: Function,
+};
+
+const RegisterForm = ({ error, onChange, onSubmit, initialSetup, username, password, inviteCode = null }: Props) => {
     const heading = initialSetup ? 'Welcome To Olaris' : 'Olaris';
     const title = initialSetup ? 'Setup your admin account' : 'Register Account';
     const warning = 'You are currently creating your admin account ensure you remember your details';
 
     return (
         <>
-            {initialSetup && <Help>{warning}</Help>}
-            <FormWrap error={error}>
+            {initialSetup && <S.Help>{warning}</S.Help>}
+            <S.FormWrap error={error}>
                 <LogoIcon alt="Olaris" height="30" />
                 <Title heading={heading} sub={title} />
 
@@ -50,26 +60,12 @@ const RegisterForm = ({ error, onChange, onSubmit, initialSetup, inviteCode, use
                     required
                     handleChange={onChange}
                 />
-                <Button handleSubmit={onSubmit} value="Create Account" />
+                <Button callback={onSubmit}>Create Account</Button>
 
                 {!initialSetup && <FormLink to="/login" strapline="Have An Account?" value="Log In" setup={false} />}
-            </FormWrap>
+            </S.FormWrap>
         </>
     );
-};
-
-RegisterForm.propTypes = {
-    error: PropTypes.bool.isRequired,
-    onChange: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    initialSetup: PropTypes.bool.isRequired,
-    inviteCode: PropTypes.string,
-    username: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-};
-
-RegisterForm.defaultProps = {
-    inviteCode: '',
 };
 
 export default RegisterForm;

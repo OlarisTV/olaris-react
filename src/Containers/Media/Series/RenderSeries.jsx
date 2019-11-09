@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/react-hooks';
 import { orderBy } from 'lodash';
 
@@ -12,7 +12,11 @@ import MediaCard from 'Components/Media/Card';
 
 import * as S from '../Styles';
 
-const RenderSeries = ({ uuid }) => {
+type Props = {
+    uuid: string,
+};
+
+const RenderSeries = ({ uuid }: Props) => {
     const { loading, error, data } = useQuery(FETCH_SERIES, {
         variables: { uuid },
     });
@@ -65,10 +69,6 @@ const RenderSeries = ({ uuid }) => {
             <Empty wide />
         </Series>
     );
-};
-
-RenderSeries.propTypes = {
-    uuid: PropTypes.string.isRequired,
 };
 
 export default RenderSeries;

@@ -1,12 +1,16 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/react-hooks';
 
 import FETCH_MOVIE from 'Queries/fetchMovie';
 import Loading from 'Components/Loading';
 import MediaItem from 'Components/Media/MediaItem';
 
-const RenderMovie = ({ uuid }) => {
+type Props = {
+    uuid: string,
+};
+
+const RenderMovie = ({ uuid }: Props) => {
     const { loading, error, data } = useQuery(FETCH_MOVIE, {
         variables: { uuid },
     });
@@ -29,10 +33,6 @@ const RenderMovie = ({ uuid }) => {
             year={year}
         />
     );
-};
-
-RenderMovie.propTypes = {
-    uuid: PropTypes.string.isRequired,
 };
 
 export default RenderMovie;

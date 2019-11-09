@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/react-hooks';
 
 import FETCH_SEARCH_RESULTS from 'Queries/fetchSearchResults';
@@ -8,7 +8,11 @@ import MediaCard from 'Components/Media/Card';
 
 import * as S from '../Styles';
 
-const RenderSearchResults = ({ value }) => {
+type Props = {
+    value: string,
+};
+
+const RenderSearchResults = ({ value }: Props) => {
     const { loading, error, data } = useQuery(FETCH_SEARCH_RESULTS, {
         variables: { value },
     });
@@ -32,10 +36,6 @@ const RenderSearchResults = ({ value }) => {
             </S.LibraryListItem>
         );
     });
-};
-
-RenderSearchResults.propTypes = {
-    value: PropTypes.string.isRequired,
 };
 
 export default RenderSearchResults;

@@ -122,11 +122,7 @@ class AddLibraryAction extends Component {
                     />
                 )}
 
-                <SubmitLibrary
-                    disabled={disabled}
-                    icon={faPlus}
-                    onClick={() => this.handleSubmit()}
-                >
+                <SubmitLibrary disabled={disabled} icon={faPlus} onClick={() => this.handleSubmit()}>
                     Add Folder
                 </SubmitLibrary>
             </AddLibraryWrap>

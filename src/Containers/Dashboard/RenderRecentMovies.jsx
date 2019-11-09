@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useQuery } from 'react-apollo';
 
@@ -14,7 +14,11 @@ import MediaCard from 'Components/Media/Card';
 import { NoResults } from 'Containers/Styles';
 import { MediaCardWrap } from './Styles';
 
-const RenderRecentMovies = ({ sModal }) => {
+const Props = {
+    sModal: Function,
+};
+
+const RenderRecentMovies = ({ sModal }: Props) => {
     const { loading, error, data } = useQuery(RECENTLY_ADDED, {
         fetchPolicy: 'cache-and-network',
     });
@@ -62,10 +66,6 @@ const RenderRecentMovies = ({ sModal }) => {
     }
 
     return <Carousel>{RecentlyAddedMovies}</Carousel>;
-};
-
-RenderRecentMovies.propTypes = {
-    sModal: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

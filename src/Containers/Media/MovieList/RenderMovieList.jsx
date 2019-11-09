@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useQuery } from '@apollo/react-hooks';
 import { orderBy } from 'lodash';
@@ -14,7 +14,11 @@ import MediaCard from 'Components/Media/Card';
 import { NoResults } from 'Containers/Styles';
 import { LibraryListItem } from '../Styles';
 
-const RenderMovieList = ({ sModal }) => {
+type Props = {
+    sModal: Function,
+};
+
+const RenderMovieList = ({ sModal }: Props) => {
     const toggleModal = () => {
         sModal(LIBRARY_MODAL, {
             title: 'Add Movies Library',
@@ -89,10 +93,6 @@ const RenderMovieList = ({ sModal }) => {
             </button>
         </NoResults>
     );
-};
-
-RenderMovieList.propTypes = {
-    sModal: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

@@ -3,7 +3,7 @@ import { media } from 'Styles/Utils';
 
 export const List = styled.ul`
     width: 100%;
-    background: ${(props) => props.theme.dark};
+    background: #222332;
     margin: 0 0 2rem;
     overflow: hidden;
     position: relative;
@@ -24,8 +24,8 @@ export const ListHeading = styled.li`
     padding: 0 2rem;
     line-height: 5rem;
     text-transform: capitalize;
-    font-weight: 400;
+    font-weight: 600;
     color: #fff;
     font-size: 1.6rem;
-    background: #1b1c27;
+    background: #1e1f2d;
 `;

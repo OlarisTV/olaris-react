@@ -113,16 +113,14 @@ export const FormButton = styled.button`
     font-family: ${(props) => props.theme.fonts.opensans};
     font-weight: 700;
     letter-spacing: 0.1rem;
-
     transition: 0.2s all;
     text-transform: uppercase;
-    cursor: pointer;
     border-radius: 0.2rem;
 
     &:disabled {
         filter: grayscale(100%);
         opacity: 0.2;
-        cursor: initial;
+        pointer-events: none;
 
         &:hover {
             background: ${(props) => props.theme.dark};

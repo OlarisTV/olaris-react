@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -15,8 +16,12 @@ const MODAL_COMPONENTS = {
     [FIX_MISMATCH_MODAL]: FixMismatchModal,
 };
 
-// eslint-disable-next-line
-const ModalContainer = ({ type, props }) => {
+type Props = {
+    type: string,
+    props: Object
+}
+
+const ModalContainer = ({ type, props }: Props) => {
     if (!type) {
         return null;
     }
