@@ -22,7 +22,8 @@ build:
   script:
     - yarn config set cache-folder .yarn
     - yarn
-    - yarn build
+    - yarn build-css
+    - yarn build-js
   artifacts:
     paths:
       - build/
