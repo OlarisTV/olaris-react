@@ -11,13 +11,7 @@ before_script:
   - apt-get update -qq && apt-get install
 
 stages:
-  - setup
   - build
-
-setup:
-  stage: setup
-  script:
-    - npm install
 
 build:
   stage: build
@@ -25,10 +19,10 @@ build:
     key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
     paths:
       - node_modules/
-      - build/=
+      - .yarn
     policy: pull
   script:
-    - npm run build
+    - sh build.sh
   artifacts:
     paths:
       - build/
