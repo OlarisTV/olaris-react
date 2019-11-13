@@ -179,6 +179,8 @@ class MediaItem extends Component {
                     background={background}
                     castsource={castsource}
                     dispatch={dispatch}
+                    season={season && season}
+                    streams={selectedFile.streams}
                     closePlayer={() => this.closePlayer()}
                 />
             </MediaFullWrap>

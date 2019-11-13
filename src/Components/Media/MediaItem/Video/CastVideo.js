@@ -6,10 +6,7 @@ const generateSubtitles = (streams) => {
     streams.forEach((stream) => {
         if (stream.streamType !== 'subtitle') return false;
 
-        const subtitleObject = new chrome.cast.media.Track(
-            stream.streamID,
-            chrome.cast.media.TrackType.TEXT,
-        );
+        const subtitleObject = new chrome.cast.media.Track(stream.streamID, chrome.cast.media.TrackType.TEXT);
         subtitleObject.trackContentId = getBaseUrl() + stream.streamURL;
         subtitleObject.trackContentType = 'text/vtt';
         subtitleObject.subtype = chrome.cast.media.TextTrackType.SUBTITLES;
@@ -53,9 +50,8 @@ const CastVideo = ({
         } else {
             mediaInfo.metadata = new chrome.cast.media.MovieMediaMetadata();
         }
-        const img = new chrome.cast.Image(
-            `${getBaseUrl()}/olaris/m/images/tmdb/w342/${background}`,
-        );
+
+        const img = new chrome.cast.Image(`${getBaseUrl()}/olaris/m/images/tmdb/w342/${background}`);
         mediaInfo.metadata.title = name;
         mediaInfo.metadata.overview = overview;
         mediaInfo.metadata.uuid = uuid;
@@ -63,7 +59,7 @@ const CastVideo = ({
         mediaInfo.metadata.totalDuration = selectedFile.totalDuration;
 
         // Generate Subtitles
-        if (streams.length > 0) {
+        if (streams && streams.length > 0) {
             // Style Subtitles
             mediaInfo.textTrackStyle = new chrome.cast.media.TextTrackStyle();
             mediaInfo.textTrackStyle.fontFamily = 'Arial';
@@ -78,7 +74,7 @@ const CastVideo = ({
             mediaInfo.tracks = tracks;
         }
 
-        // Build request to load media
+        // Build request to load mediaInfo
         const request = new chrome.cast.media.LoadRequest(mediaInfo);
         if (resume) request.currentTime = playState.playtime;
 

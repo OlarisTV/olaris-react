@@ -9,9 +9,7 @@ const getVideoSource = (isIOS, data, response) => {
 
     const mimeType = isIOS ? 'application/x-mpegURL' : 'application/dash+xml';
 
-    const queryParams = playableCodecs
-        .map((c) => `playableCodecs=${encodeURIComponent(c)}`)
-        .join('&');
+    const queryParams = playableCodecs.map((c) => `playableCodecs=${encodeURIComponent(c)}`).join('&');
 
     const sourceData = {
         source: `${getBaseUrl()}${streamPath}?${queryParams}`,

@@ -57,7 +57,6 @@ class VideoController extends Component {
 
     castMedia = (source, mimeType) => {
         const { message } = this.state;
-
         const data = {
             ...this.props,
             message,
@@ -65,7 +64,7 @@ class VideoController extends Component {
             mimeType,
         };
 
-        CastVideo(data).catch(() => false);
+        CastVideo(data).catch(() => console.log(data));
     };
 
     render() {
@@ -154,7 +153,4 @@ const mapDispatchToProps = (dispatch) => ({
     setSendingStatus: (status) => dispatch(setCastSendingStatus(status)),
 });
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(VideoController);
+export default connect(mapStateToProps, mapDispatchToProps)(VideoController);

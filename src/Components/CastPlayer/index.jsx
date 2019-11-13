@@ -39,7 +39,7 @@ class CastPlayer extends Component {
                     <CastControls
                         metadata={metadata}
                         playstate={playstate}
-                        castsending={castSending}
+                        castSending={castSending}
                         castPlaying={castPlaying}
                     />
                 )}
@@ -72,7 +72,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    null,
-)(CastPlayer);
+export default connect(mapStateToProps, null)(CastPlayer);

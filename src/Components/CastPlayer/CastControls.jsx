@@ -95,30 +95,32 @@ export default class CastControls extends Component {
                 </CastPlayerWrap>
             );
 
-        if (castSending)
+        if (castSending) {
             return (
                 <CastPlayerWrap>
                     <Loading />
                 </CastPlayerWrap>
             );
-
+        }
         return null;
     }
 }
 
 CastControls.propTypes = {
     metadata: PropTypes.shape({
-        tracks: PropTypes.shape({
-            length: PropTypes.string,
-        }),
+        tracks: PropTypes.arrayOf(
+            PropTypes.shape({
+                length: PropTypes.string,
+            }),
+        ),
         images: PropTypes.array,
         title: PropTypes.string,
         subtitle: PropTypes.string,
         muted: PropTypes.bool,
     }),
     playstate: PropTypes.shape({
-        muted: PropTypes.bool.isRequired,
-        paused: PropTypes.bool.isRequired,
+        muted: PropTypes.bool,
+        paused: PropTypes.bool,
     }).isRequired,
     castSending: PropTypes.bool.isRequired,
     castPlaying: PropTypes.bool.isRequired,
