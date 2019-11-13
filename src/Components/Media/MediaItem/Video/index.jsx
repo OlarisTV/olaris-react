@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { canPlayCodec } from 'Helpers';
-import { setCastSendingStatus } from 'Redux/Actions/castActions';
 import CastVideo from './CastVideo';
 
 import Player from './Player';
@@ -63,7 +62,7 @@ class VideoController extends Component {
             mimeType,
         };
 
-        CastVideo(data).catch((e) => console.log(e));
+        CastVideo(data).catch(() => false);
     };
 
     render() {
@@ -148,8 +147,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    setSendingStatus: (status) => dispatch(setCastSendingStatus(status)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(VideoController);
+export default connect(mapStateToProps, null)(VideoController);

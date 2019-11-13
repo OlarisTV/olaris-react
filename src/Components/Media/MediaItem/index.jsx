@@ -114,6 +114,7 @@ class MediaItem extends Component {
             wide,
             uuid,
             name,
+            overview,
             isConnected,
             playState,
             airDate,
@@ -172,6 +173,8 @@ class MediaItem extends Component {
                     files={files}
                     selectedFile={selectedFile}
                     resume={resume}
+                    name={name}
+                    overview={overview}
                     playState={playState}
                     type={type}
                     mimeType={mimeType}
@@ -199,6 +202,7 @@ const requiredPropsCheck = (props, propName, componentName) => {
 
 MediaItem.propTypes = {
     name: PropTypes.string.isRequired,
+    overview: PropTypes.string.isRequired,
     isConnected: PropTypes.bool.isRequired,
     posterPath: PropTypes.string,
     dispatch: PropTypes.func.isRequired,
@@ -250,8 +254,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default compose(
-    withRouter,
-    graphql(REQUEST_STREAM),
-    connect(mapStateToProps),
-)(MediaItem);
+export default compose(withRouter, graphql(REQUEST_STREAM), connect(mapStateToProps))(MediaItem);

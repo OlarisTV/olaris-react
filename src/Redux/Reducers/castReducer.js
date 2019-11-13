@@ -3,7 +3,6 @@ import {
     SET_VIDEO_DATA,
     CAST_CONNECTED,
     CAST_PLAYING,
-    CAST_SENDING,
     CAST_SET_PLAYSTATE,
     CLEAR_CAST_DATA,
 } from '../Actions/castActions';
@@ -44,11 +43,6 @@ const cast = (state = initialState, { payload, type }) => {
                 ...state,
                 playing: payload.status,
                 sending: false,
-            };
-        case CAST_SENDING:
-            return {
-                ...state,
-                sending: payload.status,
             };
         case CAST_SET_PLAYSTATE: {
             return {

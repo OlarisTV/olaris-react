@@ -2,19 +2,11 @@ export const SET_AUTH_DATA = 'SET_AUTH_TOKEN';
 export const SET_VIDEO_DATA = 'SET_VIDEO_DATA';
 export const CAST_CONNECTED = 'CAST_CONNECTED';
 export const CAST_PLAYING = 'CAST_PLAYING';
-export const CAST_SENDING = 'CAST_SENDING';
 export const CAST_SET_PLAYSTATE = 'CAST_SET_PLAYSTATE';
 export const CLEAR_CAST_DATA = 'CLEAR_CAST_DATA';
 
 export const setCastStatus = (status) => ({
     type: CAST_CONNECTED,
-    payload: {
-        status,
-    },
-});
-
-export const setCastSendingStatus = (status) => ({
-    type: CAST_SENDING,
     payload: {
         status,
     },

@@ -12,7 +12,7 @@ class CastPlayer extends Component {
 
         const initializeCastApi = () => {
             cast.framework.CastContext.getInstance().setOptions({
-                receiverApplicationId: 'EA238E27',
+                receiverApplicationId: '3CCE45F7',
                 autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED,
             });
         };
