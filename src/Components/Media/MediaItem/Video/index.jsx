@@ -27,10 +27,9 @@ class VideoController extends Component {
     }
 
     componentDidUpdate() {
-        const { castsource, mimeType, isCasting, setSendingStatus } = this.props;
+        const { castsource, mimeType, isCasting } = this.props;
 
         if (castsource.length > 0 && isCasting) {
-            setSendingStatus(true);
             this.castMedia(castsource, mimeType);
         }
     }
@@ -64,7 +63,7 @@ class VideoController extends Component {
             mimeType,
         };
 
-        CastVideo(data).catch(() => console.log(data));
+        CastVideo(data).catch((e) => console.log(e));
     };
 
     render() {
@@ -113,7 +112,6 @@ class VideoController extends Component {
 }
 
 VideoController.propTypes = {
-    setSendingStatus: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
     isCasting: PropTypes.bool.isRequired,
     closePlayer: PropTypes.func.isRequired,
@@ -146,6 +144,7 @@ const mapStateToProps = (state) => {
     return {
         auth: cast.auth,
         isCasting: cast.connected,
+        isSending: cast.sending,
     };
 };
 
