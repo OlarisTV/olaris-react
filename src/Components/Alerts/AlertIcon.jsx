@@ -1,11 +1,15 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle, faCheckCircle, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
-const AlertIcon = (type) => {
-    switch (type) {
+type Props = {
+    options: Object,
+};
+
+const AlertIcon = ({ options }: Props) => {
+    switch (options.type) {
         case 'error':
             return <FontAwesomeIcon icon={faExclamationCircle} color="#E83C50" size="2x" />;
         case 'info':
@@ -15,10 +19,6 @@ const AlertIcon = (type) => {
         default:
             return false;
     }
-};
-
-AlertIcon.propTypes = {
-    type: PropTypes.string.isRequired,
 };
 
 export default AlertIcon;

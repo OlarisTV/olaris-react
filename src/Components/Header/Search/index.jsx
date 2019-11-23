@@ -1,6 +1,6 @@
+// @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
+import type { HashHistory } from 'history/createHashHistory';
 import debounce from 'lodash/debounce';
 import Autosuggest from 'react-autosuggest';
 import { graphql } from 'react-apollo';
@@ -15,7 +15,28 @@ import SearchInput from './SearchInput';
 const getSuggestionValue = (suggestion) => suggestion.name;
 const getSectionSuggestions = (section) => section.suggestions;
 
-class Search extends Component {
+type Props = {
+    updateSearch: Function,
+    history: HashHistory,
+    data?: {
+        variables: Object,
+        search: Array<{
+            name: string,
+            poster_path: string,
+            uuid: string,
+        }>,
+    },
+};
+
+type State = {
+    value: string,
+    suggestion: Array,
+    loading: boolean,
+    hasFocus: boolean,
+    isUnmounting: boolean,
+};
+
+class Search extends Component<Props, State> {
     constructor() {
         super();
 
@@ -122,21 +143,6 @@ class Search extends Component {
         );
     }
 }
-
-Search.propTypes = {
-    updateSearch: PropTypes.func.isRequired,
-    history: ReactRouterPropTypes.history.isRequired,
-    data: PropTypes.shape({
-        search: PropTypes.arrayOf(
-            PropTypes.shape({
-                name: PropTypes.string,
-                poster_path: PropTypes.string,
-                uuid: PropTypes.string,
-            }),
-        ),
-        variables: PropTypes.object,
-    }),
-};
 
 Search.defaultProps = {
     data: {},

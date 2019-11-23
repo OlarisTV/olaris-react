@@ -1,14 +1,36 @@
+// @flow
 /* eslint react/jsx-props-no-spreading: ["off"] */
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
+import type { HashHistory } from 'history/createHashHistory';
 
 import { faSpinner, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import { InputWrap, LoadingIcon, SearchIcon, NoResultsError } from './Styles';
 
-class SearchInput extends Component {
+type Props = {
+    history: HashHistory,
+    loading: boolean,
+    toggleFocus: Function,
+    hasSuggestions: boolean,
+    value?: string,
+    location: {
+        pathname: string,
+    },
+    unmount: Function,
+    inputProps: {
+        onFocus?: Function,
+        onBlur?: Function,
+        onChange?: Function,
+    },
+};
+
+type State = {
+    hasFocus: boolean,
+    value: string,
+};
+
+class SearchInput extends Component<Props, State> {
     constructor() {
         super();
 
@@ -83,23 +105,6 @@ class SearchInput extends Component {
         );
     }
 }
-
-SearchInput.propTypes = {
-    history: ReactRouterPropTypes.history.isRequired,
-    loading: PropTypes.bool.isRequired,
-    toggleFocus: PropTypes.func.isRequired,
-    hasSuggestions: PropTypes.bool.isRequired,
-    value: PropTypes.string,
-    location: PropTypes.shape({
-        pathname: PropTypes.string,
-    }).isRequired,
-    unmount: PropTypes.func.isRequired,
-    inputProps: PropTypes.shape({
-        onFocus: PropTypes.func,
-        onBlur: PropTypes.func,
-        onChange: PropTypes.func,
-    }).isRequired,
-};
 
 SearchInput.defaultProps = {
     value: '',

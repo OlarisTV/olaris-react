@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { useAlert } from 'react-alert';
@@ -10,11 +10,32 @@ import { hideModal } from 'Redux/Actions/modalActions';
 
 import Loading from 'Components/Loading';
 import { AlertInline } from 'Components/Alerts';
-import { Scrollbars } from 'react-custom-scrollbars';
+import Scrollbars from 'react-custom-scrollbars';
 
 import * as S from './Styles';
 
-const MediaList = ({ hModal, uuid, searchVal, items, networkStatus, type }) => {
+type Result = {
+    tmdbID: string,
+    name?: string,
+    title?: string,
+    releaseYear?: string,
+    firstAirYear?: string,
+};
+
+type OwnProps = {
+    uuid: string,
+    type: string,
+    searchVal?: string,
+    networkStatus?: number,
+    items: Array<Result>,
+};
+
+type Props = {
+    ...OwnProps,
+    hModal: () => void,
+};
+
+const MediaList = ({ hModal, uuid, searchVal, items, networkStatus, type }: Props) => {
     const [fixMismatch, { data, error }] = useMutation(type === 'movie' ? UPDATE_MOVIE : UPDATE_SERIES);
     const alert = useAlert();
 
@@ -70,25 +91,8 @@ const MediaList = ({ hModal, uuid, searchVal, items, networkStatus, type }) => {
     );
 };
 
-MediaList.propTypes = {
-    hModal: PropTypes.func.isRequired,
-    uuid: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    searchVal: PropTypes.string,
-    networkStatus: PropTypes.number,
-    items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-};
-
-MediaList.defaultProps = {
-    searchVal: '',
-    networkStatus: null,
-};
-
 const mapDispatchToProps = (dispatch) => ({
     hModal: () => dispatch(hideModal()),
 });
 
-export default connect(
-    null,
-    mapDispatchToProps,
-)(MediaList);
+export default connect<Props, OwnProps, _, _, _, _>(null, mapDispatchToProps)(MediaList);

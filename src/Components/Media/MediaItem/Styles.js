@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import DropdownMenu from 'Components/DropdownMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { media } from 'Styles/Utils';
 import { aFadeIn } from 'Styles/Animations';
@@ -80,19 +79,19 @@ export const MediaInfoList = styled.ul`
 `;
 
 export const MediaInfoSubhead = styled.span`
-  text-transform:uppercase;
-  color: #FFF;
-  opacity:.5;
-  font-size:1.1rem;
-  font-weight:600;
-  line-height:2rem
-  letter-spacing:.1rem;
-  float:left;
-  width:100%;
-  margin:0 0 .5rem 0;
-  min-width: 7.2rem;
+    text-transform: uppercase;
+    color: #fff;
+    opacity: 0.5;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 2rem;
+    letter-spacing: 0.1rem;
+    float: left;
+    width: 100%;
+    margin: 0 0 0.5rem 0;
+    min-width: 7.2rem;
 
-  ${media.mobile`
+    ${media.mobile`
     float:none;
     margin:0 1.5rem 0 0;
     width:auto;
@@ -227,13 +226,6 @@ export const MediaDetails = styled.ul`
             font-weight: 700;
         }
     }
-`;
-
-// Media Actions
-export const MediaActionsDropdown = styled(DropdownMenu)`
-    position: absolute;
-    top: 0;
-    right: 0;
 `;
 
 export const MediaActionsWrap = styled.div`

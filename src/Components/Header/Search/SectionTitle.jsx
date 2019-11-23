@@ -1,20 +1,16 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Title } from './Styles';
 
-const renderSectionTitle = (section) => <Title>{section.title}</Title>;
-
-renderSectionTitle.propTypes = {
-    section: PropTypes.shape({
-        title: PropTypes.string,
-    }),
+type Section = {
+    title: string,
 };
 
+const renderSectionTitle = (section: Section) => <Title>{section.title}</Title>;
+
 renderSectionTitle.defaultProps = {
-    section: {
-        title: 'Media',
-    },
+    title: 'Media',
 };
 
 export default renderSectionTitle;

@@ -1,8 +1,27 @@
+// @flow
 import React from 'react';
 
 import BreadcrumbList from './BreadcrumbList';
 
-const Breadcrumbs = ({ type, season, name, series }) => {
+type Series = {
+    name: string,
+    uuid: string,
+};
+
+type Season = {
+    name: string,
+    uuid: string,
+    series: Series,
+};
+
+type Props = {
+    type: string,
+    name: string,
+    series?: Series,
+    season?: Season,
+};
+
+const Breadcrumbs = ({ type, season, name, series }: Props) => {
     switch (type) {
         case 'Episode': {
             const items = [
@@ -39,6 +58,11 @@ const Breadcrumbs = ({ type, season, name, series }) => {
         default:
             return false;
     }
+};
+
+Breadcrumbs.defaultProps = {
+    season: {},
+    series: {},
 };
 
 export default Breadcrumbs;

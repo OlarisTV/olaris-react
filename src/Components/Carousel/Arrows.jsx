@@ -1,32 +1,27 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+
 import { NextArrow, PrevArrow } from './Styles';
 
-export const ArrowNext = ({ onClick, className }) => {
-    return <NextArrow className={className} icon={faAngleRight} onClick={onClick} />;
+type Props = {
+    onClick?: Function,
+    className?: string,
 };
 
-export const ArrowPrev = ({ onClick, className }) => {
-    return <PrevArrow className={className} icon={faAngleLeft} onClick={onClick} />;
-};
+export const ArrowNext = ({ onClick, className }: Props) => (
+    <NextArrow className={className} icon={faAngleRight} onClick={onClick} />
+);
 
-ArrowNext.propTypes = {
-    onClick: PropTypes.func,
-    className: PropTypes.string,
-};
+export const ArrowPrev = ({ onClick, className }: Props) => (
+    <PrevArrow className={className} icon={faAngleLeft} onClick={onClick} />
+);
 
-ArrowNext.defaultProps = {
+const DefaultProps = {
     onClick: null,
-    className: null,
+    className: '',
 };
 
-ArrowPrev.propTypes = {
-    onClick: PropTypes.func,
-    className: PropTypes.string,
-};
-
-ArrowPrev.defaultProps = {
-    onClick: null,
-    className: null,
-};
+ArrowNext.defaultProps = DefaultProps;
+ArrowPrev.defaultProps = DefaultProps;

@@ -14,7 +14,7 @@ import MediaCard from 'Components/Media/Card';
 import { NoResults } from 'Containers/Styles';
 import { MediaCardWrap } from './Styles';
 
-const Props = {
+type Props = {
     sModal: Function,
 };
 
@@ -72,7 +72,4 @@ const mapDispatchToProps = (dispatch) => ({
     sModal: (type, props) => dispatch(showModal(type, props)),
 });
 
-export default connect(
-    null,
-    mapDispatchToProps,
-)(RenderRecentMovies);
+export default connect<Props>(null, mapDispatchToProps)(RenderRecentMovies);

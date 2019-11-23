@@ -1,10 +1,14 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { ListWrap, ListItem } from './Styles';
 
-const BreadcrumbList = ({ items }) => {
+type Props = {
+    items: Array<{ name: string, url: string }>,
+};
+
+const BreadcrumbList = ({ items }: Props) => {
     const list = items.map((item) => {
         if (item.url) {
             return (
@@ -20,14 +24,6 @@ const BreadcrumbList = ({ items }) => {
     });
 
     return <ListWrap>{list}</ListWrap>;
-};
-
-BreadcrumbList.propTypes = {
-    items: PropTypes.arrayOf(
-        PropTypes.shape({
-            name: PropTypes.string.isRequired,
-        }),
-    ).isRequired,
 };
 
 export default BreadcrumbList;

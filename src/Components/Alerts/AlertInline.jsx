@@ -1,16 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import React, { type Node } from 'react';
 
 import { AlertInlineWrap } from './Styles';
 
-const AlertInline = ({ type, children }) => (
-    <AlertInlineWrap type={type}>{children}</AlertInlineWrap>
-);
-
-AlertInline.propTypes = {
-    type: PropTypes.oneOf(['info', 'success', 'error']),
-    children: PropTypes.node.isRequired,
+type Props = {
+    type?: 'info' | 'success' | 'error',
+    children: Node,
 };
+
+const AlertInline = ({ type, children }: Props) => <AlertInlineWrap type={type}>{children}</AlertInlineWrap>;
 
 AlertInline.defaultProps = {
     type: 'info',

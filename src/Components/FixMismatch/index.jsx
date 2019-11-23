@@ -1,5 +1,5 @@
+// @flow
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/react-hooks';
 
 import { SEARCH_MOVIES, SEARCH_SERIES } from 'Queries/tmdbSearch';
@@ -10,7 +10,13 @@ import MediaList from './MediaList';
 
 import * as S from './Styles';
 
-const FixMismatch = ({ uuid, type, name }) => {
+type Props = {
+    uuid: string,
+    type: string,
+    name: string,
+};
+
+const FixMismatch = ({ uuid, type, name }: Props) => {
     const [searchVal, setSearchVal] = useState('');
     const { loading, error, data, refetch, networkStatus } = useQuery(
         (type === 'movie' && SEARCH_MOVIES) || SEARCH_SERIES,
@@ -21,8 +27,6 @@ const FixMismatch = ({ uuid, type, name }) => {
 
     if (error) return <p>Error Fetching Data</p>;
     if (loading && !data) return <Loading />;
-
-    const items = data.tmdbSearchMovies || data.tmdbSearchSeries;
 
     return (
         <>
@@ -44,15 +48,15 @@ const FixMismatch = ({ uuid, type, name }) => {
                 </S.Button>
             </S.SearchWrap>
 
-            <MediaList uuid={uuid} searchVal={searchVal} items={items} networkStatus={networkStatus} type={type} />
+            <MediaList
+                uuid={uuid}
+                searchVal={searchVal}
+                items={data.tmdbSearchMovies || data.tmdbSearchSeries}
+                networkStatus={networkStatus}
+                type={type}
+            />
         </>
     );
-};
-
-FixMismatch.propTypes = {
-    name: PropTypes.string.isRequired,
-    uuid: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
 };
 
 export default FixMismatch;
