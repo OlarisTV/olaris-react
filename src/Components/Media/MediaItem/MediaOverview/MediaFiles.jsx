@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 
-import DropdownIndicator from './DropdownIndicator';
-
 import * as S from '../Styles';
 
 const MediaFiles = ({ files, selectedFile, fileChange }) => (
@@ -15,7 +13,6 @@ const MediaFiles = ({ files, selectedFile, fileChange }) => (
                     value={selectedFile}
                     options={files}
                     onChange={fileChange}
-                    components={{ DropdownIndicator }}
                     styles={S.SelectStyle}
                     isSearchable={false}
                 />

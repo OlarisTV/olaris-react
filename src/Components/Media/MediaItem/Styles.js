@@ -148,7 +148,6 @@ export const SelectStyle = {
         borderRadius: '0',
         overflow: 'hidden',
         cursor: 'pointer',
-        animation: `${`.4s ${aFadeIn} alternate`}`,
     }),
     menuList: (base) => ({
         ...base,
