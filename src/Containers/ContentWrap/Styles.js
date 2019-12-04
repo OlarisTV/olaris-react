@@ -10,6 +10,7 @@ const Content = styled.div`
     animation: 0.5s ${aFadeIn} alternate;
     margin: 0 0 0 ${(props) => (!props.navHidden ? `${props.theme.layout.sidebar}` : '0')};
     width: 100%;
+    height: 100%;
     transition: 0.2s all;
 
     ${media.tablet`
