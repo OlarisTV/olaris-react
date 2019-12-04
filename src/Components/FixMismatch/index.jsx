@@ -26,7 +26,11 @@ const FixMismatch = ({ uuid, type, name }) => {
 
     return (
         <>
-            <S.SearchWrap>
+            <S.SearchWrap
+                onSubmit={(e) => {
+                    e.preventDefault();
+                }}
+            >
                 <TextInput
                     type="text"
                     name={name}

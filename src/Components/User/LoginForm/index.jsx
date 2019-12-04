@@ -18,7 +18,12 @@ type Props = {
 };
 
 const LoginForm = ({ error, onChange, onSubmit, username, password }: Props) => (
-    <S.FormWrap error={error}>
+    <S.FormWrap
+        onSubmit={(e) => {
+            e.preventDefault();
+        }}
+        error={error}
+    >
         <LogoIcon alt="Olaris" height="35" />
         <Title heading="Welcome Back!" sub="Login to get started" />
 

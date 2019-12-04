@@ -27,7 +27,12 @@ const RegisterForm = ({ error, onChange, onSubmit, initialSetup, username, passw
     return (
         <>
             {initialSetup && <S.Help>{warning}</S.Help>}
-            <S.FormWrap error={error}>
+            <S.FormWrap
+                onSubmit={(e) => {
+                    e.preventDefault();
+                }}
+                error={error}
+            >
                 <LogoIcon alt="Olaris" height="30" />
                 <Title heading={heading} sub={title} />
 
