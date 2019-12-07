@@ -1,23 +1,25 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import React, { useRef, type Node } from 'react';
 import { connect } from 'react-redux';
 import { throttle } from 'lodash';
-import { Scrollbars } from 'react-custom-scrollbars';
+import Scrollbars from 'react-custom-scrollbars';
 
 import { scrolled, CONTENT_SCROLL, SIDEBAR_SCROLL } from 'Redux/Actions/viewportActions';
 
 import * as S from './Styles';
 
-class Scroll extends Component {
-    constructor(props) {
-        super(props);
+type OwnProps = {
+    children: Node,
+    id: string,
+};
 
-        this.handleScroll = throttle(this.handleScroll.bind(this), 50);
-    }
+type Props = {
+    ...OwnProps,
+    scrollFinished: Function,
+};
 
-    handleScroll(values) {
-        const { id, scrollFinished } = this.props;
-
+const Scroll = ({ id, scrollFinished, children }: Props) => {
+    const handleScroll = (values: Object) => {
         let type;
 
         if (id === 'content') {
@@ -25,37 +27,27 @@ class Scroll extends Component {
         } else if (id === 'sidebar') {
             type = SIDEBAR_SCROLL;
         }
+
         scrollFinished(type, values);
-    }
+    };
 
-    render() {
-        const { children } = this.props;
+    const throttledScroll = useRef(throttle((values) => handleScroll(values), 100)).current;
 
-        return (
-            <Scrollbars
-                autoHide
-                autoHeightMin="100%"
-                renderThumbVertical={S.renderThumb}
-                renderTrackVertical={S.renderTrack}
-                onScrollFrame={this.handleScroll}
-            >
-                {children}
-            </Scrollbars>
-        );
-    }
-}
-
-Scroll.propTypes = {
-    children: PropTypes.element.isRequired,
-    id: PropTypes.string.isRequired,
-    scrollFinished: PropTypes.func.isRequired,
+    return (
+        <Scrollbars
+            autoHide
+            autoHeightMin="100%"
+            renderThumbVertical={S.renderThumb}
+            renderTrackVertical={S.renderTrack}
+            onScrollFrame={throttledScroll}
+        >
+            {children}
+        </Scrollbars>
+    );
 };
 
 const mapDispatchToProps = (dispatch) => ({
     scrollFinished: (type, props) => dispatch(scrolled(type, props)),
 });
 
-export default connect(
-    null,
-    mapDispatchToProps,
-)(Scroll);
+export default connect<Props, OwnProps, _, _, _, _>(null, mapDispatchToProps)(Scroll);

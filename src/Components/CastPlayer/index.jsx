@@ -1,12 +1,20 @@
+// @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Script from 'react-load-script';
 
 import CastControls from './CastControls';
 import { castStatusCheck } from './castActions';
 
-class CastPlayer extends Component {
+type Props = {
+    isCasting: boolean,
+    castPlaying: boolean,
+    castSending: boolean,
+    metadata: Object,
+    playstate: Object,
+};
+
+class CastPlayer extends Component<Props> {
     handleScriptLoad = () => {
         const { isCasting, castPlaying } = this.props;
 
@@ -48,18 +56,6 @@ class CastPlayer extends Component {
     }
 }
 
-CastPlayer.propTypes = {
-    isCasting: PropTypes.bool.isRequired,
-    castPlaying: PropTypes.bool.isRequired,
-    castSending: PropTypes.bool.isRequired,
-    metadata: PropTypes.shape({}),
-    playstate: PropTypes.shape({}).isRequired,
-};
-
-CastPlayer.defaultProps = {
-    metadata: {},
-};
-
 const mapStateToProps = (state) => {
     const { cast } = state;
 
@@ -72,4 +68,5 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, null)(CastPlayer);
+export default connect<Props, Props, _, _, _, _>(mapStateToProps, null)(CastPlayer);
+

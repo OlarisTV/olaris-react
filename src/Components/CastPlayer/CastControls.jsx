@@ -1,5 +1,5 @@
+// @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import { faClosedCaptioning } from '@fortawesome/free-solid-svg-icons';
 import Loading from 'Components/Loading';
@@ -15,16 +15,29 @@ import {
     SubtitleToggle,
 } from './Styles';
 
-export default class CastControls extends Component {
-    constructor(props) {
+type Props = {
+    metadata: Object,
+    playstate: Object,
+    castSending: boolean,
+    castPlaying: boolean,
+};
+
+type State = {
+    subtitle: string | null,
+    subtitleOpen: boolean,
+};
+
+export default class CastControls extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
+
         this.state = {
             subtitle: null,
             subtitleOpen: false,
         };
     }
 
-    subtitleChange = (subtitle) => {
+    subtitleChange = (subtitle: Object) => {
         this.setState({
             subtitle,
             subtitleOpen: false,
@@ -103,27 +116,3 @@ export default class CastControls extends Component {
         return null;
     }
 }
-
-CastControls.propTypes = {
-    metadata: PropTypes.shape({
-        tracks: PropTypes.arrayOf(
-            PropTypes.shape({
-                length: PropTypes.string,
-            }),
-        ),
-        images: PropTypes.array,
-        title: PropTypes.string,
-        subtitle: PropTypes.string,
-        muted: PropTypes.bool,
-    }),
-    playstate: PropTypes.shape({
-        muted: PropTypes.bool,
-        paused: PropTypes.bool,
-    }).isRequired,
-    castSending: PropTypes.bool.isRequired,
-    castPlaying: PropTypes.bool.isRequired,
-};
-
-CastControls.defaultProps = {
-    metadata: {},
-};

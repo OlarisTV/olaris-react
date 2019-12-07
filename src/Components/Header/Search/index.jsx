@@ -18,7 +18,7 @@ const getSectionSuggestions = (section) => section.suggestions;
 type Props = {
     updateSearch: Function,
     history: HashHistory,
-    data?: {
+    data: {
         variables: Object,
         search: Array<{
             name: string,
@@ -30,13 +30,15 @@ type Props = {
 
 type State = {
     value: string,
-    suggestion: Array,
+    suggestions: Array<Object>,
     loading: boolean,
     hasFocus: boolean,
     isUnmounting: boolean,
 };
 
 class Search extends Component<Props, State> {
+    debouncedLoadSuggestions: Function;
+
     constructor() {
         super();
 
@@ -143,10 +145,6 @@ class Search extends Component<Props, State> {
         );
     }
 }
-
-Search.defaultProps = {
-    data: {},
-};
 
 export default withRouter(
     graphql(FETCH_SUGGESTIONS, {

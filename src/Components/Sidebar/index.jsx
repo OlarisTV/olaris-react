@@ -33,7 +33,4 @@ const mapStateToProps = (state) => ({
     castPlaying: state.cast.playing,
 });
 
-export default connect(
-    mapStateToProps,
-    null,
-)(Sidebar);
+export default connect<Props, {}, _, _, _, _>(mapStateToProps, null)(Sidebar);

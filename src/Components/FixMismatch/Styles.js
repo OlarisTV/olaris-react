@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 export const SearchWrap = styled.form`
@@ -82,12 +81,4 @@ export const renderTrack = ({ style }) => {
     };
 
     return <div style={{ ...style, ...trackStyle }} />;
-};
-
-renderTrack.propTypes = {
-    style: PropTypes.shape({}).isRequired,
-};
-
-renderThumb.propTypes = {
-    style: PropTypes.shape({}).isRequired,
 };

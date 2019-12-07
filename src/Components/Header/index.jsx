@@ -1,10 +1,12 @@
+// @flow
 import React, { Component } from 'react';
 import { compose } from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
+import type { HashHistory } from 'history/createHashHistory';
 
 import Logout from './Logout';
 import NavToggle from './NavToggle';
@@ -12,7 +14,21 @@ import Search from './Search';
 
 import { HeaderWrap, BackButton, BackIcon } from './Styles';
 
-class Header extends Component {
+type OwnProps = {
+    history: HashHistory,
+};
+
+type Props = {
+    ...OwnProps,
+    previousLocation: string,
+    currentLocation: string,
+};
+
+type State = {
+    value: string,
+};
+
+class Header extends Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = {
@@ -49,19 +65,6 @@ class Header extends Component {
     }
 }
 
-Header.propTypes = {
-    history: PropTypes.shape({
-        goBack: PropTypes.func.isRequired,
-    }).isRequired,
-    previousLocation: PropTypes.string,
-    currentLocation: PropTypes.string,
-};
-
-Header.defaultProps = {
-    previousLocation: '',
-    currentLocation: '',
-};
-
 const mapStateToProps = (state) => {
     const { historyLocation } = state;
 
@@ -73,5 +76,5 @@ const mapStateToProps = (state) => {
 
 export default compose(
     withRouter,
-    connect(mapStateToProps),
+    connect<Props, OwnProps, _, _, _, _>(mapStateToProps, null)
 )(Header);

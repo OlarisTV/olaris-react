@@ -1,20 +1,19 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import { faRedo } from '@fortawesome/free-solid-svg-icons';
 import { PlayerButtonSmall, PlayerIcon } from './Styles';
 
-const ForwardThirty = ({ seek, playstate }) => (
+type Props = {
+    seek: Function,
+    playstate?: Object<{ playtime: number }>,
+};
+
+const ForwardThirty = ({ seek, playstate }: Props) => (
     <PlayerButtonSmall type="button" onClick={() => seek(playstate.playtime + 30)}>
         <PlayerIcon icon={faRedo} />
     </PlayerButtonSmall>
 );
-
-ForwardThirty.propTypes = {
-    seek: PropTypes.func.isRequired,
-    playstate: PropTypes.shape({
-        playtime: PropTypes.number,
-    }),
-};
 
 ForwardThirty.defaultProps = {
     playstate: {

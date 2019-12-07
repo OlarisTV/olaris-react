@@ -14,7 +14,7 @@ type Props = {
     initialSetup: boolean,
     username: string,
     password: string,
-    inviteCode: string,
+    inviteCode?: string | null,
     onChange: Function,
     onSubmit: Function,
 };
@@ -66,6 +66,10 @@ const RegisterForm = ({ error, onChange, onSubmit, initialSetup, username, passw
             </S.FormWrap>
         </>
     );
+};
+
+RegisterForm.defaultProps = {
+    inviteCode: null,
 };
 
 export default RegisterForm;

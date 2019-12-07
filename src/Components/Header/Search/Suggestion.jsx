@@ -5,7 +5,7 @@ import { getBaseUrl } from 'Helpers';
 import * as S from './Styles';
 
 type Suggestion = {
-    poster_path: string,
+    posterPath: string,
     name: string,
     typename?: string,
     first_air_date?: string,

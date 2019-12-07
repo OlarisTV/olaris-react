@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 export const renderThumb = ({ style }) => {
     const thumbStyle = {
@@ -20,12 +19,4 @@ export const renderTrack = ({ style }) => {
     };
 
     return <div style={{ ...style, ...trackStyle }} />;
-};
-
-renderTrack.propTypes = {
-    style: PropTypes.shape({}).isRequired,
-};
-
-renderThumb.propTypes = {
-    style: PropTypes.shape({}).isRequired,
 };

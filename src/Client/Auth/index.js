@@ -1,5 +1,5 @@
+// @flow
 import axios from 'axios';
-import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie';
 import jwtDecode from 'jwt-decode';
 import { getBaseUrl } from 'Helpers';
@@ -11,11 +11,6 @@ import { setAuthData } from 'Redux/Actions/castActions';
 import client from '../index';
 
 const cookies = new Cookies();
-
-const propTypes = {
-    username: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-};
 
 export const Auth = {
     isAuthenticated: false,
@@ -57,7 +52,7 @@ export const checkAuth = () => {
     return Auth.authenticate();
 };
 
-export const AUTH_REQUEST = (username, password) => {
+export const AUTH_REQUEST = (username: string, password: string) => {
     const url = `${getBaseUrl()}/olaris/m/v1/auth`;
 
     const data = {
@@ -70,5 +65,3 @@ export const AUTH_REQUEST = (username, password) => {
         Auth.authenticate();
     });
 };
-
-AUTH_REQUEST.propTypes = propTypes;

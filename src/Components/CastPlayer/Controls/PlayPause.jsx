@@ -1,10 +1,15 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { PlayerIcon } from 'react-player-controls';
 
 import { PlayerButton } from './Styles';
 
-const PlayPause = ({ isPaused, playPause }) => (
+type Props = {
+    isPaused: boolean,
+    playPause: Function,
+};
+
+const PlayPause = ({ isPaused, playPause }: Props) => (
     <PlayerButton type="button" onClick={() => playPause()}>
         {isPaused ? (
             <PlayerIcon.Play width={22} height={22} fill="#FFF" />
@@ -13,10 +18,5 @@ const PlayPause = ({ isPaused, playPause }) => (
         )}
     </PlayerButton>
 );
-
-PlayPause.propTypes = {
-    isPaused: PropTypes.bool.isRequired,
-    playPause: PropTypes.func.isRequired,
-};
 
 export default PlayPause;

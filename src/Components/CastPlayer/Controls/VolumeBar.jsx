@@ -1,12 +1,30 @@
+// @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import { setCastPlaystate } from 'Redux/Actions/castActions';
 
 import { SeekBarWrap, SeekBarSlider, SliderHandle, SliderBar } from './Styles';
 
-class VolumeBar extends Component {
+type State = {
+    isEnabled: boolean,
+    isSeeking: boolean,
+    direction: string,
+    value: number,
+};
+
+type OwnProps = {
+    playstate?: Object<{ volume: number }>,
+    setVolume: Function,
+    isMuted?: boolean,
+}
+
+type Props = {
+    ...OwnProps,
+    setPlaystate: Function,
+};
+
+class VolumeBar extends Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = {
@@ -76,15 +94,6 @@ class VolumeBar extends Component {
     }
 }
 
-VolumeBar.propTypes = {
-    playstate: PropTypes.shape({
-        volume: PropTypes.number,
-    }),
-    setPlaystate: PropTypes.func.isRequired,
-    setVolume: PropTypes.func.isRequired,
-    isMuted: PropTypes.bool,
-};
-
 VolumeBar.defaultProps = {
     playstate: {
         volume: 1,
@@ -96,7 +105,4 @@ const mapDispatchToProps = (dispatch) => ({
     setPlaystate: (playstate) => dispatch(setCastPlaystate(playstate)),
 });
 
-export default connect(
-    null,
-    mapDispatchToProps,
-)(VolumeBar);
+export default connect<Props, OwnProps, _, _, _, _>(null, mapDispatchToProps)(VolumeBar);

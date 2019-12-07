@@ -5,11 +5,15 @@ import Scroll from 'Components/Scroll';
 
 import Content from './Styles';
 
-type Props = {
+type OwnProps = {
     children: Node,
+};
+
+type Props = {
+    ...OwnProps,
     navHidden: boolean,
     isCasting: boolean,
-}
+};
 
 const ContentWrap = ({ children, navHidden, isCasting }: Props) => (
     <Content navHidden={navHidden} isCasting={isCasting}>
@@ -28,7 +32,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    null,
-)(ContentWrap);
+export default connect<Props, OwnProps, _, _, _, _>(mapStateToProps, null)(ContentWrap);

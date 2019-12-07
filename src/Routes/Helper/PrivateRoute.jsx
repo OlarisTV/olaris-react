@@ -1,11 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import React, { type Node } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useLocation } from 'react-router';
 
 import { Auth } from 'Client/Auth';
 
-const PrivateRoute = ({ children, computedMatch, exact, path }) => {
+type Props = {
+    children?: Node | null,
+    computedMatch?: Object,
+    exact: boolean,
+    path: string,
+};
+
+const PrivateRoute = ({ children, computedMatch, exact, path }: Props) => {
     const from = useLocation();
 
     return (
@@ -22,13 +29,6 @@ const PrivateRoute = ({ children, computedMatch, exact, path }) => {
             )}
         </Route>
     );
-};
-
-PrivateRoute.propTypes = {
-    children: PropTypes.node,
-    computedMatch: PropTypes.shape({}),
-    exact: PropTypes.bool.isRequired,
-    path: PropTypes.string.isRequired,
 };
 
 PrivateRoute.defaultProps = {

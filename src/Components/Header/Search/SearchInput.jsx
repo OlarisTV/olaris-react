@@ -2,9 +2,11 @@
 /* eslint react/jsx-props-no-spreading: ["off"] */
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import type { HashHistory } from 'history/createHashHistory';
 
 import { faSpinner, faSearch } from '@fortawesome/free-solid-svg-icons';
+
+import type { HashHistory } from 'history/createHashHistory';
+import type { Location } from 'react-router';
 
 import { InputWrap, LoadingIcon, SearchIcon, NoResultsError } from './Styles';
 
@@ -13,16 +15,10 @@ type Props = {
     loading: boolean,
     toggleFocus: Function,
     hasSuggestions: boolean,
-    value?: string,
-    location: {
-        pathname: string,
-    },
+    value: string,
+    location: Location,
     unmount: Function,
-    inputProps: {
-        onFocus?: Function,
-        onBlur?: Function,
-        onChange?: Function,
-    },
+    inputProps: Object,
 };
 
 type State = {
@@ -105,9 +101,5 @@ class SearchInput extends Component<Props, State> {
         );
     }
 }
-
-SearchInput.defaultProps = {
-    value: '',
-};
 
 export default withRouter(SearchInput);

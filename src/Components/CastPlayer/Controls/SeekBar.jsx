@@ -1,15 +1,36 @@
+// @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { FormattedTime } from 'react-player-controls';
 
 import { setCastPlaystate } from 'Redux/Actions/castActions';
 
 import { SeekBarWrap, SeekBarSlider, SliderHandle, SliderBar } from './Styles';
 
-class SeekBar extends Component {
+
+type OwnProps = {
+    playstate?: Object,
+    seek: Function,
+    playPause: Function,
+    isPaused: boolean,
+};
+
+type Props = {
+    ...OwnProps,
+    setPlaystate: Function,
+}
+
+type State = {
+    isSeeking: boolean,
+    isEnabled: boolean,
+    direction: string,
+    value: number,
+};
+
+class SeekBar extends Component<Props, State> {
     constructor(props) {
         super(props);
+
         this.state = {
             isSeeking: false,
             isEnabled: true,
@@ -84,18 +105,6 @@ class SeekBar extends Component {
     }
 }
 
-SeekBar.propTypes = {
-    playstate: PropTypes.shape({
-        playtime: PropTypes.number,
-        total: PropTypes.number,
-        volume: PropTypes.number,
-    }),
-    setPlaystate: PropTypes.func.isRequired,
-    seek: PropTypes.func.isRequired,
-    playPause: PropTypes.func.isRequired,
-    isPaused: PropTypes.bool.isRequired,
-};
-
 SeekBar.defaultProps = {
     playstate: {
         playtime: 0,
@@ -104,8 +113,9 @@ SeekBar.defaultProps = {
     },
 };
 
+
 const mapDispatchToProps = (dispatch) => ({
     setPlaystate: (playstate) => dispatch(setCastPlaystate(playstate)),
 });
 
-export default connect(null, mapDispatchToProps)(SeekBar);
+export default connect<Props, OwnProps, _, _, _, _>(null, mapDispatchToProps)(SeekBar);

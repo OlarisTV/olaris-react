@@ -1,11 +1,24 @@
+// @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import Select from 'react-select';
 import { SelectStyle } from './Styles';
 
-export default class SelectSubtitles extends Component {
-    constructor(props) {
+type Props = {
+    menuIsOpen: boolean,
+    onChange: Function,
+    value: Object,
+    options: Array<Object>,
+}
+
+type State = {
+    menuIsOpen: boolean,
+};
+
+export default class SelectSubtitles extends Component<Props, State> {
+    select: ?Select;
+
+    constructor(props: Props) {
         super(props);
         this.state = {
             menuIsOpen: false,
@@ -18,7 +31,7 @@ export default class SelectSubtitles extends Component {
         this.setState({ menuIsOpen });
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
         if (nextProps.menuIsOpen !== prevState.menuIsOpen) {
             return {
                 menuIsOpen: nextProps.menuIsOpen,
@@ -38,7 +51,7 @@ export default class SelectSubtitles extends Component {
         return false;
     };
 
-    generateSubtiles = (tracks) => {
+    generateSubtiles = (tracks: Array<Object>) => {
         const options = [];
 
         options.push({ value: 9999, label: 'None' });
@@ -81,16 +94,3 @@ export default class SelectSubtitles extends Component {
         );
     }
 }
-
-SelectSubtitles.propTypes = {
-    menuIsOpen: PropTypes.bool,
-    onChange: PropTypes.func.isRequired,
-    value: PropTypes.shape({}),
-    options: PropTypes.arrayOf(PropTypes.shape({})),
-};
-
-SelectSubtitles.defaultProps = {
-    menuIsOpen: false,
-    value: null,
-    options: {},
-};

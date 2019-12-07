@@ -6,11 +6,11 @@ import * as S from '../Styles';
 type Props = {
     type: string,
     name: string,
-    value: string,
-    required: boolean,
+    value?: string | null,
+    required?: boolean,
     placeholder: string,
     handleChange: Function,
-    uniqueCode: boolean,
+    uniqueCode?: boolean,
     autocomplete: string,
 };
 
@@ -20,9 +20,9 @@ const Input = ({
     placeholder,
     handleChange,
     autocomplete,
-    value = null,
-    required = false,
-    uniqueCode = false,
+    value,
+    required,
+    uniqueCode,
 }: Props) => {
     const [focused, setFocus] = useState(false);
 
@@ -41,6 +41,12 @@ const Input = ({
             />
         </S.InputWrap>
     );
+};
+
+Input.defaultProps = {
+    required: false,
+    value: null,
+    uniqueCode: false,
 };
 
 export default Input;
