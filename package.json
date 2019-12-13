@@ -38,7 +38,7 @@
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.10",
     "mini-css-extract-plugin": "0.4.3",
-    "npm": "^6.4.0",
+    "npm": "^6.13.4",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "pnp-webpack-plugin": "1.1.0",
     "polished": "^1.9.2",
