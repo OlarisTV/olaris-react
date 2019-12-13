@@ -1,12 +1,12 @@
+// @flow
 /* eslint react/jsx-props-no-spreading: ["off"] */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getBaseUrl, generateMediaUrl } from 'Helpers';
-import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
 
+import { getBaseUrl, generateMediaUrl } from 'Helpers';
 import { showModal, RESUME_MODAL } from 'Redux/Actions/modalActions';
+import type { HashHistory } from 'history/createHashHistory';
 
 import { faPlay, faSearch } from '@fortawesome/free-solid-svg-icons';
 import MediaInfo from './MediaInfo';
@@ -15,7 +15,33 @@ import MediaName from './MediaName';
 import { Placeholder, placeholder } from './Placeholder';
 import { CardPoster, CardWrap, CardPopup, PosterWrap, PopupLink, PopupIcon, Lazy } from './Styles';
 
-class MediaCard extends Component {
+type OwnProps = {
+    playMedia?: Function,
+    name: string,
+    airDate?: string,
+    posterPath?: string,
+    stillPath?: string,
+    type: string,
+    uuid?: string,
+    files?: Array<Object>,
+    playState: Object,
+    internalCard?: boolean,
+    history: HashHistory,
+    hover?: boolean,
+    wide?: boolean,
+    showText?: boolean,
+};
+
+type Props = {
+    ...OwnProps,
+    loadModal: Function,
+};
+
+type State = {
+    url: string,
+};
+
+class MediaCard extends Component<Props, State> {
     constructor() {
         super();
 
@@ -119,31 +145,6 @@ const mapDispatchToProps = (dispatch) => ({
     loadModal: (type, props) => dispatch(showModal(type, props)),
 });
 
-MediaCard.propTypes = {
-    playMedia: PropTypes.func,
-    name: PropTypes.string.isRequired,
-    airDate: PropTypes.string,
-    posterPath: PropTypes.string,
-    stillPath: PropTypes.string,
-    type: PropTypes.string.isRequired,
-    uuid: PropTypes.string,
-    loadModal: PropTypes.func.isRequired,
-    files: PropTypes.arrayOf(
-        PropTypes.shape({
-            totalDuration: PropTypes.number,
-        }),
-    ),
-    playState: PropTypes.shape({
-        playtime: PropTypes.number,
-        finished: PropTypes.bool,
-    }),
-    internalCard: PropTypes.bool,
-    history: ReactRouterPropTypes.history.isRequired,
-    hover: PropTypes.bool,
-    wide: PropTypes.bool,
-    showText: PropTypes.bool,
-};
-
 MediaCard.defaultProps = {
     airDate: null,
     hover: true,
@@ -162,9 +163,4 @@ MediaCard.defaultProps = {
     ],
 };
 
-export default withRouter(
-    connect(
-        null,
-        mapDispatchToProps,
-    )(MediaCard),
-);
+export default withRouter(connect<Props, OwnProps, _, _, _, _>(null, mapDispatchToProps)(MediaCard));

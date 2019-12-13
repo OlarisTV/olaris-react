@@ -14,6 +14,9 @@ type Props = {
     playstate: Object,
 };
 
+declare var cast: Function;
+declare var chrome: Function;
+
 class CastPlayer extends Component<Props> {
     handleScriptLoad = () => {
         const { isCasting, castPlaying } = this.props;
@@ -57,14 +60,12 @@ class CastPlayer extends Component<Props> {
 }
 
 const mapStateToProps = (state) => {
-    const { cast } = state;
-
     return {
-        isCasting: cast.connected,
-        castPlaying: cast.playing,
-        castSending: cast.sending,
-        metadata: cast.metadata,
-        playstate: cast.playstate,
+        isCasting: state.cast.connected,
+        castPlaying: state.cast.playing,
+        castSending: state.cast.sending,
+        metadata: state.cast.metadata,
+        playstate: state.cast.playstate,
     };
 };
 

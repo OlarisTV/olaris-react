@@ -1,6 +1,5 @@
 // @flow
 import React, { Component } from 'react';
-import { compose } from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -74,7 +73,6 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default compose(
-    withRouter,
+export default withRouter(
     connect<Props, OwnProps, _, _, _, _>(mapStateToProps, null)
 )(Header);

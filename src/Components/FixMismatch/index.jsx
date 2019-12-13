@@ -16,9 +16,14 @@ type Props = {
     name: string,
 };
 
+type DataProps = {
+    tmdbSearchMovies?: string,
+    tmdbSearchSeries?: string,
+};
+
 const FixMismatch = ({ uuid, type, name }: Props) => {
     const [searchVal, setSearchVal] = useState('');
-    const { loading, error, data, refetch, networkStatus } = useQuery(
+    const { loading, error, data, refetch, networkStatus } = useQuery<DataProps>(
         (type === 'movie' && SEARCH_MOVIES) || SEARCH_SERIES,
         {
             variables: { query: name },

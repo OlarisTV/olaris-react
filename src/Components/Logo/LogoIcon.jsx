@@ -1,15 +1,14 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import Icon from 'Images/logo-icon.svg';
 
-const LogoIcon = ({ alt, height }) => (
-    <img src={Icon} alt={alt} height={`${height}px`} />
-);
-
-LogoIcon.propTypes = {
-    alt: PropTypes.string,
-    height: PropTypes.string,
+type Props = {
+    alt?: string,
+    height?: string,
 };
+
+const LogoIcon = ({ alt, height }: Props) => <img src={Icon} alt={alt} height={`${height}px`} />;
 
 LogoIcon.defaultProps = {
     alt: 'Olaris',

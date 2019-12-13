@@ -1,8 +1,13 @@
+// @flow
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+
+type Props = {
+    relative?: boolean,
+    fsize?: string,
+};
 
 const LoadingSpinner = styled(FontAwesomeIcon)`
     color: ${(props) => props.theme.primary};
@@ -14,14 +19,9 @@ const LoadingSpinner = styled(FontAwesomeIcon)`
     margin-left: -${(props) => props.fsize.replace('rem', '') / 2}rem;
 `;
 
-const Loading = ({ relative, fsize }) => (
+const Loading = ({ relative, fsize }: Props) => (
     <LoadingSpinner icon={faSpinner} spin relative={relative ? 1 : 0} fsize={fsize} />
 );
-
-Loading.propTypes = {
-    relative: PropTypes.bool,
-    fsize: PropTypes.string,
-};
 
 Loading.defaultProps = {
     relative: false,

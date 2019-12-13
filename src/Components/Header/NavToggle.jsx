@@ -1,12 +1,24 @@
+// @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+
 import { connect } from 'react-redux';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { hideNavigation, showNavigation } from 'Redux/Actions/navigationActions';
 
 import { NavButton, NavIcon, ContentOverlay, HideNavIcon } from './Styles';
 
-class NavToggle extends Component {
+type OwnProps = {
+    navHidden: boolean,
+    browser: Object,
+    sNavigation: Function,
+    hNavigation: Function,
+};
+
+type Props = {
+    ...OwnProps,
+};
+
+class NavToggle extends Component<Props> {
     componentDidMount() {
         window.addEventListener('resize', this.responsiveTrigger.bind(this));
         this.responsiveTrigger();
@@ -64,18 +76,4 @@ const mapDispatchToProps = (dispatch) => ({
     sNavigation: () => dispatch(showNavigation()),
 });
 
-NavToggle.propTypes = {
-    navHidden: PropTypes.bool.isRequired,
-    sNavigation: PropTypes.func.isRequired,
-    hNavigation: PropTypes.func.isRequired,
-    browser: PropTypes.shape({
-        lessThan: PropTypes.shape({
-            large: PropTypes.bool.isRequired,
-        }).isRequired,
-    }).isRequired,
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(NavToggle);
+export default connect<Props, OwnProps, _, _, _, _>(mapStateToProps, mapDispatchToProps)(NavToggle);

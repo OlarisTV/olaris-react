@@ -7,7 +7,6 @@ import { setCastPlaystate } from 'Redux/Actions/castActions';
 
 import { SeekBarWrap, SeekBarSlider, SliderHandle, SliderBar } from './Styles';
 
-
 type OwnProps = {
     playstate?: Object,
     seek: Function,
