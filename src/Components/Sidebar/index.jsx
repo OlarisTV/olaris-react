@@ -8,11 +8,16 @@ import Navigation from './Navigation';
 
 import * as S from './Styles';
 
-type Props = {
+type OwnProps = {
     navHidden: boolean,
     videoOpen: boolean,
     castPlaying: boolean,
 };
+
+type Props = {
+    ...OwnProps,
+};
+
 
 const Sidebar = ({ navHidden, videoOpen, castPlaying }: Props) => (
     <S.SidebarWrap navHidden={navHidden} videoOpen={videoOpen} castPlaying={castPlaying}>
@@ -33,7 +38,4 @@ const mapStateToProps = (state) => ({
     castPlaying: state.cast.playing,
 });
 
-export default connect(
-    mapStateToProps,
-    null,
-)(Sidebar);
+export default connect<Props, OwnProps, *, *, *, *>(mapStateToProps)(Sidebar);

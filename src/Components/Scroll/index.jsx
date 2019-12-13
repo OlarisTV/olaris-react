@@ -1,23 +1,25 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import React, { useRef, type Node } from 'react';
 import { connect } from 'react-redux';
 import { throttle } from 'lodash';
-import { Scrollbars } from 'react-custom-scrollbars';
+import ScrollBars from 'react-custom-scrollbars';
 
 import { scrolled, CONTENT_SCROLL, SIDEBAR_SCROLL } from 'Redux/Actions/viewportActions';
 
 import * as S from './Styles';
 
-class Scroll extends Component {
-    constructor(props) {
-        super(props);
+type OwnProps = {
+    children: Node,
+    id: string,
+};
 
-        this.handleScroll = throttle(this.handleScroll.bind(this), 50);
-    }
+type Props = {
+    ...OwnProps,
+    scrollFinished: Function,
+};
 
-    handleScroll(values) {
-        const { id, scrollFinished } = this.props;
-
+const Scroll = ({ children, id, scrollFinished }: Props) => {
+    const handleScroll = (values) => {
         let type;
 
         if (id === 'content') {
@@ -26,36 +28,23 @@ class Scroll extends Component {
             type = SIDEBAR_SCROLL;
         }
         scrollFinished(type, values);
-    }
+    };
 
-    render() {
-        const { children } = this.props;
-
-        return (
-            <Scrollbars
-                autoHide
-                autoHeightMin="100%"
-                renderThumbVertical={S.renderThumb}
-                renderTrackVertical={S.renderTrack}
-                onScrollFrame={this.handleScroll}
-            >
-                {children}
-            </Scrollbars>
-        );
-    }
+    return (
+        <ScrollBars
+            autoHide
+            autoHeightMin="100%"
+            renderThumbVertical={S.renderThumb}
+            renderTrackVertical={S.renderTrack}
+            onScrollFrame={useRef(throttle((values) => handleScroll(values), 100)).current}
+        >
+            {children}
+        </ScrollBars>
+    );
 }
-
-Scroll.propTypes = {
-    children: PropTypes.element.isRequired,
-    id: PropTypes.string.isRequired,
-    scrollFinished: PropTypes.func.isRequired,
-};
 
 const mapDispatchToProps = (dispatch) => ({
     scrollFinished: (type, props) => dispatch(scrolled(type, props)),
 });
 
-export default connect(
-    null,
-    mapDispatchToProps,
-)(Scroll);
+export default connect<Props, OwnProps, *, *, *, *>(null, mapDispatchToProps)(Scroll);

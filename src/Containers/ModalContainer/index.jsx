@@ -16,9 +16,13 @@ const MODAL_COMPONENTS = {
     [FIX_MISMATCH_MODAL]: FixMismatchModal,
 };
 
-type Props = {
+type OwnProps = {
     type: string,
-    props: Object
+    props: Object,
+};
+
+type Props = {
+    ...OwnProps
 }
 
 const ModalContainer = ({ type, props }: Props) => {
@@ -37,4 +41,4 @@ const mapStateToProps = (state) => ({
     props: state.modal.props,
 });
 
-export default connect(mapStateToProps)(ModalContainer);
+export default connect<Props, OwnProps, *, *, *, *>(mapStateToProps)(ModalContainer);
