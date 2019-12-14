@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { compose } from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -12,42 +12,22 @@ import Search from './Search';
 
 import { HeaderWrap, BackButton, BackIcon } from './Styles';
 
-class Header extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: '',
-        };
-    }
+const Header = ({ history, previousLocation, currentLocation }) => (
+    <HeaderWrap>
+        <NavToggle />
+        {previousLocation !== null && currentLocation !== '/dashboard' && (
+            <BackButton onClick={() => history.goBack()}>
+                <BackIcon icon={faArrowLeft} />
+            </BackButton>
+        )}
 
-    updateSearch = (value) => {
-        this.setState({
-            value,
-        });
-    };
-
-    render() {
-        const { value } = this.state;
-        const { history, previousLocation, currentLocation } = this.props;
-
-        return (
-            <HeaderWrap>
-                <NavToggle />
-                {previousLocation !== null && currentLocation !== '/dashboard' && (
-                    <BackButton onClick={() => history.goBack()}>
-                        <BackIcon icon={faArrowLeft} />
-                    </BackButton>
-                )}
-                <Search value={value} updateSearch={this.updateSearch} />
-
-                <div className="right-menu">
-                    <google-cast-launcher />
-                    <Logout />
-                </div>
-            </HeaderWrap>
-        );
-    }
-}
+        <div className="right-menu">
+            <google-cast-launcher />
+            <Logout />
+            <Search />
+        </div>
+    </HeaderWrap>
+);
 
 Header.propTypes = {
     history: PropTypes.shape({
@@ -71,7 +51,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default compose(
-    withRouter,
-    connect(mapStateToProps),
-)(Header);
+export default compose(withRouter, connect(mapStateToProps))(Header);

@@ -7,6 +7,7 @@ import ContentWrap from 'Containers/ContentWrap';
 import Header from 'Components/Header';
 import Sidebar from 'Components/Sidebar';
 import Routes from 'Routes';
+import Search from 'Containers/Search';
 import ModalContainer from 'Containers/ModalContainer';
 import CastPlayer from 'Components/CastPlayer';
 
@@ -18,6 +19,7 @@ const App = () => {
     const LoggedIn = () => (
         <>
             <Sidebar />
+            <Search />
             <ContentWrap>
                 <>
                     <Header />

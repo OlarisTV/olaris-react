@@ -6,6 +6,7 @@ import modal from './modalReducer';
 import navigation from './navigationReducer';
 import historyLocation from './historyReducer';
 import video from './videoReducer';
+import search from './searchReducer';
 import library from './libraryReducer';
 import cast from './castReducer';
 import viewport from './viewportReducer';
@@ -30,6 +31,7 @@ export default (history) =>
         navigation,
         historyLocation,
         video,
+        search,
         library,
         cast,
         viewport,
