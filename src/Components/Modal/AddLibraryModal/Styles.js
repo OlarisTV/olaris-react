@@ -11,8 +11,7 @@ export const SubmitLibrary = styled.button`
     padding: 0 1.8rem;
     color: #fff;
     pointer-events: ${(props) => (props.disabled ? 'none' : 'initial')};
-    background: ${(props) =>
-        props.disabled ? '#000' : props.theme.alerts.success};
+    background: ${(props) => props.disabled ? '#000' : props.theme.alerts.success};
     opacity: ${(props) => (props.disabled ? '.2' : 1)};
     transition: 0.2s background;
     font-weight: 600;
@@ -91,17 +90,16 @@ export const LibraryItemFilePath = styled.span`
 
 export const LibraryItemDelete = styled(FontAwesomeIcon)`
     position: absolute;
-    top: 50%;
+    top: 0;
     right: 0;
-    transform: translateY(-50%);
     float: right;
-    color: ${(props) => props.theme.alerts.error};
+    color: ${(props) => (props.deleting ? props.theme.alerts.info : props.theme.alerts.error)};
     font-size: 2rem;
-    height: 5rem;
-    width: 5rem !important;
+    height: 4.5rem;
+    width: 4.5rem !important;
     cursor: pointer;
-    padding: 1.65rem;
-    opacity: 0.5;
+    padding: 1.5rem;
+    opacity: ${(props) => (props.deleting ? 1 : 0.5)};
     transition: 0.2s opacity;
 
     &:hover {

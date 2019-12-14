@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+// @flow
+import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import { convertToMinutesSeconds } from 'Helpers';
+
+import type { RouterHistory } from 'react-router';
+import type { Dispatch } from 'redux';
 
 import { hideModal } from 'Redux/Actions/modalActions';
 
@@ -10,18 +12,23 @@ import { Modal, ModalWrap, ModalBody, ModalHeader, ModalHeading } from 'Componen
 import ModalClose from '../ModalClose';
 import ResumeOption from './Styles';
 
-class ResumeModal extends Component {
-    closeModal = () => {
-        const { hModal } = this.props;
+type OwnProps = {
+    playMedia: Function,
+    url: string,
+    history: RouterHistory,
+    title: string,
+    playState: Object,
+};
 
-        hModal();
-    };
+type Props = {
+    ...OwnProps,
+    hModal: Function,
+};
 
-    handlePlayRequest = (resume, autoplay) => {
-        const { playMedia, url, history } = this.props;
-
+const ResumeModal = ({ hModal, playMedia, url, history, title, playState }: Props) => {
+    const onPlay = (resume: boolean, autoplay: boolean) => {
         if (playMedia) {
-            this.closeModal();
+            hModal();
             playMedia(resume);
         } else {
             history.push({
@@ -31,68 +38,30 @@ class ResumeModal extends Component {
         }
     };
 
-    render() {
-        const { playState, title } = this.props;
-
-        return (
-            <Modal>
-                <ModalWrap>
-                    <ModalHeader>
-                        <ModalHeading>
-                            {title}
-                            <ModalClose onClick={() => this.closeModal()} />
-                        </ModalHeading>
-                    </ModalHeader>
-                    <ModalBody>
-                        <ResumeOption
-                            type="submit"
-                            href="#"
-                            onClick={() => this.handlePlayRequest(true, true)}
-                        >
-                            {playState &&
-                                `Resume video from ${convertToMinutesSeconds(playState.playtime)}`}
-                        </ResumeOption>
-                        <ResumeOption
-                            type="submit"
-                            onClick={() => this.handlePlayRequest(false, true)}
-                        >
-                            From Start
-                        </ResumeOption>
-                    </ModalBody>
-                </ModalWrap>
-            </Modal>
-        );
-    }
-}
-
-ResumeModal.propTypes = {
-    url: PropTypes.string,
-    playMedia: PropTypes.func,
-    history: ReactRouterPropTypes.history,
-    hModal: PropTypes.func.isRequired,
-    title: PropTypes.string,
-    playState: PropTypes.shape({
-        finished: PropTypes.bool,
-        playtime: PropTypes.number,
-    }),
+    return (
+        <Modal>
+            <ModalWrap>
+                <ModalHeader>
+                    <ModalHeading>
+                        {title}
+                        <ModalClose onClick={() => hModal()} />
+                    </ModalHeading>
+                </ModalHeader>
+                <ModalBody>
+                    <ResumeOption type="submit" href="#" onClick={() => onPlay(true, true)}>
+                        {playState && `Resume video from ${convertToMinutesSeconds(playState.playtime)}`}
+                    </ResumeOption>
+                    <ResumeOption type="submit" onClick={() => onPlay(false, true)}>
+                        From Start
+                    </ResumeOption>
+                </ModalBody>
+            </ModalWrap>
+        </Modal>
+    );
 };
 
-ResumeModal.defaultProps = {
-    playMedia: null,
-    history: null,
-    url: '',
-    title: 'Resume Media',
-    playState: {
-        finished: false,
-        playtime: 0,
-    },
-};
-
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
     hModal: () => dispatch(hideModal()),
 });
 
-export default connect(
-    null,
-    mapDispatchToProps,
-)(ResumeModal);
+export default connect<Props, OwnProps, *, *, *, *>(null, mapDispatchToProps)(ResumeModal);
