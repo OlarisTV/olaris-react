@@ -10,7 +10,7 @@ const AdminRoute = ({ children, computedMatch, exact, path }) => {
 
     return (
         <Route computedMatch={computedMatch} exact={exact} path={path}>
-            {Auth.isAuthenticated && Auth.isAdmin ? (
+            {Auth.isAuthenticated && Auth.isAdmin.admin ? (
                 children
             ) : (
                 <Redirect

@@ -25,7 +25,7 @@ export const CloseVideo = styled(FontAwesomeIcon)`
 
 export const VideoWrap = styled.article`
     position: fixed;
-    padding: 1rem;
+    padding: 0;
     top: 0;
     left: 0;
     right: 0;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'lodash/fp';
+import { compose, isEmpty } from 'lodash/fp';
 import { graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -18,7 +18,7 @@ import MediaOverview from './MediaOverview';
 import VideoController from './Video';
 
 import { MediaFull } from './Styles';
-import { MediaFullWrap, MediaLeftCol, MediaRightCol, MediaBackground } from '../Styles';
+import { MediaFullWrap, MediaLeftCol, MediaRightCol } from '../Styles';
 
 class MediaItem extends Component {
     constructor(props) {
@@ -125,7 +125,7 @@ class MediaItem extends Component {
             dispatch,
         } = this.props;
         const { selectedFile, fileList, source, mimeType, resume, castsource, streams } = this.state;
-        const background = posterPath || season.series.posterPath;
+        const background = isEmpty(season) ? posterPath : season.series.posterPath;
 
         const mediaInfo = {
             ...this.props,
@@ -133,7 +133,6 @@ class MediaItem extends Component {
 
         return (
             <MediaFullWrap>
-                <MediaBackground bgimg={`${getBaseUrl()}/olaris/m/images/tmdb/w342/${background}`} />
                 <Breadcrumbs type={type} name={name} season={season} />
                 <MediaFull>
                     <MediaLeftCol>

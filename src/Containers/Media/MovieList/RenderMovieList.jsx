@@ -26,9 +26,11 @@ const RenderMovieList = ({ sModal }: Props) => {
         });
     };
 
+    const moviesLimit = (window.innerHeight > 1100) ? 100 : 50;
+
     const { loading, error, data, fetchMore } = useQuery(FETCH_MOVIES, {
         variables: {
-            limit: 50,
+            limit: moviesLimit,
             offset: 0,
         },
     });

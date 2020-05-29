@@ -3,21 +3,22 @@ import PropTypes from 'prop-types';
 import { getBaseUrl } from 'Helpers';
 
 import { Suggestion, Poster, Name, Year } from './Styles';
+import { placeholder } from '../../Media/Card/Placeholder';
 
 const renderSuggestion = (suggestion) => {
     const year =
-        suggestion.typename === 'Movie'
+        suggestion.type === 'Movie'
             ? suggestion.year
-            : suggestion.first_air_date;
+            : suggestion.firstAirDate.split("-")[0];
+    const poster =
+        suggestion.posterPath
+            ? `${getBaseUrl()}/olaris/m/images/tmdb/w342/${suggestion.posterPath}`
+            : placeholder;
 
     return (
         <Suggestion to="/movies">
-            <Poster
-                src={`${getBaseUrl()}/olaris/m/images/tmdb/w342/${
-                    suggestion.posterPath
-                }`}
-                alt={suggestion.name}
-            />
+            <Poster src={poster} alt={suggestion.name} />
+
             <Name>{suggestion.name}</Name>
             {year && <Year>{year}</Year>}
         </Suggestion>

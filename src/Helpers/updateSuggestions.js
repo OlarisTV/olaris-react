@@ -7,6 +7,8 @@
 const updateSuggestions = (arr) => {
     if (arr === undefined || arr.length === 0) return [];
 
+    const numberOfResults = 5;
+
     const updatedSuggestions = [
         {
             title: 'Movies',
@@ -19,12 +21,9 @@ const updateSuggestions = (arr) => {
     ];
 
     arr.forEach((sug) => {
-        if (
-            sug.type === 'Movie' &&
-            updatedSuggestions[0].suggestions.length <= 2
-        ) {
+        if (sug.type === 'Movie' && updatedSuggestions[0].suggestions.length < numberOfResults) {
             updatedSuggestions[0].suggestions.push(sug);
-        } else if (updatedSuggestions[1].suggestions.length <= 2) {
+        } else if (sug.type === 'Series' && updatedSuggestions[1].suggestions.length < numberOfResults) {
             updatedSuggestions[1].suggestions.push(sug);
         }
     });

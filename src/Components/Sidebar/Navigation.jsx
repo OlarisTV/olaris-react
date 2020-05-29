@@ -7,7 +7,7 @@ import NavItem from './NavItem';
 const Navigation = () => (
     <>
         {navigationArr.map((item) => {
-            if (item.admin && !Auth.isAdmin) return false;
+            if (item.admin && !Auth.isAdmin.admin) return false;
 
             return <NavItem name={item.name} links={item.links} key={item.id} />;
         })}

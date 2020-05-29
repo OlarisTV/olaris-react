@@ -49,12 +49,14 @@ class Player extends Component {
                     showAutoItem: true,
                 },
             },
-
             controls: true,
             controlBar: {
                 volumePanel: {
                     inline: false
                 }
+            },
+            userActions: {
+                hotkeys: true
             },
             html5: {
                 hls: {
@@ -73,6 +75,7 @@ class Player extends Component {
             videoJsOptions.html5.hls.bandwidth = 1e12;
         }
         this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {
+            this.focus();
             this.debugOverlay();
             this.qualityLevels();
             this.httpSourceSelector();

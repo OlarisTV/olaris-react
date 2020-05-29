@@ -37,7 +37,7 @@ const RenderRecentMovies = ({ sModal }: Props) => {
     const RecentlyAddedMovies = movies.map((item) => {
         if (item.name.length === 0) return false;
 
-        const { files, name, playState, type, uuid, posterPath } = item;
+        const { files, name, playState, type, uuid, posterPath, year } = item;
 
         return (
             <MediaCardWrap key={uuid}>
@@ -49,6 +49,7 @@ const RenderRecentMovies = ({ sModal }: Props) => {
                     posterPath={posterPath}
                     type={type}
                     uuid={uuid}
+                    year={year}
                 />
             </MediaCardWrap>
         );

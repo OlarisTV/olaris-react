@@ -26,9 +26,11 @@ const RenderSeriesList = ({ sModal }: Props) => {
         });
     };
 
+    const seriesLimit = (window.innerHeight > 1100) ? 100 : 50;
+
     const { loading, error, data, fetchMore } = useQuery(FETCH_SERIES_LIST, {
         variables: {
-            limit: 50,
+            limit: seriesLimit,
             offset: 0,
         },
     });

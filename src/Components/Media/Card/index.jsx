@@ -94,7 +94,7 @@ class MediaCard extends Component {
         return (
             <>
                 <CardWrap onClick={(e) => this.cardClick(e, url, history, showPlayStatus)}>
-                    <PosterWrap>
+                    <PosterWrap title={name}>
                         <Lazy wide={wide} height={0} debounce={100} placeholder={<Placeholder />} overflow resize>
                             <CardPoster hover={hover} wide={wide} bgimg={bgImage}>
                                 <MediaInfo {...this.props} length={length} showPlayStatus={showPlayStatus} />

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { transparentize } from 'polished';
 import { media } from 'Styles/Utils';
+import { placeholder } from '../../Media/Card/Placeholder';
 
 export const SearchIcon = styled(FontAwesomeIcon)`
     font-size: 1.6rem;
@@ -146,6 +147,8 @@ export const Year = styled.small`
 `;
 
 export const Poster = styled.img`
+    background: #191e30 url(${placeholder}) no-repeat center;
+    background-size: cover;
     height: 5rem;
     padding: 0.2rem;
     position: absolute;
