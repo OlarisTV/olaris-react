@@ -7,16 +7,21 @@ import Loading from 'Components/Loading';
 import MediaItem from 'Components/Media/MediaItem';
 
 type Props = {
-    uuid: string,
+    uuid: ?string,
+};
+
+type Episode = {
+    episode: Object,
 };
 
 const RenderEpisode = ({ uuid }: Props) => {
-    const { loading, error, data } = useQuery(FETCH_EPISODE, {
+    const { loading, error, data } = useQuery<Episode, Props>(FETCH_EPISODE, {
         variables: { uuid },
     });
 
     if (loading) return <Loading />;
-    if (error) return `Error! ${error.message}`;
+    if (error) return `Error! ${error && error.message}`;
+    if (!data) return `Error fetching data for this episde.`;
 
     const { stillPath, airDate, season, type, name, playState, files, overview } = data.episode;
 

@@ -14,11 +14,7 @@ import MediaCard from 'Components/Media/Card';
 import { NoResults } from 'Containers/Styles';
 import { MediaCardWrap } from './Styles';
 
-const Props = {
-    sModal: Function,
-};
-
-const RenderRecentMovies = ({ sModal }: Props) => {
+const RenderRecentMovies = ({ sModal }: { sModal: Function }) => {
     const { loading, error, data } = useQuery(RECENTLY_ADDED, {
         fetchPolicy: 'cache-and-network',
     });
@@ -73,7 +69,4 @@ const mapDispatchToProps = (dispatch) => ({
     sModal: (type, props) => dispatch(showModal(type, props)),
 });
 
-export default connect(
-    null,
-    mapDispatchToProps,
-)(RenderRecentMovies);
+export default connect(null, mapDispatchToProps)(RenderRecentMovies);
