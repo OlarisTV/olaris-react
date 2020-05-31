@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+// Flow
+import React, { useState, useEffect } from 'react';
 import { compose } from 'lodash/fp';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import ReactToolTip from 'react-tooltip';
-import PropTypes from 'prop-types';
 import { Auth } from 'Client/Auth';
 
-import { compileEpisodes, generateMediaUrl } from 'Helpers';
+import { compileEpisodes, sortEpisodes, generateMediaUrl } from 'Helpers';
 import { showModal } from 'Redux/Actions/modalActions';
 
 import { faPlay, faRandom } from '@fortawesome/free-solid-svg-icons';
@@ -15,51 +16,41 @@ import MarkWatched from './MarkWatched';
 
 import * as S from './Styles';
 
-class MediaListHeader extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            episodes: [],
-            nextEpisode: {},
-            randomEpisode: {},
-            finished: false,
-        };
-    }
+type Props = {
+    data: Object,
+    type: string,
+    name: string,
+    uuid: string,
+};
 
-    componentWillMount = () => {
-        this.updateEpisodeList();
-    };
+const MediaListHeader = ({ data, type, name, uuid }: Props) => {
+    const history = useHistory();
+    const [mediaState, setMediaState] = useState({
+        episodes: [],
+        nextEpisode: {},
+        randomEpisode: {},
+        finished: false,
+    });
 
-    updateEpisodeList = () => {
-        const { data, type } = this.props;
+    const updateEpisodeList = () => {
+        const episodes = type === 'series' ? compileEpisodes(data) : sortEpisodes(data);
+        const nextEpisode = episodes.filter((episode) => !episode.playState.finished)[0];
+        const finished = episodes.some((episode) => episode.playState.finished);
+        const randomEpisode = episodes[Math.floor(Math.random() * (episodes.length - 1))];
 
-        const episodes = type === 'series' ? compileEpisodes(data) : data;
-        const randomize = Math.floor(Math.random() * (episodes.length + 1));
-
-        let nextEpisode = episodes[0];
-        let finished = true;
-
-        for (let i = 0; i < episodes.length; i += 1) {
-            const el = episodes[i];
-
-            if (!el.playState.finished) {
-                nextEpisode = el;
-                finished = false;
-                break;
-            }
-        }
-
-        this.setState({
+        setMediaState({
             episodes,
             nextEpisode,
             finished,
-            randomEpisode: episodes[randomize],
+            randomEpisode,
         });
     };
 
-    playEpisode = (uuid, resume) => {
-        const { history } = this.props;
+    useEffect(() => {
+        if (data) updateEpisodeList();
+    }, [data]);
 
+    const playEpisode = (resume) => {
         history.push({
             pathname: generateMediaUrl('episode', uuid),
             state: {
@@ -69,77 +60,40 @@ class MediaListHeader extends Component {
         });
     };
 
-    playSeries = () => {
-        const { nextEpisode } = this.state;
-        const resume = nextEpisode.playState.playtime > 0;
+    const playSeries = () => {
+        const resume = mediaState.nextEpisode.playState.playtime > 0;
 
-        this.playEpisode(nextEpisode.uuid, resume);
+        playEpisode(mediaState.nextEpisode.uuid, resume);
     };
 
-    render() {
-        const { finished, randomEpisode, episodes } = this.state;
-        const { type, name, uuid } = this.props;
+    return (
+        <S.Header>
+            <ReactToolTip effect="solid" place="left" className="tooltip" />
+            <S.HeaderIconWrap onClick={playSeries} data-tip={`Play ${type === 'series' ? 'Series' : 'Season'}`}>
+                <S.HeaderIcon icon={faPlay} />
+            </S.HeaderIconWrap>
 
-        const playState = {
-            finished,
-        };
+            <S.HeaderIconWrap
+                onClick={() => playEpisode(mediaState.randomEpisode.uuid, false)}
+                data-tip="Play Random Episode"
+            >
+                <S.HeaderIcon icon={faRandom} />
+            </S.HeaderIconWrap>
 
-        return (
-            <S.Header>
-                <ReactToolTip effect="solid" place="left" className="tooltip" />
-                <S.HeaderIconWrap
-                    onClick={this.playSeries}
-                    data-tip={`Play ${type === 'series' ? 'Series' : 'Season'}`}
-                >
-                    <S.HeaderIcon icon={faPlay} />
-                </S.HeaderIconWrap>
+            <MarkWatched
+                type={type}
+                uuid={uuid}
+                playState={{ finished: mediaState.finished }}
+                episodes={mediaState.episodes}
+            />
 
-                <S.HeaderIconWrap
-                    onClick={() => this.playEpisode(randomEpisode.uuid, false)}
-                    data-tip="Play Random Episode"
-                >
-                    <S.HeaderIcon icon={faRandom} />
-                </S.HeaderIconWrap>
-
-                <MarkWatched type={type} uuid={uuid} playState={playState} episodes={episodes} />
-
-                {Auth.isAdmin.admin &&
-                    (type === 'series' && <MediaMismatch uuid={uuid} name={name} type={type} />)
-                }
-            </S.Header>
-        );
-    }
-}
-
-MediaListHeader.propTypes = {
-    data: PropTypes.arrayOf(
-        PropTypes.shape({
-            playState: PropTypes.shape({
-                finished: PropTypes.bool.isRequired,
-                playtime: PropTypes.number.isRequired,
-            }),
-        }),
-    ).isRequired,
-    history: PropTypes.shape({
-        push: PropTypes.func.isRequired,
-    }).isRequired,
-    type: PropTypes.string.isRequired,
-    uuid: PropTypes.string.isRequired,
-    name: PropTypes.string,
-};
-
-MediaListHeader.defaultProps = {
-    name: '',
+            {Auth.isAdmin.admin && type === 'series' && <MediaMismatch uuid={uuid} name={name} type={type} />}
+        </S.Header>
+    );
 };
 
 const mapDispatchToProps = (dispatch) => ({
     showModal: (type, props) => dispatch(showModal(type, props)),
 });
 
-export default compose(
-    withRouter,
-    connect(
-        null,
-        mapDispatchToProps,
-    ),
-)(MediaListHeader);
+export default compose(withRouter, connect(null, mapDispatchToProps))(MediaListHeader);

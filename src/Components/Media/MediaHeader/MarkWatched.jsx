@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
 
@@ -16,7 +16,11 @@ import {
 import { HeaderIconWrap, HeaderIcon } from './Styles';
 
 const MarkWatched = ({ episodes, playState, type, uuid, mutate }) => {
-    const [watched, toggleWatched] = useState(playState.finished);
+    const [watched, toggleWatched] = useState(false);
+
+    useEffect(() => {
+        toggleWatched(playState.finished);
+    }, [playState]);
 
     const markMultipleWatched = () => {
         episodes.forEach((episode) => {

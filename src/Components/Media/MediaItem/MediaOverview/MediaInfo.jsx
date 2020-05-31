@@ -67,7 +67,7 @@ const MediaInfo = (props) => {
                 {renderHealth()}
                 <li>{renderTotalD()}</li>
                 <li>{renderPlayState()}</li>
-                <li>{renderResolution()}</li>
+                <li>{selectedFile.streams && renderResolution()}</li>
             </MediaDetails>
             <MediaDescription overview={overview} />
         </MediaInfoWrap>

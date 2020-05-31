@@ -1,3 +1,4 @@
+import sortEpisodes from './sortEpisodes';
 /**
  * Compiles All Episodes from Object of Seasons
  * @param series Array of Seasons
@@ -5,15 +6,13 @@
  */
 
 const compileEpisodes = (series) => {
-    const arr = [];
+    let e = [];
 
-    series.forEach((season) => {
-        season.episodes.forEach((episode) => {
-            arr.push(episode);
-        });
+    series.forEach(({ episodes }) => {
+        e = episodes.map((episode) => episode);
     });
 
-    return arr;
+    return sortEpisodes(e);
 };
 
 export default compileEpisodes;

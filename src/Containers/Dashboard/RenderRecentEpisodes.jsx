@@ -55,7 +55,7 @@ const RenderRecentEpisodes = ({ sModal }: { sModal: Function }) => {
     if (episodes.length === 0) {
         return (
             <NoResults alignLeft>
-                {'You currently have no Series.'}
+                You currently have no Series.
                 <button type="button" onClick={() => toggleModal()}>
                     Add a Series folder
                 </button>

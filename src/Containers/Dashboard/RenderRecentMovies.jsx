@@ -54,7 +54,7 @@ const RenderRecentMovies = ({ sModal }: { sModal: Function }) => {
     if (movies.length === 0) {
         return (
             <NoResults alignLeft>
-                {'You currently have no Movies.'}
+                You currently have no Movies.
                 <button type="button" onClick={() => toggleModal()}>
                     Add a Movies folder
                 </button>

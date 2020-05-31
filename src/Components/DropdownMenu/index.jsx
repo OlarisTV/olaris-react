@@ -1,67 +1,41 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect, useRef, type Node } from 'react';
+import * as S from './Styles';
 
-import { DropdownToggle, DropdownContents, DropdownIcon } from './Styles';
+type Icon = {
+    iconName: string,
+};
 
-class DropdownMenu extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isOpen: false,
+type Props = {
+    icon: Icon,
+    className: string,
+    children: Node,
+};
+
+const DropdownMenu = ({ icon, children, className }: Props) => {
+    const [open, setOpen] = useState(false);
+    const node = useRef();
+
+    const toggleDropdown = (e) => node.current.contains(e.target) && setOpen(false);
+
+    useEffect(() => {
+        document.addEventListener('mousedown', toggleDropdown, false);
+        document.addEventListener('keydown', toggleDropdown, false);
+
+        return () => {
+            document.removeEventListener('mousedown', toggleDropdown, false);
+            document.removeEventListener('keydown', toggleDropdown, false);
         };
-    }
+    }, []);
 
-    componentWillMount() {
-        document.addEventListener('mousedown', this.closeModalIfOpen, false);
-        document.addEventListener('keydown', this.closeModalIfOpen, false);
-    }
+    return (
+        <div ref={node} className={className}>
+            <S.DropdownToggle onClick={() => setOpen(!open)}>
+                <S.DropdownIcon icon={icon} />
+            </S.DropdownToggle>
 
-    componentWillUnmount() {
-        document.removeEventListener('mousedown', this.closeModalIfOpen, false);
-        document.removeEventListener('keydown', this.closeModalIfOpen, false);
-    }
-
-    closeModalIfOpen = (e) => {
-        const { isOpen } = this.state;
-
-        if (!this.dropdown.contains(e.target) && isOpen) {
-            this.setState({ isOpen: false });
-        }
-    };
-
-    handleToggle = () => {
-        const { isOpen } = this.state;
-
-        this.setState({ isOpen: !isOpen });
-    };
-
-    render() {
-        const { icon, children, className } = this.props;
-        const { isOpen } = this.state;
-
-        return (
-            <div
-                className={className}
-                ref={(node) => {
-                    this.dropdown = node;
-                }}
-            >
-                <DropdownToggle onClick={(e) => this.handleToggle(e)}>
-                    <DropdownIcon icon={icon} />
-                </DropdownToggle>
-
-                {isOpen && <DropdownContents>{children}</DropdownContents>}
-            </div>
-        );
-    }
-}
-
-DropdownMenu.propTypes = {
-    icon: PropTypes.shape({
-        iconName: PropTypes.string.isRequired,
-    }).isRequired,
-    children: PropTypes.node.isRequired,
-    className: PropTypes.string.isRequired,
+            {open && <S.DropdownContents>{children}</S.DropdownContents>}
+        </div>
+    );
 };
 
 export default DropdownMenu;

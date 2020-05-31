@@ -80,22 +80,22 @@ export const MediaInfoList = styled.ul`
 `;
 
 export const MediaInfoSubhead = styled.span`
-  text-transform:uppercase;
-  color: #FFF;
-  opacity:.5;
-  font-size:1.1rem;
-  font-weight:600;
-  line-height:2rem
-  letter-spacing:.1rem;
-  float:left;
-  width:100%;
-  margin:0 0 .5rem 0;
-  min-width: 7.2rem;
+    text-transform: uppercase;
+    color: #fff;
+    opacity: 0.5;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 2rem;
+    letter-spacing: 0.1rem;
+    float: left;
+    width: 100%;
+    margin: 0 0 0.5rem 0;
+    min-width: 7.2rem;
 
-  ${media.mobile`
-    float:none;
-    margin:0 1.5rem 0 0;
-    width:auto;
+    ${media.mobile`
+        float:none;
+        margin:0 1.5rem 0 0;
+        width:auto;
   `}
 `;
 

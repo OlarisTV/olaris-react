@@ -35,7 +35,8 @@ class MediaItem extends Component {
         };
     }
 
-    componentWillMount() {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillMount() {
         const { files, location } = this.props;
         const { state } = location;
         const fileList = generateFileList(files);

@@ -9,6 +9,7 @@ import { convertToMinutes, convertToMinutesSeconds, convertToHMS } from './conve
 import streamFilter from './streamFilter';
 import copyToClipboard from './copyToClipboard';
 import compileEpisodes from './compileEpisodes';
+import sortEpisodes from './sortEpisodes';
 import splitFilepath from './splitFilepath';
 
 export {
@@ -25,5 +26,6 @@ export {
     streamFilter,
     copyToClipboard,
     compileEpisodes,
+    sortEpisodes,
     splitFilepath,
 };

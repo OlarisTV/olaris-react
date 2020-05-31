@@ -9,10 +9,7 @@ export const Header = styled.header`
 `;
 
 export const HeaderIconWrap = styled.div`
-<<<<<<< HEAD:src/Components/Media/MediaHeader/Styles.js
-=======
     float: ${(props) => (props.right ? 'right' : 'left')};
->>>>>>> develop:src/Components/Media/MediaHeader/Styles.js
     width: 6rem;
     height: 6rem;
     text-align: center;
@@ -21,13 +18,6 @@ export const HeaderIconWrap = styled.div`
     opacity: ${(props) => (props.disabled ? '0.5' : '1')};
     cursor: ${(props) => (props.disabled ? 'initial' : 'pointer')};
 
-<<<<<<< HEAD:src/Components/Media/MediaHeader/Styles.js
-    &:nth-child(4) {
-        margin-left: auto;
-    }
-
-=======
->>>>>>> develop:src/Components/Media/MediaHeader/Styles.js
     &:last-child {
         border-right: 0;
     }
