@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import ReactToolTip from 'react-tooltip';
 import PropTypes from 'prop-types';
+import { Auth } from 'Client/Auth';
 
 import { compileEpisodes, generateMediaUrl } from 'Helpers';
 import { showModal } from 'Redux/Actions/modalActions';
@@ -101,7 +102,10 @@ class MediaListHeader extends Component {
                 </S.HeaderIconWrap>
 
                 <MarkWatched type={type} uuid={uuid} playState={playState} episodes={episodes} />
-                {type === 'series' && <MediaMismatch uuid={uuid} name={name} type={type} />}
+
+                {Auth.isAdmin.admin &&
+                    (type === 'series' && <MediaMismatch uuid={uuid} name={name} type={type} />)
+                }
             </S.Header>
         );
     }

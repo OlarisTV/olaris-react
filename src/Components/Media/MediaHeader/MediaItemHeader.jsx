@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import ReactToolTip from 'react-tooltip';
 import PropTypes from 'prop-types';
-
+import { Auth } from 'Client/Auth';
 import { showModal } from 'Redux/Actions/modalActions';
 
 import PlayMedia from './PlayMedia';
@@ -20,8 +20,12 @@ const MediaItemHeader = ({ name, type, uuid, playMedia, playState, file, isConne
 
         <PlayMedia type={type} isConnected={isConnected} playMedia={playMedia} playState={playState} />
         <MarkWatched playState={playState} type={type} uuid={uuid} />
-        <RefreshMetadata uuid={uuid} />
-        {type === 'Movie' && <MediaMismatch uuid={file.uuid} name={name} type={type} file={file.filePath} />}
+        {Auth.isAdmin.admin && (
+            <>
+                <RefreshMetadata uuid={uuid} />
+                {type === 'Movie' && <MediaMismatch uuid={file.uuid} name={name} type={type} file={file.filePath} />}
+            </>
+        )}
     </Header>
 );
 
