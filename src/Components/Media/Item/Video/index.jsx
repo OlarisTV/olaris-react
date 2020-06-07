@@ -66,26 +66,15 @@ class Video extends Component {
     };
 
     render() {
-        const {
-            source,
-            files,
-            selectedFile,
-            resume,
-            mimetype,
-            uuid,
-            closePlayer,
-            dispatch,
-            isCasting,
-            media,
-        } = this.props;
+        const { source, selectedFile, resume, mimetype, uuid, closePlayer, dispatch, isCasting, media } = this.props;
         const { playState, type } = media;
 
-        const videoCodec = files[selectedFile.value].streams
-            .filter((s) => s.streamType === 'video')
-            .map((s) => s.codecMime)[0];
+        const videoCodec = selectedFile.streams.filter((s) => s.streamType === 'video').map((s) => s.codecMime)[0];
         const transmuxed = canPlayCodec(videoCodec);
 
-        if (source && mimetype && !isCasting) {
+        if (source && !isCasting) {
+            console.log(mimetype);
+
             return (
                 <>
                     <S.VideoWrap>
@@ -115,14 +104,14 @@ Video.propTypes = {
     isCasting: PropTypes.bool.isRequired,
     closePlayer: PropTypes.func.isRequired,
     source: PropTypes.string,
-    files: PropTypes.arrayOf(
-        PropTypes.shape({
-            fileName: PropTypes.string,
-        }),
-    ).isRequired,
     selectedFile: PropTypes.shape({
         totalDuration: PropTypes.number,
         value: PropTypes.number,
+        streams: PropTypes.arrayOf(
+            PropTypes.shape({
+                streamType: PropTypes.string,
+            }),
+        ).isRequired,
     }).isRequired,
     media: PropTypes.shape({
         playState: PropTypes.shape({}).isRequired,

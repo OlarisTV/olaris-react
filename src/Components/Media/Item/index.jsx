@@ -65,7 +65,7 @@ type Props = {
 const MediaItem = ({ uuid, media }: Props) => {
     const location = useLocation();
     const [state, dispatch] = useReducer(reducer, { files: media.files }, init);
-    const { files, selectedFile, resume, autoplay, mimetype, source } = state;
+    const { files, selectedFile, resume, mimetype, source } = state;
     const [reqestStream] = useMutation(REQUEST_STREAM, {
         onCompleted({ createStreamingTicket: stream }) {
             fetch(getBaseUrl() + stream.metadataPath)
@@ -148,8 +148,6 @@ const MediaItem = ({ uuid, media }: Props) => {
                         media={media}
                         closePlayer={() => console.log('Close Player')}
                     />
-                    <p>Resume: {resume ? 'true' : 'false'}</p>
-                    <p>Autoplay: {autoplay ? 'true' : 'false'}</p>
                 </S.RightCol>
             </S.Item>
         </S.Wrap>

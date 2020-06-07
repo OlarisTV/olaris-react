@@ -20,11 +20,11 @@ class Player extends Component {
     t = throttle(() => this.playStateMutation(Math.floor(this.player.currentTime())), 2000);
 
     componentDidMount() {
-        const { resume, playState, source, mimeType, transmuxed, dispatch } = this.props;
+        const { resume, playState, source, mimetype, transmuxed, dispatch } = this.props;
 
         const videoSource = {
             src: source,
-            type: mimeType,
+            type: mimetype,
         };
 
         dispatch(showVideo());
@@ -158,7 +158,7 @@ Player.propTypes = {
     length: PropTypes.number.isRequired,
     mutate: PropTypes.func.isRequired,
     type: PropTypes.string.isRequired,
-    mimeType: PropTypes.string.isRequired,
+    mimetype: PropTypes.string.isRequired,
     playState: PropTypes.shape({
         finished: PropTypes.bool,
         playtime: PropTypes.number,
