@@ -6,11 +6,7 @@ import videojs from 'video.js';
 import '@videojs/http-streaming';
 import './DebugOverlay';
 
-// NOTE(Leon Handreke): Ideally this should be imported from videojs-http-source-selector because
-// the fact that it relies on this plugin is an implementation detail. However, the compilation
-// setup for that plugin is a bit wonky, so it's easier to just do the plugin registration here.
-import 'videojs-contrib-quality-levels';
-import 'videojs-http-source-selector';
+import 'videojs-hls-quality-selector';
 
 import UPDATE_PLAYSTATE from 'Mutations/updatePlaystate';
 import { showVideo } from 'Redux/Actions/videoActions';
@@ -44,11 +40,6 @@ class Player extends Component {
             sources: [videoSource],
             autoplay: true,
             techOrder: ['html5'],
-            plugins: {
-                httpSourceSelector: {
-                    showAutoItem: true,
-                },
-            },
             controls: true,
             controlBar: {
                 volumePanel: {
@@ -77,8 +68,6 @@ class Player extends Component {
         this.player = videojs(this.videoNode, videoJsOptions, function onPlayerReady() {
             this.focus();
             this.debugOverlay();
-            this.qualityLevels();
-            this.httpSourceSelector();
         });
 
         this.player.on('timeupdate', () => {

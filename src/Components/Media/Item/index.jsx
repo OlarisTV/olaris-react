@@ -138,16 +138,18 @@ const MediaItem = ({ uuid, media }: Props) => {
                         files={files}
                         fileChange={() => console.log('File Change')}
                     />
-                    <Video
-                        resume={resume}
-                        source={source}
-                        mimetype={mimetype}
-                        uuid={uuid}
-                        files={files}
-                        selectedFile={selectedFile}
-                        media={media}
-                        closePlayer={() => console.log('Close Player')}
-                    />
+                    {source && (
+                        <Video
+                            resume={resume}
+                            source={source}
+                            mimetype={mimetype}
+                            uuid={uuid}
+                            files={files}
+                            selectedFile={selectedFile}
+                            type={media.type}
+                            closePlayer={() => console.log('Close Player')}
+                        />
+                    )}
                 </S.RightCol>
             </S.Item>
         </S.Wrap>
