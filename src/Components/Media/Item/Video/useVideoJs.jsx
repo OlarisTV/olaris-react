@@ -3,8 +3,8 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import videojs from 'video.js';
-
-import 'videojs-hls-quality-selector';
+import qualitySelector from 'videojs-hls-quality-selector';
+import contribQualityLevels from 'videojs-contrib-quality-levels';
 
 import UPDATE_PLAYSTATE from 'Mutations/updatePlaystate';
 import FETCH_EPISODE from 'Queries/fetchEpisode';
@@ -48,8 +48,11 @@ const useVideoJs = (videoJsOptions, uuid, length, type) => {
     };
 
     useLayoutEffect(() => {
+        videojs.registerPlugin('qualityLevels', contribQualityLevels);
+        videojs.registerPlugin('hlsQualitySelector', qualitySelector);
+
         const player = videojs(videoNode.current, videoJsOptions, () => {
-            player.hlsQualitySelector();
+            player.hlsQualitySelector({ displayCurrentQuality: true });
         });
 
         const playStateInterval = setInterval(() => {
