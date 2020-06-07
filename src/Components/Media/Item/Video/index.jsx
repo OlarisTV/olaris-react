@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { canPlayCodec } from 'Helpers';
-
 import CastVideo from './CastVideo';
+
 import Player from './Player';
 
 import * as S from './Styles';
@@ -53,28 +53,38 @@ class Video extends Component {
         });
     };
 
-    castMedia = (source, mimetype) => {
+    castMedia = (source, mimeType) => {
         const { message } = this.state;
         const data = {
             ...this.props,
             message,
             source,
-            mimetype,
+            mimeType,
         };
 
         CastVideo(data).catch(() => false);
     };
 
     render() {
-        const { source, selectedFile, resume, mimetype, uuid, closePlayer, dispatch, isCasting, media } = this.props;
-        const { playState, type } = media;
+        const {
+            source,
+            files,
+            selectedFile,
+            resume,
+            mimetype,
+            uuid,
+            closePlayer,
+            dispatch,
+            isCasting,
+            media,
+        } = this.props;
 
-        const videoCodec = selectedFile.streams.filter((s) => s.streamType === 'video').map((s) => s.codecMime)[0];
+        const videoCodec = files[selectedFile.value].streams
+            .filter((s) => s.streamType === 'video')
+            .map((s) => s.codecMime)[0];
         const transmuxed = canPlayCodec(videoCodec);
 
         if (source && !isCasting) {
-            console.log(mimetype);
-
             return (
                 <>
                     <S.VideoWrap>
@@ -84,10 +94,10 @@ class Video extends Component {
                             mimetype={mimetype}
                             transmuxed={transmuxed}
                             resume={resume}
-                            playState={playState}
+                            playState={media.playState}
                             uuid={uuid}
                             length={selectedFile.totalDuration}
-                            type={type}
+                            type={media.type}
                             dispatch={dispatch}
                         />
                     </S.VideoWrap>
@@ -104,18 +114,18 @@ Video.propTypes = {
     isCasting: PropTypes.bool.isRequired,
     closePlayer: PropTypes.func.isRequired,
     source: PropTypes.string,
+    files: PropTypes.arrayOf(
+        PropTypes.shape({
+            fileName: PropTypes.string,
+        }),
+    ).isRequired,
     selectedFile: PropTypes.shape({
         totalDuration: PropTypes.number,
         value: PropTypes.number,
-        streams: PropTypes.arrayOf(
-            PropTypes.shape({
-                streamType: PropTypes.string,
-            }),
-        ).isRequired,
     }).isRequired,
     media: PropTypes.shape({
-        playState: PropTypes.shape({}).isRequired,
         type: PropTypes.string.isRequired,
+        playState: PropTypes.shape({}).isRequired,
     }).isRequired,
     uuid: PropTypes.string.isRequired,
     auth: PropTypes.shape({}).isRequired,
@@ -125,8 +135,8 @@ Video.propTypes = {
 
 Video.defaultProps = {
     resume: false,
-    source: null,
     mimetype: null,
+    source: null,
 };
 
 const mapStateToProps = (state) => {

@@ -24,6 +24,7 @@ const init = (initialState) => {
         autoPlay: false,
         files: generatedFiles,
         selectedFile: generatedFiles[0],
+        streams: null,
         mimetype: null,
         source: null,
     };
@@ -70,17 +71,16 @@ const MediaItem = ({ uuid, media }: Props) => {
         onCompleted({ createStreamingTicket: stream }) {
             fetch(getBaseUrl() + stream.metadataPath)
                 .then((res) => res.json())
-                .then((result) => {
-                    const data = getVideoSource(isIOS, stream, result);
-
+                .then((res) => getVideoSource(isIOS, stream, res))
+                .then((data) =>
                     dispatch({
                         type: 'SET_STREAM_DATA',
                         payload: {
                             mimetype: data.mimetype,
                             source: data.source,
                         },
-                    });
-                })
+                    }),
+                )
                 .catch((err) => err);
         },
     });
