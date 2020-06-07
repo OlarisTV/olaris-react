@@ -1,5 +1,6 @@
-import getUrlParameter from './getUrlParameter';
 import getBaseUrl from './getBaseUrl';
+import getUrlParameter from './getUrlParameter';
+import getVideoSource from './getVideoSource';
 import updateSuggestions from './updateSuggestions';
 import canPlayCodec from './canPlayCodec';
 import generateMediaUrl from './generateMediaUrl';
@@ -13,8 +14,9 @@ import sortEpisodes from './sortEpisodes';
 import splitFilepath from './splitFilepath';
 
 export {
-    getUrlParameter,
     getBaseUrl,
+    getUrlParameter,
+    getVideoSource,
     canPlayCodec,
     generateMediaUrl,
     updateSuggestions,

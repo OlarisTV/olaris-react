@@ -53,7 +53,7 @@ class MediaItem extends Component {
 
     componentDidMount() {
         const { autoplay, resume } = this.state;
-
+        console.log(this.props);
         if (autoplay) this.playMedia(resume);
 
         this.setState({

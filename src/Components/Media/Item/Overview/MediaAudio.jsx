@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { streamFilter } from 'Helpers';
-import { MediaInfoSubhead, MediaInfo, MediaInfoList } from '../Styles';
+import * as S from './Styles';
 
 const MediaAudio = ({ selectedFile }) => {
     const audioArr = streamFilter(selectedFile, 'audio', 'language');
@@ -11,10 +11,10 @@ const MediaAudio = ({ selectedFile }) => {
     const renderAudio = audioArr.map((a) => <li key={a}>{a}</li>);
 
     return (
-        <MediaInfo>
-            <MediaInfoSubhead>Audio Tracks:</MediaInfoSubhead>
-            <MediaInfoList>{renderAudio}</MediaInfoList>
-        </MediaInfo>
+        <S.MediaInfo>
+            <S.MediaInfoSubhead>Audio Tracks:</S.MediaInfoSubhead>
+            <S.MediaInfoList>{renderAudio}</S.MediaInfoList>
+        </S.MediaInfo>
     );
 };
 

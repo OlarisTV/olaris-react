@@ -32,7 +32,7 @@ const CastVideo = ({
     uuid,
     resume,
     source,
-    mimeType,
+    mimetype,
     streams,
     type,
 }) => {
@@ -41,7 +41,7 @@ const CastVideo = ({
         const namespace = 'urn:x-cast:com.auth';
 
         // Append media data to cast request
-        const mediaInfo = new chrome.cast.media.MediaInfo(source, mimeType);
+        const mediaInfo = new chrome.cast.media.MediaInfo(source, mimetype);
 
         // Set generic metadata
         if (type === 'Episode') {

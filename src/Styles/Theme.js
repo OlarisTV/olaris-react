@@ -9,7 +9,9 @@ const Theme = {
     background: '#191a28',
     playbar: '#FF9B3D',
     sidebar: '#1f202f',
-
+    color: {
+        background: '#262737',
+    },
     darken: {
         primary: darken(0.2, '#FF9B3D'),
         dark: darken(0.1, '#262737'),

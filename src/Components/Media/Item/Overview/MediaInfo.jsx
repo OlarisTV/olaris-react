@@ -6,7 +6,7 @@ import { convertToMinutes } from 'Helpers';
 import { faExclamation } from '@fortawesome/free-solid-svg-icons';
 
 import MediaDescription from './MediaDescription';
-import { MediaInfoWrap, MediaDetails, LibraryUnhealthy } from '../Styles';
+import { MediaInfoWrap, MediaDetails, LibraryUnhealthy } from './Styles';
 import { MediaName, MediaRelease } from '../../Styles';
 
 const MediaInfo = (props) => {

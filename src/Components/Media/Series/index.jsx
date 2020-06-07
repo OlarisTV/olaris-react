@@ -5,8 +5,8 @@ import { getBaseUrl } from 'Helpers';
 
 import Breadcrumbs from 'Components/Breadcrumbs';
 import Media from 'Components/Media/Card';
-import MediaDescription from 'Components/Media/MediaItem/MediaOverview/MediaDescription';
-import MediaListHeader from '../MediaHeader/MediaListHeader';
+import MediaDescription from '../Item/Overview/MediaDescription';
+import MediaListHeader from '../Header/MediaListHeader';
 
 import {
     MediaFullWrap,

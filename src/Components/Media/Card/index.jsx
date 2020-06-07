@@ -15,7 +15,7 @@ import MediaName from './MediaName';
 import { Placeholder, placeholder } from './Placeholder';
 import { CardPoster, CardWrap, CardPopup, PosterWrap, PopupLink, PopupIcon, Lazy } from './Styles';
 
-class MediaCard extends Component {
+class Card extends Component {
     constructor() {
         super();
 
@@ -75,7 +75,7 @@ class MediaCard extends Component {
     };
 
     render() {
-        const { wide, showText, history, name, posterPath, stillPath, type, files, hover } = this.props;
+        const { wide, showText, history, name, posterPath, stillPath, type, totalDuration, hover } = this.props;
         const { url } = this.state;
 
         const showPlayStatus = type === 'Movie' || type === 'Episode';
@@ -84,12 +84,7 @@ class MediaCard extends Component {
                 ? `${getBaseUrl()}/olaris/m/images/tmdb/w342/${stillPath || posterPath}`
                 : placeholder;
 
-        let length;
-        if (typeof files === 'undefined' || !(files instanceof Array)) {
-            length = 0;
-        } else if (files[0]) {
-            length = files[0].totalDuration;
-        }
+        const length = totalDuration && totalDuration;
 
         return (
             <>
@@ -119,7 +114,7 @@ const mapDispatchToProps = (dispatch) => ({
     loadModal: (type, props) => dispatch(showModal(type, props)),
 });
 
-MediaCard.propTypes = {
+Card.propTypes = {
     playMedia: PropTypes.func,
     name: PropTypes.string.isRequired,
     airDate: PropTypes.string,
@@ -128,11 +123,7 @@ MediaCard.propTypes = {
     type: PropTypes.string.isRequired,
     uuid: PropTypes.string,
     loadModal: PropTypes.func.isRequired,
-    files: PropTypes.arrayOf(
-        PropTypes.shape({
-            totalDuration: PropTypes.number,
-        }),
-    ),
+    totalDuration: PropTypes.number,
     playState: PropTypes.shape({
         playtime: PropTypes.number,
         finished: PropTypes.bool,
@@ -144,7 +135,7 @@ MediaCard.propTypes = {
     showText: PropTypes.bool,
 };
 
-MediaCard.defaultProps = {
+Card.defaultProps = {
     airDate: null,
     hover: true,
     posterPath: null,
@@ -155,16 +146,7 @@ MediaCard.defaultProps = {
     internalCard: null,
     playState: null,
     uuid: '',
-    files: [
-        {
-            totalDuration: 0,
-        },
-    ],
+    totalDuration: 0,
 };
 
-export default withRouter(
-    connect(
-        null,
-        mapDispatchToProps,
-    )(MediaCard),
-);
+export default withRouter(connect(null, mapDispatchToProps)(Card));

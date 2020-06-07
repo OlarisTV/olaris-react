@@ -42,23 +42,24 @@ export const SubHeading = styled.p`
 
 // Form Elements
 export const InputWrap = styled.div`
-    float:left;
-    width:100%;
-    position:relative;
-    padding-bottom: .2rem;
-    margin:0 0 2rem;
+    float: left;
+    width: 100%;
+    position: relative;
+    padding-bottom: 0.2rem;
+    margin: 0 0 2rem;
     border: 1px solid;
-    border-color: ${(props) => (!props.isValid ? '#DDD' : props.theme.alerts.error)}
+    border-color: ${(props) => (!props.isValid ? '#DDD' : props.theme.alerts.error)};
 
-    &:after, &:before {
-        content:'';
-        position:absolute;
-        height: .1rem;
-        bottom:0;
-        left:0;
-        z-index:3;
-        width:100%;
-        transition:.3s width;
+    &:after,
+    &:before {
+        content: '';
+        position: absolute;
+        height: 0.1rem;
+        bottom: 0;
+        left: 0;
+        z-index: 3;
+        width: 100%;
+        transition: 0.3s width;
     }
 
     &:after {
@@ -66,8 +67,8 @@ export const InputWrap = styled.div`
     }
 
     &:before {
-        z-index:4;
-        width:${(props) => (props.isFocused ? 100 : 0)}%;
+        z-index: 4;
+        width: ${(props) => (props.isFocused ? 100 : 0)}%;
         background: ${(props) => props.theme.primary};
     }
 `;

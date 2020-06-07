@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
 
 import UPDATE_PLAYSTATE from 'Mutations/updatePlaystate';
-import {
-    updatePlayStateEpisode,
-    updatePlayStateMovie,
-} from 'Components/Media/Actions/updatePlayState';
+import { updatePlayStateEpisode, updatePlayStateMovie } from 'Components/Media/Actions/updatePlayState';
 
-import { MediaActionsWrap } from '../Styles';
+import { MediaActionsWrap } from './Styles';
 
 class MediaActions extends Component {
     toggleWatchedState = () => {

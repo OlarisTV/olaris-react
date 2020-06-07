@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { canPlayCodec } from 'Helpers';
-import CastVideo from './CastVideo';
 
+import CastVideo from './CastVideo';
 import Player from './Player';
 
-import { VideoWrap, CloseVideo } from '../Styles';
+import * as S from './Styles';
 
-class VideoController extends Component {
+class Video extends Component {
     constructor() {
         super();
 
@@ -26,10 +26,10 @@ class VideoController extends Component {
     }
 
     componentDidUpdate() {
-        const { castsource, mimeType, isCasting } = this.props;
+        const { source, mimetype, isCasting } = this.props;
 
-        if (castsource.length > 0 && isCasting) {
-            this.castMedia(castsource, mimeType);
+        if (source && isCasting) {
+            this.castMedia(source, mimetype);
         }
     }
 
@@ -53,13 +53,13 @@ class VideoController extends Component {
         });
     };
 
-    castMedia = (source, mimeType) => {
+    castMedia = (source, mimetype) => {
         const { message } = this.state;
         const data = {
             ...this.props,
             message,
             source,
-            mimeType,
+            mimetype,
         };
 
         CastVideo(data).catch(() => false);
@@ -71,28 +71,28 @@ class VideoController extends Component {
             files,
             selectedFile,
             resume,
-            playState,
-            type,
-            mimeType,
+            mimetype,
             uuid,
             closePlayer,
             dispatch,
             isCasting,
+            media,
         } = this.props;
+        const { playState, type } = media;
 
         const videoCodec = files[selectedFile.value].streams
             .filter((s) => s.streamType === 'video')
             .map((s) => s.codecMime)[0];
         const transmuxed = canPlayCodec(videoCodec);
 
-        if (source.length > 0 && !isCasting) {
+        if (source && mimetype && !isCasting) {
             return (
                 <>
-                    <VideoWrap>
-                        <CloseVideo icon={faTimes} onClick={closePlayer} />
+                    <S.VideoWrap>
+                        <S.CloseVideo icon={faTimes} onClick={closePlayer} />
                         <Player
                             source={source}
-                            mimeType={mimeType}
+                            mimetype={mimetype}
                             transmuxed={transmuxed}
                             resume={resume}
                             playState={playState}
@@ -101,7 +101,7 @@ class VideoController extends Component {
                             type={type}
                             dispatch={dispatch}
                         />
-                    </VideoWrap>
+                    </S.VideoWrap>
                 </>
             );
         }
@@ -110,12 +110,11 @@ class VideoController extends Component {
     }
 }
 
-VideoController.propTypes = {
+Video.propTypes = {
     dispatch: PropTypes.func.isRequired,
     isCasting: PropTypes.bool.isRequired,
     closePlayer: PropTypes.func.isRequired,
-    source: PropTypes.string.isRequired,
-    castsource: PropTypes.string.isRequired,
+    source: PropTypes.string,
     files: PropTypes.arrayOf(
         PropTypes.shape({
             fileName: PropTypes.string,
@@ -125,16 +124,20 @@ VideoController.propTypes = {
         totalDuration: PropTypes.number,
         value: PropTypes.number,
     }).isRequired,
+    media: PropTypes.shape({
+        playState: PropTypes.shape({}).isRequired,
+        type: PropTypes.string.isRequired,
+    }).isRequired,
     uuid: PropTypes.string.isRequired,
     auth: PropTypes.shape({}).isRequired,
     resume: PropTypes.bool,
-    playState: PropTypes.shape({}).isRequired,
-    type: PropTypes.string.isRequired,
-    mimeType: PropTypes.string.isRequired,
+    mimetype: PropTypes.string,
 };
 
-VideoController.defaultProps = {
+Video.defaultProps = {
     resume: false,
+    source: null,
+    mimetype: null,
 };
 
 const mapStateToProps = (state) => {
@@ -147,4 +150,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, null)(VideoController);
+export default connect(mapStateToProps, null)(Video);

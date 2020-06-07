@@ -178,34 +178,34 @@ export const PlayState = styled.span`
 `;
 
 export const CardPopup = styled.div`
-  content:'';
-  position:absolute;
-  top:-1.25px;
-  left:-1.25px;
-  width:calc(100% + 2.5px);
-  height:calc(100% + 2.5px);
-  z-index: 1;
-  opacity:0;
-  pointer-events:none;
-  transition:.2s opacity;
-  overflow:hidden;
+    content: '';
+    position: absolute;
+    top: -1.25px;
+    left: -1.25px;
+    width: calc(100% + 2.5px);
+    height: calc(100% + 2.5px);
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.2s opacity;
+    overflow: hidden;
 
-  &:before {
-    content:'';
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%,rgba(0,0,0,0.9) 100%);
-    opacity:.75;
-  }
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.9) 100%);
+        opacity: 0.75;
+    }
 
-  ${PosterWrap}:hover & {
-    opacity:1;
-    pointer-events:initial
-    cursor:pointer;
-  }
+    ${PosterWrap}:hover & {
+        opacity: 1;
+        pointer-events: initial;
+        cursor: pointer;
+    }
 `;
 
 export const PopupLink = styled.span`

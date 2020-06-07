@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/react-hooks';
 
 import FETCH_EPISODE from 'Queries/fetchEpisode';
 import Loading from 'Components/Loading';
-import MediaItem from 'Components/Media/MediaItem';
+import Item from 'Components/Media/Item';
 
 type Props = {
     uuid: ?string,
@@ -23,22 +23,7 @@ const RenderEpisode = ({ uuid }: Props) => {
     if (error) return `Error! ${error && error.message}`;
     if (!data) return `Error fetching data for this episde.`;
 
-    const { stillPath, airDate, season, type, name, playState, files, overview } = data.episode;
-
-    return (
-        <MediaItem
-            wide
-            uuid={uuid}
-            airDate={airDate}
-            posterPath={stillPath}
-            season={season}
-            type={type}
-            name={name}
-            playState={playState}
-            files={files}
-            overview={overview}
-        />
-    );
+    return <Item wide uuid={uuid} media={data.episode} />;
 };
 
 export default RenderEpisode;
