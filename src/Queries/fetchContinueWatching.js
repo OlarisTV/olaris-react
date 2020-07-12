@@ -17,6 +17,7 @@ const CONTINUE_WATCHING = gql`
 
                 files {
                     totalDuration
+                    uuid
                 }
             }
             ... on Episode {
@@ -43,6 +44,7 @@ const CONTINUE_WATCHING = gql`
 
                 files {
                     totalDuration
+                    uuid
                 }
             }
         }

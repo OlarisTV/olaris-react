@@ -17,6 +17,7 @@ const RECENTLY_ADDED = gql`
 
                 files {
                     totalDuration
+                    uuid
                 }
             }
             ... on Episode {
@@ -43,6 +44,7 @@ const RECENTLY_ADDED = gql`
 
                 files {
                     totalDuration
+                    uuid
                 }
             }
         }

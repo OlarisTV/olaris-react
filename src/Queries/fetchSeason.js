@@ -34,6 +34,7 @@ const FETCH_SEASON = gql`
 
                 files {
                     totalDuration
+                    uuid
                 }
             }
         }

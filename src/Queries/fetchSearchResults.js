@@ -17,6 +17,7 @@ const FETCH_SEARCH_RESULTS = gql`
 
                 files {
                     totalDuration
+                    uuid
                 }
             }
             ... on Series {

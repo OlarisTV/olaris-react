@@ -208,7 +208,7 @@ export const CardPopup = styled.div`
     }
 `;
 
-export const PopupLink = styled.span`
+export const PopupLink = styled.button`
     position: absolute;
     border-radius: 50%;
     top: 50%;

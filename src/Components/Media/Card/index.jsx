@@ -1,152 +1,107 @@
 /* eslint react/jsx-props-no-spreading: ["off"] */
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { getBaseUrl, generateMediaUrl } from 'Helpers';
-import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { showModal, RESUME_MODAL } from 'Redux/Actions/modalActions';
+import { getBaseUrl, generateMediaUrl } from 'Helpers';
+import { PlayState, File } from 'types/Media';
 
-import { faPlay, faSearch } from '@fortawesome/free-solid-svg-icons';
+import Action from './Action';
 import MediaInfo from './MediaInfo';
 import MediaName from './MediaName';
 
 import { Placeholder, placeholder } from './Placeholder';
-import { CardPoster, CardWrap, CardPopup, PosterWrap, PopupLink, PopupIcon, Lazy } from './Styles';
+import * as S from './Styles';
 
-class Card extends Component {
-    constructor() {
-        super();
+type Props = {
+    type: string,
+    uuid: string,
+    playState: PlayState,
+    wide: boolean,
+    showText: boolean,
+    history: ReactRouterPropTypes,
+    name: string,
+    posterPath?: string,
+    stillPath?: string,
+    totalDuration: number,
+    files: File[],
+};
 
-        this.state = {
-            url: '',
-        };
-    }
+const Card = ({
+    type,
+    uuid,
+    playState,
+    wide,
+    showText,
+    history,
+    name,
+    posterPath,
+    stillPath,
+    totalDuration,
+    files,
+    ...props
+}: Props) => {
+    const [url, setUrl] = useState('');
+    const [hover, setHover] = useState(false);
+    const showPlay = type === 'Movie' || type === 'Episode';
+    const imgUrl = `${getBaseUrl()}/olaris/m/images/tmdb/w342`;
 
-    componentDidMount() {
-        const { type, uuid } = this.props;
+    useEffect(() => {
+        setUrl(generateMediaUrl(type, uuid));
+    }, []);
 
-        this.setState({
-            url: generateMediaUrl(type, uuid),
-        });
-    }
-
-    resumeModal = () => {
-        const { url } = this.state;
-
-        const { loadModal, history, playMedia, playState } = this.props;
-
-        loadModal(RESUME_MODAL, {
-            title: 'Resume Media',
-            url,
-            history,
-            playMedia,
-            playState,
-        });
-    };
-
-    cardClick = (e, url, history, showPlayStatus) => {
-        const { playState, playMedia, internalCard, hover } = this.props;
-
-        if (!hover) return false;
-
-        if (showPlayStatus) {
-            if ((e.target.tagName === 'DIV' || e.target.tagName === 'H3') && !internalCard) {
-                history.push(url);
-                return true;
-            }
-
-            if (playState.playtime > 0 && !playState.finished) {
-                this.resumeModal();
-            } else if (internalCard) {
-                playMedia();
-            } else {
-                history.push({
-                    pathname: url,
-                    state: { autoplay: true },
-                });
-            }
-        } else {
-            history.push(url);
-        }
-
-        return false;
-    };
-
-    render() {
-        const { wide, showText, history, name, posterPath, stillPath, type, totalDuration, hover } = this.props;
-        const { url } = this.state;
-
-        const showPlayStatus = type === 'Movie' || type === 'Episode';
-        const bgImage =
-            stillPath || posterPath
-                ? `${getBaseUrl()}/olaris/m/images/tmdb/w342/${stillPath || posterPath}`
-                : placeholder;
-
-        const length = totalDuration && totalDuration;
-
-        return (
-            <>
-                <CardWrap onClick={(e) => this.cardClick(e, url, history, showPlayStatus)}>
-                    <PosterWrap title={name}>
-                        <Lazy wide={wide} height={0} debounce={100} placeholder={<Placeholder />} overflow resize>
-                            <CardPoster hover={hover} wide={wide} bgimg={bgImage}>
-                                <MediaInfo {...this.props} length={length} showPlayStatus={showPlayStatus} />
-                            </CardPoster>
-                        </Lazy>
-                        {hover && (
-                            <CardPopup>
-                                <PopupLink>
-                                    <PopupIcon icon={showPlayStatus ? faPlay : faSearch} />
-                                </PopupLink>
-                            </CardPopup>
-                        )}
-                    </PosterWrap>
-                    {showText && <MediaName name={name} {...this.props} />}
-                </CardWrap>
-            </>
-        );
-    }
-}
-
-const mapDispatchToProps = (dispatch) => ({
-    loadModal: (type, props) => dispatch(showModal(type, props)),
-});
-
-Card.propTypes = {
-    playMedia: PropTypes.func,
-    name: PropTypes.string.isRequired,
-    airDate: PropTypes.string,
-    posterPath: PropTypes.string,
-    stillPath: PropTypes.string,
-    type: PropTypes.string.isRequired,
-    uuid: PropTypes.string,
-    loadModal: PropTypes.func.isRequired,
-    totalDuration: PropTypes.number,
-    playState: PropTypes.shape({
-        playtime: PropTypes.number,
-        finished: PropTypes.bool,
-    }),
-    internalCard: PropTypes.bool,
-    history: ReactRouterPropTypes.history.isRequired,
-    hover: PropTypes.bool,
-    wide: PropTypes.bool,
-    showText: PropTypes.bool,
+    return (
+        <>
+            <S.CardWrap
+                onClick={() => history.push(url)}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
+            >
+                <S.PosterWrap title={name}>
+                    <S.Lazy
+                        wide={wide}
+                        height={0}
+                        debounce={100}
+                        offset={300}
+                        placeholder={<Placeholder type={type} />}
+                        overflow
+                        resize
+                    >
+                        <S.CardPoster
+                            hover={hover}
+                            wide={wide}
+                            bgimg={stillPath || posterPath ? `${imgUrl}/${stillPath || posterPath}` : placeholder}
+                        >
+                            <MediaInfo
+                                playState={playState}
+                                length={totalDuration && totalDuration}
+                                showPlayStatus={showPlay}
+                                {...props}
+                            />
+                        </S.CardPoster>
+                    </S.Lazy>
+                    {hover && (
+                        <Action
+                            name={name}
+                            showPlay={showPlay}
+                            playState={playState}
+                            url={url}
+                            selectedFile={files && files[0]}
+                            history={history}
+                            type={type}
+                            uuid={uuid}
+                        />
+                    )}
+                </S.PosterWrap>
+                {showText && <MediaName name={name} type={type} {...props} />}
+            </S.CardWrap>
+        </>
+    );
 };
 
 Card.defaultProps = {
-    airDate: null,
-    hover: true,
     posterPath: null,
     stillPath: null,
-    wide: null,
-    playMedia: null,
-    showText: null,
-    internalCard: null,
-    playState: null,
-    uuid: '',
-    totalDuration: 0,
 };
 
-export default withRouter(connect(null, mapDispatchToProps)(Card));
+export default withRouter(Card);

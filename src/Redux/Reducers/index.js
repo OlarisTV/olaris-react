@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
 import { createResponsiveStateReducer } from 'redux-responsive';
 
+import player from '../components/player';
 import modal from './modalReducer';
 import navigation from './navigationReducer';
 import historyLocation from './historyReducer';
@@ -26,6 +27,7 @@ export default (history) =>
                 height: window.innerHeight,
             }),
         }),
+        player,
         modal,
         navigation,
         historyLocation,

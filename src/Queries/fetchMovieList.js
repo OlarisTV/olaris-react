@@ -16,6 +16,7 @@ const FETCH_MOVIES = gql`
 
             files {
                 totalDuration
+                uuid
             }
         }
     }
