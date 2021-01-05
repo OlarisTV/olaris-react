@@ -15,7 +15,7 @@
     "apollo-client": "^2.5.1",
     "apollo-link-context": "^1.0.8",
     "apollo-link-http": "^1.5.4",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bfj": "6.1.1",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
     "chalk": "2.4.1",
